@@ -1,0 +1,55 @@
+version: "3.9"
+
+volumes:
+  hqc_config:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: 'C:\Users\phili\Desktop\Uni\Master_Thesis\Docker\config\hqc'
+  clam_config:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: 'C:\Users\phili\Desktop\Uni\Master_Thesis\Docker\config\clam'
+  ara_config:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: 'C:\Users\phili\Desktop\Uni\Master_Thesis\Docker\config\ara'
+
+services:
+  clam:
+    container_name: clam
+    build: clam_docker/.
+    ports:
+      - "8091:8888"
+    volumes:
+      - C:\Users\phili\Desktop\Uni\Master_Thesis\Docker\data:/usr/local/data
+      - clam_config:/usr/local/config
+
+
+  ara:
+    container_name: ara-net
+    build: ara-net_docker/.
+    ports:
+      - "8092:8888"
+    volumes:
+      - C:\Users\phili\Desktop\Uni\Master_Thesis\Docker\data:/usr/local/data
+      - ara_config:/usr/local/config
+
+  hqc:
+    container_name: hqc
+    build: hqc_docker/.
+    ports:
+      - "8090:8888"
+    volumes_from:
+      - data
+
+  data:
+    container_name: data
+    image: busybox
+    volumes:
+      - C:\Users\phili\Desktop\Uni\Master_Thesis\Docker\data:/usr/local/data
