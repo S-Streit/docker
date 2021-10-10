@@ -1,4 +1,9 @@
 FROM python:3.7
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
+RUN apt-get clean && apt-get update && apt-get install -y locales
+RUN locale-gen en_US.UTF-8
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN pip install setuptools
@@ -17,7 +22,7 @@ RUN ["cp", "/usr/local/src/config_light.ini", "/usr/local/config"]
 # CMD ["bin/bash"]
 # CMD [ "python /usr/local/src/start_hqc.py" ]
 RUN ["cp", "/usr/local/src/hqc_command_config.json", "/usr/local/config"]
-# CMD [ "/usr/local/src/start_hqc.py" ]
+CMD [ "python /usr/local/src/start_hqc.py" ]
 # ENTRYPOINT [ "python" ]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
 # RUN jupyter notebook --port=8888 --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='' --NotebookApp.password='' &
