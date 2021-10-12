@@ -1,4 +1,9 @@
 FROM python:3.7
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
+RUN apt-get clean && apt-get update && apt-get install -y locales
+RUN locale-gen en_US.UTF-8
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get -y update
@@ -22,4 +27,8 @@ RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
 RUN python /usr/local/src/st/setup.py install
 RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src/clam
 RUN pip install jupyter
-CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+RUN ["mkdir", "/usr/local/config"]
+RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
+# CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+ENTRYPOINT [ "python", "/usr/local/src/clam/start_create_patches.py" ]
+# ENTRYPOINT [ "bin/sh" ]
