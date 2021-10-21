@@ -22,13 +22,15 @@ RUN pip install openslide-python
 RUN pip install pandas
 RUN pip install matplotlib
 RUN pip install h5py
+RUN pip install torchvision
+RUN pip install torchsummary
 RUN apt-get -y update
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
 RUN python /usr/local/src/st/setup.py install
 RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src/clam
-RUN pip install jupyter
+# RUN pip install jupyter
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
 ENTRYPOINT [ "python", "/usr/local/src/clam/start_create_patches.py" ]
-# ENTRYPOINT [ "bin/sh" ]
+# ENTRYPOINT [ "bin/bash" ]
