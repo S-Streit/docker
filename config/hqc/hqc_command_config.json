@@ -1,1 +1,1 @@
-{"output_path": "usr/local/data/output/hqc", "config_path": "usr/local/src/config_light.ini", "base_path": "", "force": "True", "batch_size": "0", "n_threads": 1, "symlink_off": "True"}
+{"output_path": "/usr/local/data", "config_path": "/usr/local/src/config_light.ini", "base_path": "", "force": "True", "batch_size": "0", "n_threads": 1, "symlink_off": "True"}
