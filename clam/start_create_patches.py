@@ -45,7 +45,7 @@ def call_create_patches(args):
         except:
             print("Not a valid json config string. Using default")
 
-    file_name = sys.argv[1]
+    file_name = args["input_pattern"]
 
     patch_size = clam_config["patch_size"] # set patch size (128 needed for ARA-NET / 224 needed for VGG16 feature extraction)
     seg = "--seg" if json.loads(clam_config["seg"].lower()) else ""
@@ -72,7 +72,7 @@ def call_create_patches(args):
 
 def call_extract_features(args):
 
-    input_folder = sys.argv[1]
+    input_folder = args["input_pattern"]
     input_path = "usr/local/data/{0}".format(input_folder)
     output_path = clam_config["output_path"] + "/{0}/data/clam".format(input_folder) # set output folder
     feat_dir = output_path + "/features"
