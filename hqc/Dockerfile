@@ -13,13 +13,15 @@ RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
 RUN pip install openslide-python
 RUN mkdir -p /usr/local/config
+RUN mkdir -p /usr/local/wrapper
 RUN git clone "https://github.com/Pacific89/HistoQC" /usr/local/src
 # RUN cd /usr/local/src; wget "https://github.com/Pacific89/HistoQC"
 RUN pip install -r /usr/local/src/requirements.txt
 RUN pip install tensorflow==1.13.1
 RUN pip install jupyter
-RUN wget "https://github.com/Pacific89/docker/blob/master/config/hqc/hqc_command_config.json" -P /usr/local/config/
-RUN ["cp", "/usr/local/src/config_light.ini", "/usr/local/config"]
+RUN wget "https://github.com/Pacific89/docker/blob/master/hqc" -P /usr/local/wrapper/
+RUN ["cp", "/usr/local/wrapper/config_light.ini", "/usr/local/config"]
+RUN ["cp", "/usr/local/wrapper/hqc_command_config.json", "/usr/local/config"]
 # CMD ["bin/bash"]
 # CMD [ "python /usr/local/src/start_hqc.py" ]
 # RUN ["cp", "/usr/local/src/hqc_command_config.json", "/usr/local/config"]
