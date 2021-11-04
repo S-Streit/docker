@@ -45,8 +45,8 @@ def call_create_patches(args):
         except:
             print("Not a valid json config string. Using default")
 
-    file_name = args.input_pattern
-
+    file_name = args.input_folder
+    print("File Name:", file_name)
     patch_size = clam_config["patch_size"] # set patch size (128 needed for ARA-NET / 224 needed for VGG16 feature extraction)
     seg = "--seg" if json.loads(clam_config["seg"].lower()) else ""
     patch = "--patch" if json.loads(clam_config["patch"].lower()) else ""
@@ -72,7 +72,7 @@ def call_create_patches(args):
 
 def call_extract_features(args):
 
-    input_folder = args.input_pattern
+    input_folder = args.input_folder
     input_path = "usr/local/data/{0}".format(input_folder)
     output_path = clam_config["output_path"] + "/{0}/data/clam".format(input_folder) # set output folder
     feat_dir = output_path + "/features"
@@ -87,8 +87,8 @@ def call_extract_features(args):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('input_pattern',
-                help="one input file: example.svs",
+    parser.add_argument('input_folder',
+                help="one input folder that contains a WSI: example.svs",
                 nargs=1)
     parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(clam_config), type=str)
     parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
