@@ -3,6 +3,7 @@
 # -------------------------------------------------------------------------
 # ARG ARCH=
 ARG CUDA=10.1
+ARG UBUNTU_VERSION=20.04
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}-base-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
 # (but their default value is retained if set previously)
