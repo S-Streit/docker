@@ -1,11 +1,11 @@
 FROM nvidia/cuda:10.2-cudnn7-devel-centos6
+RUN apt-get -y install bash
 
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
 RUN apt-get clean && apt-get update && apt-get install -y locales
 RUN locale-gen en_US.UTF-8
-RUN apt-get -y install bash
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get -y update
