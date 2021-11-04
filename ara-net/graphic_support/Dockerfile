@@ -1,7 +1,7 @@
 # TensorFlow image base written by TensorFlow authors.
 # Source: https://github.com/tensorflow/tensorflow/blob/v2.3.0/tensorflow/tools/dockerfiles/partials/ubuntu/nvidia.partial.Dockerfile
 # -------------------------------------------------------------------------
-ARG ARCH=
+# ARG ARCH=
 ARG CUDA=10.1
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}-base-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
