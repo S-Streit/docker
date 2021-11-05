@@ -19,8 +19,8 @@ RUN pip install -r /usr/local/src/requirements.txt
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/src/ara_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
-ENTRYPOINT [ "python", "/usr/local/src/src/start_ara.py" ]
-
+# ENTRYPOINT [ "python", "/usr/local/src/src/start_ara.py" ]
+ENTRYPOINT [ "bin/bash" ]
 # RUN pip install jupyter
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
 # RUN nohup jupyter notebook --allow-root --no-browser > error.log &
