@@ -22,5 +22,9 @@ RUN pip install -r /usr/local/src/requirements.txt
 
 RUN gdown https://drive.google.com/u/0/uc?id=1SbSArI3KOOWHxRlxnjchO7_MbWzB4lNR -O /usr/local/models/pannuke/
 
+RUN pip install opencv-python
+RUN apt install -y openslide-tools
+RUN pip install openslide-python
+
 
 ENTRYPOINT [ "bin/bash" ]
