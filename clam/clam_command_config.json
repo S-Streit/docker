@@ -1,1 +1,1 @@
-{"output_path": "usr/local/data/output/clam", "process_list": "usr/local/src/process_list.csv", "patch_size": 128, "seg": "True", "patch": "True", "stitch": "True", "no_auto_skip": "True", "preset": "preset.csv", "patch_level": 8}
+{"output_path": "/usr/local/data/output/clam", "process_list": "/usr/local/src/process_list.csv", "patch_size": 128, "seg": "True", "patch": "True", "stitch": "True", "no_auto_skip": "True", "preset": "preset.csv", "patch_level": 8}
