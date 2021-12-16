@@ -32,7 +32,7 @@ RUN pip install torchvision
 RUN pip install torchsummary
 RUN apt-get -y update
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
-RUN python /usr/local/src/st/setup.py install
+RUN python3 /usr/local/src/st/setup.py install
 RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src/clam
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["mkdir", "/usr/local/config"]
