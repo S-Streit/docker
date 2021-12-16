@@ -1,6 +1,6 @@
 FROM nvidia/cuda:10.2-cudnn7-runtime
 RUN apt-get -y install bash
-RUN apt-get -y install python3-pip
+RUN apt-get -y install python-pip
 
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
@@ -11,12 +11,12 @@ RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get install -y wget
 RUN apt-get -y update
-RUN pip3 install setuptools
+RUN pip install setuptools
 RUN apt-get update -y
-RUN pip3 install gdown
+RUN pip install gdown
 
 RUN git clone "https://github.com/vqdang/hover_net" /usr/local/src
-RUN pip3 install -r /usr/local/src/requirements.txt
+RUN pip install -r /usr/local/src/requirements.txt
 
 RUN gdown https://drive.google.com/u/0/uc?id=1SbSArI3KOOWHxRlxnjchO7_MbWzB4lNR -O /usr/local/models/pannuke/
 
