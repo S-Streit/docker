@@ -15,6 +15,7 @@ RUN apt-get -y install python3-pip
 RUN pip install setuptools
 RUN apt-get update -y
 RUN pip install gdown
+RUN pip install torch
 
 RUN git clone "https://github.com/vqdang/hover_net" /usr/local/src
 RUN pip install -r /usr/local/src/requirements.txt
