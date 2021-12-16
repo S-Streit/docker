@@ -1,10 +1,11 @@
-FROM nvidia/cuda:11.4.2-devel-ubuntu20.04
+FROM nvidia/cuda:10.2-cudnn7-runtime
+RUN apt-get -y install bash
+
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
 RUN apt-get clean && apt-get update && apt-get install -y locales
 RUN locale-gen en_US.UTF-8
-RUN apg-get -y install bash
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get -y update
@@ -12,8 +13,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get -y install software-properties-common
 RUN apt-get -y install curl
 RUN apt-get -y install python3-pip
-RUN pip install setuptools
-
+RUN pip3 install Pillow==6.2.2
+RUN pip3 install setuptools
 RUN apt-get -y update
 RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
