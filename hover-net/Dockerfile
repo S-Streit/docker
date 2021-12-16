@@ -1,4 +1,5 @@
 FROM nvidia/cuda:10.2-cudnn7-runtime
+RUN apt-get -y install bash
 
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
