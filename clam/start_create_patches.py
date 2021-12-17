@@ -72,7 +72,7 @@ def call_create_patches(args):
     # create input path:
     input_path = file_name
     # create correct command to create patch coordinates using CLAM:
-    clam_command = "python3 /usr/local/src/clam/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_path, output_path, patch_size, seg, patch, stitch)
+    clam_command = "python3 /usr/local/src/clam/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_folder, output_path, patch_size, seg, patch, stitch)
     # start CLAM:
     os.system(clam_command)
     print(clam_command)
@@ -82,7 +82,7 @@ def call_create_patches(args):
 def call_extract_features(args):
 
     # input_folder = args.input_folder[0]
-    input_folder = "usr/local/data"
+    input_folder = "/usr/local/data"
     svs_files = glob(input_folder + "/*.svs")
     input_path = input_folder
     output_path = clam_config["output_path"] # set output folder
