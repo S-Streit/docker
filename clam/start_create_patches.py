@@ -74,7 +74,7 @@ def call_extract_features(args):
 
     input_folder = args.input_folder[0]
     input_path = "usr/local/data/{0}".format(input_folder)
-    output_path = clam_config["output_path"] + "/{0}/data/clam".format(input_folder) # set output folder
+    output_path = clam_config["output_path"] # set output folder
     feat_dir = output_path + "/features"
     csv_path = output_path + "/process_list_autogen.csv"
     data_h5_dir = output_path
