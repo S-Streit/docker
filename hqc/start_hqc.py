@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     folder_name = sys.argv[1]
 
-    output_path = hqc_config["output_path"] + "/{0}/data/hqc".format(folder_name) # set output folder
+    output_path = hqc_config["output_path"] # set output folder
     config_path = hqc_config["config_path"] # choose config file
     base_path = "-p " + hqc_config["base_path"] if len(hqc_config["base_path"]) > 1 else "" # default in qc_pipeline: "" (empty string)
     force = "-f" if json.loads(hqc_config["force"].lower()) else "" # force overwrite existing output files: default in qc_pipeline: False
