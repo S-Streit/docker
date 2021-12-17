@@ -55,7 +55,7 @@ def call_create_patches(args):
     preset = "--preset preset.csv"
     patch_level = "--patch_level {0}".format(int(clam_config["patch_level"])) # downsample level for patch calculation
     process_list = "--process_list process_list.csv"
-    output_path = clam_config["output_path"] + "/{0}/data/clam".format(file_name.split(".svs")[0]) # set output folder
+    output_path = clam_config["output_path"] # set output folder
 
     print("CONFIG:")
     print(clam_config)
@@ -63,7 +63,7 @@ def call_create_patches(args):
     # create input path:
     input_path = "/usr/local/data/{0}".format(file_name)
     # create correct command to create patch coordinates using CLAM:
-    clam_command = "python usr/local/src/clam/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_path, output_path, patch_size, seg, patch, stitch)
+    clam_command = "python3 /usr/local/src/clam/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_path, output_path, patch_size, seg, patch, stitch)
     # start CLAM:
     os.system(clam_command)
     print(clam_command)
@@ -79,7 +79,7 @@ def call_extract_features(args):
     csv_path = output_path + "/process_list_autogen.csv"
     data_h5_dir = output_path
 
-    clam_command = "python usr/local/src/clam/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3}".format(input_path, csv_path, feat_dir, data_h5_dir)
+    clam_command = "python3 /usr/local/src/clam/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3}".format(input_path, csv_path, feat_dir, data_h5_dir)
 
     os.system(clam_command)
     print(clam_command)
