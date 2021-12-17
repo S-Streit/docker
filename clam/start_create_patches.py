@@ -92,9 +92,9 @@ def call_extract_features(args):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('input_folder',
-                help="one input folder that contains a WSI: example.svs",
-                nargs=1)
+    # parser.add_argument('input_folder',
+    #             help="one input folder that contains a WSI: example.svs",
+    #             nargs=1)
     parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(clam_config), type=str)
     parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
     parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
