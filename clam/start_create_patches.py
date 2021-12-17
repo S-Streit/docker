@@ -13,6 +13,7 @@ with open("/usr/local/wrapper/clam/clam_command_config.json") as json_file:
 def output_to_json(output_path):
 
     patch_path = output_path + "/patches"
+    print("patch_path:", patch_path)
     h5file = os.listdir(patch_path)[0]
     h5_path = patch_path + "/" + h5file
 
@@ -69,7 +70,7 @@ def call_create_patches(args):
     print(clam_config)
     # get filename from command line arguments:
     # create input path:
-    input_path = "/usr/local/data/{0}".format(file_name)
+    input_path = file_name
     # create correct command to create patch coordinates using CLAM:
     clam_command = "python3 /usr/local/src/clam/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_path, output_path, patch_size, seg, patch, stitch)
     # start CLAM:
