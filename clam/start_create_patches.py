@@ -88,7 +88,7 @@ def call_extract_features(args):
     output_path = clam_config["output_path"] # set output folder
     feat_dir = output_path + "/features"
     csv_path = output_path + "/process_list_autogen.csv"
-    data_h5_dir = output_path + "/patches"
+    data_h5_dir = output_path
 
     clam_command = "python3 /usr/local/src/clam/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3} --slide_ext .svs".format(input_folder, csv_path, feat_dir, data_h5_dir)
 
