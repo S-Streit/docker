@@ -50,6 +50,10 @@ def call_create_patches(args):
     input_folder = "/usr/local/data"
     svs_files = glob(input_folder + "/*.svs")
     print("Detected Files: ", svs_files)
+    if len(svs_files) == 1:
+        file_name = svs_files[0]
+    else:
+        print("More than one file detected: {0} \n Please Check mounted directory")
     # print("File Name:", file_name)
     patch_size = clam_config["patch_size"] # set patch size (128 needed for ARA-NET / 224 needed for VGG16 feature extraction)
     seg = "--seg" if json.loads(clam_config["seg"].lower()) else ""
