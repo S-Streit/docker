@@ -82,7 +82,7 @@ def call_create_patches(args):
 def call_extract_features(args):
 
     # input_folder = args.input_folder[0]
-    input_folder = "usr/local/data"
+    input_folder = "/usr/local/data"
     svs_files = glob(input_folder + "/*.svs")
     input_path = input_folder
     output_path = clam_config["output_path"] # set output folder
