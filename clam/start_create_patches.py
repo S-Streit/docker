@@ -47,6 +47,7 @@ def call_create_patches(args):
             print("Not a valid json config string. Using default")
 
     # file_name = args.input_folder[0]
+    input_folder = "/usr/local/data"
     svs_files = glob(input_folder + "/*.svs")
     print("Detected Files: ", svs_files)
     # print("File Name:", file_name)
