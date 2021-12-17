@@ -7,7 +7,7 @@ import pandas as pd
 from glob import glob
 
 # open config file for "RUN-COMMAND"
-with open("/usr/local/wrapper/clam_command_config.json") as json_file:
+with open("/usr/local/wrapper/clam/clam_command_config.json") as json_file:
     clam_config = json.loads(json_file.read())
 
 def output_to_json(output_path):
