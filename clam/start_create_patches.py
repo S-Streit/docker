@@ -4,6 +4,7 @@ import os
 import argparse
 import h5py
 import pandas as pd
+from glob import glob
 
 # open config file for "RUN-COMMAND"
 with open("/usr/local/config/clam_command_config.json") as json_file:
@@ -46,6 +47,8 @@ def call_create_patches(args):
             print("Not a valid json config string. Using default")
 
     file_name = args.input_folder[0]
+    svs_files = glob(input_folder + "/*.svs")
+    print("Detected Files: ", svs_files)
     # print("File Name:", file_name)
     patch_size = clam_config["patch_size"] # set patch size (128 needed for ARA-NET / 224 needed for VGG16 feature extraction)
     seg = "--seg" if json.loads(clam_config["seg"].lower()) else ""
@@ -72,7 +75,9 @@ def call_create_patches(args):
 
 def call_extract_features(args):
 
-    input_folder = args.input_folder[0]
+    # input_folder = args.input_folder[0]
+    input_folder = "usr/local/data"
+    svs_files = glob(input_folder + "/*.svs")
     input_path = "usr/local/data/{0}".format(input_folder)
     output_path = clam_config["output_path"] # set output folder
     feat_dir = output_path + "/features"
