@@ -41,6 +41,16 @@ RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/confi
 RUN pip install scipy 
 RUN pip install -U scikit-learn
 RUN pip install PyYAML
+
+RUN apt-get install wget
+
+RUN wget \
+    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && mkdir /root/.conda \
+    && bash Miniconda3-latest-Linux-x86_64.sh -b \
+    && rm -f Miniconda3-latest-Linux-x86_64.sh
+RUN conda install -c conda-forge pixman
+
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
