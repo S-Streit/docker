@@ -10,6 +10,7 @@ RUN apt-get -y install bash
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get -y update
+RUN apt-get install wget
 
 RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -54,9 +55,6 @@ RUN conda install PyYAML -y
 
 RUN conda install numpy -y
 RUN conda install torch -y
-
-RUN apt-get install wget
-
 
 RUN conda install -c conda-forge pixman -y
 
