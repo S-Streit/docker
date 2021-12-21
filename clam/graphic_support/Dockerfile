@@ -22,7 +22,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get -y install software-properties-common
 RUN apt-get -y install curl
 RUN apt-get -y install python3-pip
-RUN pip install -c anaconda setuptools -y
+RUN conda install -c anaconda setuptools -y
 
 RUN apt-get update -y
 RUN apt install libgl1-mesa-glx -y
