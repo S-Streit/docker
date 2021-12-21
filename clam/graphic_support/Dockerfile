@@ -38,10 +38,11 @@ RUN apt install -y openslide-tools
 RUN conda install -c conda-forge openslide -y
 RUN conda install -c conda-forge openslide-python -y
 RUN conda install pandas -y
-RUN conda install matplotlib -y
-RUN conda install h5py -y
-RUN conda install torchvision -y
-RUN conda install torchsummary -y
+RUN conda install -c conda-forge matplotlib -y
+RUN conda install -c anaconda h5py -y
+RUN conda install -c pytorch pytorch -y
+RUN conda install -c pytorch torchvision  -y
+RUN conda install -c conda-forge pytorch-model-summary  -y
 RUN apt-get -y update
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
 RUN python3 /usr/local/src/st/setup.py install
@@ -55,8 +56,6 @@ RUN conda install -U scikit-learn -y
 RUN conda install PyYAML -y
 
 RUN conda install numpy -y
-RUN conda install torch -y
-
 RUN conda install -c conda-forge pixman -y
 
 # RUN pip install jupyter
