@@ -21,7 +21,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get -y install software-properties-common
 RUN apt-get -y install curl
 RUN apt-get -y install python3-pip
-RUN pip install setuptools
+RUN pip install -c anaconda setuptools -y
 
 RUN apt-get update -y
 RUN apt install libgl1-mesa-glx -y
@@ -30,15 +30,16 @@ RUN apt-get install 'ffmpeg'\
     'libxext6'  -y
 RUN pip install --upgrade pip
 RUN apt-get -y update
-RUN pip install opencv-python==4.5.1.48
+# RUN pip install opencv-python==4.5.1.48
+RUN conda install -c conda-forge opencv=4.5.1.48 -y
 RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
-RUN pip install openslide-python
-RUN pip install pandas
-RUN pip install matplotlib
-RUN pip install h5py
-RUN pip install torchvision
-RUN pip install torchsummary
+RUN conda install openslide-python -y
+RUN conda install pandas -y
+RUN conda install matplotlib -y
+RUN conda install h5py -y
+RUN conda install torchvision -y
+RUN conda install torchsummary -y
 RUN apt-get -y update
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
 RUN python3 /usr/local/src/st/setup.py install
@@ -47,17 +48,17 @@ RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/config"]
 
-RUN pip install scipy 
-RUN pip install -U scikit-learn
-RUN pip install PyYAML
+RUN conda install scipy -y
+RUN conda install -U scikit-learn -y
+RUN conda install PyYAML -y
 
-RUN pip install numpy
-RUN pip install torch
+RUN conda install numpy -y
+RUN conda install torch -y
 
 RUN apt-get install wget
 
 
-RUN conda install -c conda-forge pixman
+RUN conda install -c conda-forge pixman -y
 
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
