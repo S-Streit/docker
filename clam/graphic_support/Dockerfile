@@ -41,7 +41,7 @@ RUN conda install pandas -y
 RUN conda install -c conda-forge matplotlib -y
 RUN conda install -c anaconda h5py -y
 # RUN conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
-RUN conda install pytorch=1.8.0 -y
+RUN conda install pytorch==1.8.0 -y
 RUN conda install -c pytorch torchvision  -y
 # RUN conda install -c conda-forge pytorch-model-summary  -y
 RUN apt-get -y update
