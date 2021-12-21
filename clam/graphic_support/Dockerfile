@@ -40,7 +40,6 @@ RUN conda install -c conda-forge openslide-python -y
 RUN conda install pandas -y
 RUN conda install -c conda-forge matplotlib -y
 RUN conda install -c anaconda h5py -y
-RUN conda install -c pytorch pytorch=1.0.1 -y
 RUN conda install -c pytorch torchvision  -y
 RUN conda install -c conda-forge pytorch-model-summary  -y
 RUN apt-get -y update
@@ -59,6 +58,8 @@ RUN conda install numpy -y
 RUN conda install -c conda-forge pixman -y
 
 RUN pip install torchsummary
+RUN conda install -c pytorch pytorch=1.6.0 -y
+
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
