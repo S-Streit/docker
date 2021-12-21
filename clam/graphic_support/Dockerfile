@@ -35,7 +35,8 @@ RUN apt-get -y update
 RUN conda install -c conda-forge opencv=4.5.1 -y
 RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
-RUN conda install openslide-python -y
+RUN conda install -c conda-forge openslide -y
+RUN conda install -c bioconda openslide-python -y
 RUN conda install pandas -y
 RUN conda install matplotlib -y
 RUN conda install h5py -y
