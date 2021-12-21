@@ -1,4 +1,6 @@
 FROM nvidia/cuda:11.4.2-devel-ubuntu20.04
+ENV PATH=/root/miniconda3/bin:${PATH}
+
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
@@ -8,6 +10,13 @@ RUN apt-get -y install bash
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get -y update
+
+RUN wget \
+    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && mkdir /root/.conda \
+    && bash Miniconda3-latest-Linux-x86_64.sh -b \
+    && rm -f Miniconda3-latest-Linux-x86_64.sh
+
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get -y install software-properties-common
 RUN apt-get -y install curl
@@ -42,15 +51,11 @@ RUN pip install scipy
 RUN pip install -U scikit-learn
 RUN pip install PyYAML
 
+RUN pip install numpy
+RUN pip install torch
+
 RUN apt-get install wget
 
-RUN wget \
-    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh
-
-ENV PATH=/root/miniconda3/bin:${PATH}
 
 RUN conda install -c conda-forge pixman
 
