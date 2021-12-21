@@ -58,6 +58,7 @@ RUN conda install -c conda-forge pyyaml -y
 RUN conda install numpy -y
 RUN conda install -c conda-forge pixman -y
 
+RUN pip install torchsummary
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
