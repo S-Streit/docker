@@ -51,9 +51,9 @@ RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/config"]
 
-RUN conda install scipy -y
-RUN conda install -U scikit-learn -y
-RUN conda install PyYAML -y
+RUN conda install -c anaconda scipy -y
+RUN conda install -c anaconda scikit-learn -y
+RUN conda install -c conda-forge pyyaml -y
 
 RUN conda install numpy -y
 RUN conda install -c conda-forge pixman -y
