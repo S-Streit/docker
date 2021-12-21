@@ -40,7 +40,7 @@ RUN conda install -c conda-forge openslide-python -y
 RUN conda install pandas -y
 RUN conda install -c conda-forge matplotlib -y
 RUN conda install -c anaconda h5py -y
-RUN conda install -c pytorch pytorch -y
+RUN conda install -c pytorch pytorch=1.10 -y
 RUN conda install -c pytorch torchvision  -y
 RUN conda install -c conda-forge pytorch-model-summary  -y
 RUN apt-get -y update
