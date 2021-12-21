@@ -32,7 +32,7 @@ RUN apt-get install 'ffmpeg'\
 RUN pip install --upgrade pip
 RUN apt-get -y update
 # RUN pip install opencv-python==4.5.1.48
-RUN conda install -c conda-forge opencv=4.5.1.48 -y
+RUN conda install -c conda-forge opencv=4.5.1 -y
 RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
 RUN conda install openslide-python -y
