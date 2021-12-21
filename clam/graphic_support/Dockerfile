@@ -40,8 +40,9 @@ RUN conda install -c conda-forge openslide-python -y
 RUN conda install pandas -y
 RUN conda install -c conda-forge matplotlib -y
 RUN conda install -c anaconda h5py -y
-RUN conda install -c pytorch pytorch=1.6.0 -y
-RUN conda install -c pytorch torchvision=0.2.0  -y
+RUN conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
+# RUN conda install -c pytorch pytorch=1.6.0 -y
+# RUN conda install -c pytorch torchvision=0.2.0  -y
 # RUN conda install -c conda-forge pytorch-model-summary  -y
 RUN apt-get -y update
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
