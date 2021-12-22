@@ -60,7 +60,9 @@ RUN pip install pyyaml
 RUN pip install numpy
 RUN conda install -c conda-forge pixman -y
 
-RUN echo Hello
+RUN echo Hello!
+RUN echo Hello!
+
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/config"]
