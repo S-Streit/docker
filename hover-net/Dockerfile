@@ -28,6 +28,6 @@ RUN apt install -y openslide-tools
 RUN pip install openslide-python
 
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
-ENTRYPOINT [ "python3", "/usr/local/wrapper/hovernet/start_hovernet.py" ]
+ENTRYPOINT [ "python3", "/usr/local/wrapper/hover-net/start_hovernet.py" ]
 
 # ENTRYPOINT [ "bin/bash" ]
