@@ -52,6 +52,7 @@ RUN wget https://download.pytorch.org/models/resnet50-19c8e357.pth -O /root/.cac
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
 RUN python3 /usr/local/src/st/setup.py install
 RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src/clam
+RUN echo hello
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/config"]
