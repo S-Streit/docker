@@ -32,12 +32,12 @@ RUN apt-get install 'ffmpeg'\
 RUN pip install --upgrade pip
 RUN apt-get -y update
 # RUN pip install opencv-python==4.5.1.48
-RUN pip install -c pip-forge opencv==4.5.1.48
+RUN pip install opencv==4.5.1.48
 RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
 RUN pip install openslide
 RUN pip install openslide-python
-RUN pip install pandas -y
+RUN pip install pandas
 RUN pip install matplotlib
 RUN pip install h5py
 # RUN pip install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
