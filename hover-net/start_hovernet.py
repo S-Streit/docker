@@ -30,7 +30,7 @@ def call_hovernet(args):
     proc_mag = "--proc_mag=40"
     save_mask = "--save_mask"
 
-    hovernet_command = hovernet_base_command + gpu + types + type_info + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + "wsi" in_dir + out_dir + save_thumb + save_mask + proc_mag
+    hovernet_command = hovernet_base_command + gpu + types + type_info + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + "wsi" + in_dir + out_dir + save_thumb + save_mask + proc_mag
     os.system(hovernet_command)
     print(hovernet_command)
 
