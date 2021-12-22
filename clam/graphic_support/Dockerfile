@@ -14,7 +14,7 @@ RUN apt-get install wget
 
 RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
+    && mkdir /root/.pip \
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
     && rm -f Miniconda3-latest-Linux-x86_64.sh
 
@@ -22,7 +22,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get -y install software-properties-common
 RUN apt-get -y install curl
 RUN apt-get -y install python3-pip
-RUN conda install -c anaconda setuptools -y
+RUN pip install -c anaconda setuptools
 
 RUN apt-get update -y
 RUN apt install libgl1-mesa-glx -y
@@ -32,18 +32,19 @@ RUN apt-get install 'ffmpeg'\
 RUN pip install --upgrade pip
 RUN apt-get -y update
 # RUN pip install opencv-python==4.5.1.48
-RUN conda install -c conda-forge opencv=4.5.1 -y
+RUN pip install -c pip-forge opencv==4.5.1.48
 RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
-RUN conda install -c conda-forge openslide -y
-RUN conda install -c conda-forge openslide-python -y
-RUN conda install pandas -y
-RUN conda install -c conda-forge matplotlib -y
-RUN conda install -c anaconda h5py -y
-# RUN conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
-RUN conda install pytorch -y
-RUN conda install -c pytorch torchvision  -y
-# RUN conda install -c conda-forge pytorch-model-summary  -y
+RUN pip install openslide
+RUN pip install openslide-python
+RUN pip install pandas -y
+RUN pip install matplotlib
+RUN pip install h5py
+# RUN pip install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
+RUN pip install pytorch
+RUN pip install -c pytorch torchvision
+RUN pip install torchsummary
+# RUN pip install -c pip-forge pytorch-model-summary  -y
 RUN apt-get -y update
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
 RUN python3 /usr/local/src/st/setup.py install
@@ -52,14 +53,13 @@ RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/config"]
 
-RUN conda install -c conda-forge scipy=1.5.0 -y
-RUN conda install -c anaconda scikit-learn -y
-RUN conda install -c conda-forge pyyaml -y
+RUN pip install scipy
+RUN pip install cikit-learn
+RUN pip install pyyaml
 
-RUN conda install numpy -y
-RUN conda install -c conda-forge pixman -y
+RUN pip install numpy
+RUN conda install -c pip-forge pixman -y
 
-RUN pip install torchsummary
 
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
