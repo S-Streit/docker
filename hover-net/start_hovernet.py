@@ -23,7 +23,7 @@ def call_hovernet(args):
     model_path = "--model_path=/usr/local/models/pannuke/hovernet_fast_pannuke_type_tf2pytorch.tar"
     nr_inf_workers = "--nr_inference_workers=8"
     nr_post_workers = "--nr_post_proc_workers=16"
-    wsi
+    wsi = "wsi"
     in_dir = "--input_dir=/usr/local/data/"
     out_dir = "--output_dir=/usr/local/data/out/"
     save_thumb = "--save_thumb"
