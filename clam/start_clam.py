@@ -97,7 +97,7 @@ def call_extract_features(args):
 
 def call_create_heatmaps(args):
 
-    heatmap_command = "python3 /usr/local/src/clam/create_heatmaps.py --config config_docker.yaml"
+    heatmap_command = "python3 /usr/local/src/clam/create_heatmaps.py --config /usr/local/src/clam/heatmpas/configs/config_docker.yaml"
 
     os.system(heatmap_command)
     print(heatmap_command)
