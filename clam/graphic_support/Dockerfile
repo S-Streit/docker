@@ -46,7 +46,7 @@ RUN pip install torchvision
 RUN pip install torchsummary
 # RUN pip install -c pip-forge pytorch-model-summary  -y
 RUN apt-get -y update
-RUN mkdir /root/.cache/torch/hub/checkpoints
+RUN mkdir -p /root/.cache/torch/hub/checkpoints
 RUN wget https://download.pytorch.org/models/resnet50-19c8e357.pth -O /root/.cache/torch/hub/checkpoints/resnet50-19c8e357.pth
 
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
