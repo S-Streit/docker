@@ -41,8 +41,8 @@ RUN pip install pandas
 RUN pip install matplotlib
 RUN pip install h5py
 # RUN pip install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch -y
-RUN pip install pytorch
-RUN pip install -c pytorch torchvision
+RUN pip install torch
+RUN pip install torchvision
 RUN pip install torchsummary
 # RUN pip install -c pip-forge pytorch-model-summary  -y
 RUN apt-get -y update
