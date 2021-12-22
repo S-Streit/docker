@@ -31,6 +31,6 @@ RUN pip install h5py
 RUN echo Hello
 RUN echo Hello
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
-ENTRYPOINT [ "python3", "/usr/local/wrapper/hover-net/start_hovernet.py" ]
+ENTRYPOINT [ "python3", "/usr/local/wrapper/hover-net/run_wsi.sh" ]
 
 # ENTRYPOINT [ "bin/bash" ]
