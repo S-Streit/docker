@@ -32,7 +32,7 @@ RUN apt-get install 'ffmpeg'\
 RUN pip install --upgrade pip
 RUN apt-get -y update
 # RUN pip install opencv-python==4.5.1.48
-RUN pip install opencv==4.5.1.48
+RUN pip install opencv-python==4.5.1.48
 RUN apt-get install -y ca-certificates
 RUN apt install -y openslide-tools
 RUN pip install openslide
