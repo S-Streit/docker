@@ -65,5 +65,5 @@ RUN conda install -c conda-forge pixman -y
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
-# ENTRYPOINT [ "python", "/usr/local/wrapper/clam/start_create_patches.py" ]
-ENTRYPOINT [ "bin/bash" ]
+ENTRYPOINT [ "python", "/usr/local/wrapper/clam/start_clam.py" ]
+# ENTRYPOINT [ "bin/bash" ]

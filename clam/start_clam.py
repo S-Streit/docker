@@ -95,6 +95,13 @@ def call_extract_features(args):
     os.system(clam_command)
     print(clam_command)
 
+def call_create_heatmaps(args)
+
+    heatmap_command = "python3 create_heatmaps.py --config config_docker.yaml"
+
+    os.system(heatmap_command)
+    print(heatmap_command)
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='')
@@ -104,11 +111,15 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(clam_config), type=str)
     parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
     parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
+    parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmpas.py", default=False, action="store_true")
 
     args = parser.parse_args()
     print(args)
 
     if args.create_patches:
         call_create_patches(args)
-    elif args.extract_features:   
+    if args.extract_features:   
         call_extract_features(args)
+    if args.create_heatmaps:
+        call_create_heatmaps(args)
+    
