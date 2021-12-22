@@ -26,7 +26,7 @@ def call_hovernet(args):
     wsi = " wsi"
     in_dir = " --input_dir=/usr/local/data/"
     out_dir = " --output_dir=/usr/local/data/out/"
-    save_thumb = "- -save_thumb"
+    save_thumb = " --save_thumb"
     proc_mag = " --proc_mag=40"
     save_mask = " --save_mask"
 
