@@ -46,6 +46,8 @@ RUN pip install torchvision
 RUN pip install torchsummary
 # RUN pip install -c pip-forge pytorch-model-summary  -y
 RUN apt-get -y update
+RUN wget https://download.pytorch.org/models/resnet50-19c8e357.pth -O /root/.cache/torch/hub/checkpoints/resnet50-19c8e357.pth
+
 RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
 RUN python3 /usr/local/src/st/setup.py install
 RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src/clam
@@ -59,7 +61,6 @@ RUN pip install pyyaml
 
 RUN pip install numpy
 RUN conda install -c conda-forge pixman -y
-
 
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
