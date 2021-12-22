@@ -27,5 +27,7 @@ RUN pip install opencv-python
 RUN apt install -y openslide-tools
 RUN pip install openslide-python
 
+RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
+ENTRYPOINT [ "python", "/usr/local/wrapper/hovernet/start_hovernet.py" ]
 
-ENTRYPOINT [ "bin/bash" ]
+# ENTRYPOINT [ "bin/bash" ]
