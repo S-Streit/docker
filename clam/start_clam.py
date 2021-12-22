@@ -112,7 +112,7 @@ if __name__ == "__main__":
     parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
     parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
     parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmpas.py", default=False, action="store_true")
-    parser.add_argument('-a', '--all', help="Call Full Pipeling: Create Patches, Extract Features and Create Heatmaps with default configuration")
+    parser.add_argument('-a', '--all', help="Call Full Pipeling: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
 
     args = parser.parse_args()
     print(args)
