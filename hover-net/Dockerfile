@@ -26,6 +26,9 @@ RUN apt-get install libsm6 libxrender1 libfontconfig1 -y
 RUN pip install opencv-python
 RUN apt install -y openslide-tools
 RUN pip install openslide-python
+RUN pip install pandas
+RUN pip install matplotlib
+RUN pip install h5py
 
 RUN echo Hello
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
