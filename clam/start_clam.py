@@ -49,7 +49,7 @@ def call_create_patches(args):
 
     # file_name = args.input_folder[0]
     input_folder = "/usr/local/data"
-    svs_files = glob(input_folder + "/*.svs")
+    svs_files = glob(input_folder + "/*.tif")
     print("Detected Files: ", svs_files)
     if len(svs_files) == 1:
         file_name = svs_files[0]
@@ -83,7 +83,7 @@ def call_extract_features(args):
 
     # input_folder = args.input_folder[0]
     input_folder = "/usr/local/data"
-    svs_files = glob(input_folder + "/*.svs")
+    svs_files = glob(input_folder + "/*.tif")
     input_path = input_folder
     output_path = clam_config["output_path"] # set output folder
     feat_dir = output_path + "/features"
