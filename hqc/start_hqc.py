@@ -14,7 +14,7 @@ if __name__ == "__main__":
     # parser.add_argument('input_pattern',
     #             help="one input file: example.svs",
     #             nargs="*")
-    
+
     parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(hqc_config), default="config_light", type=str)
 
     args = parser.parse_args()
@@ -39,9 +39,9 @@ if __name__ == "__main__":
     # get filename from command line arguments:
 
     # create input path:
-    input_path = "usr/local/data".format(folder_name)
+    input_folder = "usr/local/data"
     # create correct command to start HQC:
-    command_hqc = "python usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_path, output_path, config_path, n_threads, force, base_path)
+    command_hqc = "python usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
     print(command_hqc)
     # start HQC:
     os.system(command_hqc)
