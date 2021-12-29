@@ -49,7 +49,7 @@ def call_create_patches(args):
 
     # file_name = args.input_folder[0]
     input_folder = "/usr/local/data"
-    svs_files = glob(input_folder + "/*.tif")
+    svs_files = glob(input_folder + "/*.svs")
     print("Detected Files: ", svs_files)
     if len(svs_files) == 1:
         file_name = svs_files[0]
@@ -83,14 +83,15 @@ def call_extract_features(args):
 
     # input_folder = args.input_folder[0]
     input_folder = "/usr/local/data"
-    svs_files = glob(input_folder + "/*.tif")
+    svs_files = glob(input_folder + "/*.svs")
     input_path = input_folder
     output_path = clam_config["output_path"] # set output folder
     feat_dir = output_path + "/features"
-    csv_path = output_path + "/process_list_autogen.csv"
+    csv_path = output_path + "/process_list_autogen.csv"+
+    batch_size = 64
     data_h5_dir = output_path
 
-    clam_command = "CUDA_VISIBLE_DEVICES=0 python3 /usr/local/src/clam/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3} --batch_size=64 --slide_ext .tif".format(input_folder, csv_path, feat_dir, data_h5_dir)
+    clam_command = "CUDA_VISIBLE_DEVICES=0 python3 /usr/local/src/clam/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3} --batch_size={4} --slide_ext .svs".format(input_folder, csv_path, feat_dir, data_h5_dir, batch_size)
 
     os.system(clam_command)
     print(clam_command)
@@ -111,8 +112,8 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(clam_config), type=str)
     parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
     parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
-    parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmpas.py", default=False, action="store_true")
-    parser.add_argument('-a', '--all', help="Call Full Pipeling: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
+    parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
+    parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
 
     args = parser.parse_args()
     print(args)
