@@ -18,6 +18,8 @@ RUN git clone "https://github.com/Pacific89/HistoQC" /usr/local/src
 # RUN cd /usr/local/src; wget "https://github.com/Pacific89/HistoQC"
 RUN pip install -r /usr/local/src/requirements.txt
 RUN pip install tensorflow==1.13.1
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install opencv-python
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["cp", "/usr/local/wrapper/hqc/config_light.ini", "/usr/local/config"]
