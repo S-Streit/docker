@@ -16,6 +16,7 @@ if __name__ == "__main__":
     #             nargs="*")
 
     parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(hqc_config), default="config_light", type=str)
+    parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str)
 
     args = parser.parse_args()
 
@@ -28,7 +29,8 @@ if __name__ == "__main__":
             print("Not a valid json config string. Using default")
     
 
-    output_path = hqc_config["output_path"] # set output folder
+    out_id = args.uuid
+    output_path = hqc_config["output_path"] + out_id # set output folder
     config_path = hqc_config["config_path"] # choose config file
     base_path = "-p " + hqc_config["base_path"] if len(hqc_config["base_path"]) > 1 else "" # default in qc_pipeline: "" (empty string)
     force = "-f" if json.loads(hqc_config["force"].lower()) else "" # force overwrite existing output files: default in qc_pipeline: False
