@@ -25,7 +25,7 @@ def call_hovernet(args):
     nr_post_workers = " --nr_post_proc_workers=16"
     wsi = " wsi"
     in_dir = " --input_dir=/usr/local/data/"
-    out_dir = " --output_dir=/usr/local/data/out/"
+    out_dir = " --output_dir=/usr/local/data/results/hover-net"
     save_thumb = " --save_thumb"
     proc_mag = " --proc_mag=40"
     save_mask = " --save_mask"
