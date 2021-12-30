@@ -30,7 +30,7 @@ if __name__ == "__main__":
         except:
             print("Not a valid json config string. Using default")
     
-    if not args.uuid
+    if not args.uuid:
         out_id = uuid.uuid4().hex
     else:
         out_id = args.uuid
