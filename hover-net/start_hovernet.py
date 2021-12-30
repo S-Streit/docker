@@ -8,27 +8,27 @@ from glob import glob
 
 
 # open config file for "RUN-COMMAND"
-with open("/usr/local/wrapper/clam/clam_command_config.json") as json_file:
-    clam_config = json.loads(json_file.read())
+with open("/usr/local/wrapper/hover-net/hover_command_config.json") as json_file:
+    hover_config = json.loads(json_file.read())
 
 def call_hovernet(args):
 
     hovernet_base_command = "python3 /usr/local/src/run_infer.py"
 
-    gpu = " --gpu='0,1'"
-    types = " --nr_types=6"
-    type_info = " --type_info_path=/usr/local/src/type_info.json"
-    batch_size = " --batch_size=64"
-    mode = " --model_mode=fast"
-    model_path = " --model_path=/usr/local/models/pannuke/hovernet_fast_pannuke_type_tf2pytorch.tar"
-    nr_inf_workers = " --nr_inference_workers=8"
-    nr_post_workers = " --nr_post_proc_workers=16"
-    wsi = " wsi"
-    in_dir = " --input_dir=/usr/local/data/"
-    out_dir = " --output_dir=/usr/local/data/results/hover-net"
-    save_thumb = " --save_thumb"
-    proc_mag = " --proc_mag=40"
-    save_mask = " --save_mask"
+    gpu = hover_config["gpu"]
+    types = hover_config["types"]
+    type_info = hover_config["type_info"]
+    batch_size = hover_config["batch_size"]
+    mode = hover_config["mode"]
+    model_path = hover_config["model_path"]
+    nr_inf_workers = hover_config["nr_inf_workers"]
+    nr_post_workers = hover_config["nr_post_workers"]
+    wsi = hover_config["wsi"]
+    in_dir = hover_config["in_dir"]
+    out_dir = hover_config["out_dir"]
+    save_thumb = hover_config["save_thumb"]
+    proc_mag = hover_config["proc_mag"]
+    save_mask = hover_config["save_mask"]
 
     hovernet_command = hovernet_base_command + gpu + types + type_info + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag
     os.system(hovernet_command)
