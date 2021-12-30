@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # use config file mounted from outside OR ELSE use default file from "hqc_command_config.json"
     outer_config_file = "usr/local/data/config/config_adaptive.ini"
 
-    if os.path.isfile(outer_config_file)
+    if os.path.isfile(outer_config_file):
         config_path = outer_config_file
     else:
         config_path = hqc_config["config_path"]
