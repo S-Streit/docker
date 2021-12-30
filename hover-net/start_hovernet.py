@@ -15,6 +15,11 @@ def call_hovernet(args):
 
     hovernet_base_command = "python3 /usr/local/src/run_infer.py"
 
+    if not args.uuid:
+        out_id = uuid.uuid4().hex
+    else:
+        out_id = args.uuid
+
     gpu = hover_config["gpu"]
     types = hover_config["types"]
     type_info = hover_config["type_info"]
@@ -25,7 +30,7 @@ def call_hovernet(args):
     nr_post_workers = hover_config["nr_post_workers"]
     wsi = hover_config["wsi"]
     in_dir = hover_config["in_dir"]
-    out_dir = hover_config["out_dir"]
+    out_dir = hover_config["out_dir"] + out_id # set output folder with UUID
     save_thumb = hover_config["save_thumb"]
     proc_mag = hover_config["proc_mag"]
     save_mask = hover_config["save_mask"]
@@ -41,9 +46,11 @@ if __name__ == "__main__":
     #             nargs=1)
     parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(clam_config), type=str)
     parser.add_argument('-ch', '--call_hovernet', help="call create_patches.py", default=False, action="store_true")
+    parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
     args = parser.parse_args()
     print(args)
+
 
     if args.call_hovernet:
         call_hovernet(args)
