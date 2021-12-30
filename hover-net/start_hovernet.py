@@ -44,7 +44,7 @@ if __name__ == "__main__":
     # parser.add_argument('input_folder',
     #             help="one input folder that contains a WSI: example.svs",
     #             nargs=1)
-    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(clam_config), type=str)
+    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(hover_config), type=str)
     parser.add_argument('-ch', '--call_hovernet', help="call create_patches.py", default=False, action="store_true")
     parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
