@@ -66,11 +66,11 @@ if __name__ == "__main__":
     # get filename from command line arguments:
 
     # create input path:
-    input_folder = "usr/local/mount/data"
+    input_folder = "/usr/local/mount/data"
     src_path = "/usr/local/src"
     wrapper_path = "/usr/local/wrapper"
     # create correct command to start HQC:
-    command_hqc = "python usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
+    command_hqc = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
     
     algorithm = "HistoQC"
     hqc_version = get_commit(src_path)
