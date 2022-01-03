@@ -33,7 +33,7 @@ def call_hovernet(args):
     mode = " --model_mode=" + hover_config["mode"]
     model_path = " --model_path=" + hover_config["model_path"]
     nr_inf_workers = " --nr_inference_workers=" + str(hover_config["nr_inf_workers"])
-    nr_post_workers = " --nr_post_proc_workers=" + hover_config["nr_post_workers"]
+    nr_post_workers = " --nr_post_proc_workers=" + str(hover_config["nr_post_workers"])
     wsi = hover_config["wsi"]
     in_dir = " --input_dir=" + hover_config["in_dir"]
     out_dir = " --output_dir=" + hover_config["out_dir"] + out_id # set output folder with UUID
