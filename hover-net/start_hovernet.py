@@ -7,10 +7,15 @@ import pandas as pd
 from glob import glob
 import uuid
 
-
+outer_command_config = "/usr/local/mount/config/hover_command_config.json"
+default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
 # open config file for "RUN-COMMAND"
-with open("/usr/local/wrapper/hover-net/hover_command_config.json") as json_file:
-    hover_config = json.loads(json_file.read())
+if os.path.isfile(outer_command_config):
+    with open(outer_command_config) as json_file:
+        hover_config = json.loads(json_file.read())
+else:
+    with open(default_command_config) as json_file:
+        hover_config = json.loads(json_file.read())
 
 def call_hovernet(args):
 
