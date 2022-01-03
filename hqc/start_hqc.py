@@ -17,7 +17,7 @@ def get_commit(repo_path):
 
 
 outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
-default_command_config = "/usr/local/wrapper/default_command_config.json"
+default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
 
 # open config file for "RUN-COMMAND"
 if os.path.isfile(outer_command_config):
