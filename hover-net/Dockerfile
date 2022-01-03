@@ -17,19 +17,19 @@ RUN apt-get update -y
 RUN pip install gdown
 RUN pip install torch
 
-RUN git clone "https://github.com/vqdang/hover_net" /usr/local/src
-RUN pip install -r /usr/local/src/requirements.txt
-
-RUN gdown https://drive.google.com/u/0/uc?id=1SbSArI3KOOWHxRlxnjchO7_MbWzB4lNR -O /usr/local/models/pannuke/
-
 RUN apt-get install libsm6 libxrender1 libfontconfig1 -y
 RUN pip install opencv-python
 RUN apt install -y openslide-tools
 RUN pip install openslide-python
 RUN pip install h5py
 
-RUN echo hello!!!
+RUN git clone "https://github.com/vqdang/hover_net" /usr/local/src
+RUN pip install -r /usr/local/src/requirements.txt
+
+RUN gdown https://drive.google.com/u/0/uc?id=1SbSArI3KOOWHxRlxnjchO7_MbWzB4lNR -O /usr/local/models/pannuke/
+
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
+
 ENTRYPOINT [ "python3", "/usr/local/wrapper/hover-net/start_hovernet.py" ]
 
 # ENTRYPOINT [ "bin/bash" ]
