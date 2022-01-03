@@ -37,9 +37,9 @@ def call_hovernet(args):
     wsi = hover_config["wsi"]
     in_dir = " --input_dir=" + hover_config["in_dir"]
     out_dir = " --output_dir=" + hover_config["out_dir"] + out_id # set output folder with UUID
-    save_thumb = " --save_thumb" if json.loads(hover_config["save_thumb"]).lower() else ""
+    save_thumb = " --save_thumb" if hover_config["save_thumb"] else ""
     proc_mag = " --proc_mag=" + str(hover_config["proc_mag"])
-    save_mask = " --save_mask" if json.loads(hover_config["save_mask"]).lower() else ""
+    save_mask = " --save_mask" if hover_config["save_mask"] else ""
 
     hovernet_command = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag
     os.system(hovernet_command)
