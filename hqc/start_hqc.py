@@ -22,7 +22,7 @@ if __name__ == "__main__":
     #             help="one input file: example.svs",
     #             nargs="*")
 
-    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(hqc_config), default=inner_command_config, type=str)
+    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(hqc_cmd_config), default=inner_command_config, type=str)
     parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
     args = parser.parse_args()
