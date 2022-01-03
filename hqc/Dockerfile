@@ -23,8 +23,8 @@ RUN apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install opencv-python
 RUN echo hello!!!?!
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
-RUN ["cp", "/usr/local/wrapper/hqc/config_light.ini", "/usr/local/config"]
-RUN ["cp", "/usr/local/wrapper/hqc/hqc_command_config.json", "/usr/local/config"]
+# RUN ["cp", "/usr/local/wrapper/hqc/config_light.ini", "/usr/local/config"]
+# RUN ["cp", "/usr/local/wrapper/hqc/default_command_config.json", "/usr/local/config"]
 # CMD ["bin/bash"]
 # CMD [ "python /usr/local/src/start_hqc.py" ]
 # RUN ["cp", "/usr/local/src/hqc_command_config.json", "/usr/local/config"]
