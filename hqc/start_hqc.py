@@ -38,7 +38,7 @@ if __name__ == "__main__":
     output_path = hqc_config["output_path"] + out_id # set output folder
     # choose config file :
     # use config file mounted from outside OR ELSE use default file from "hqc_command_config.json"
-    outer_config_file = "usr/local/data/config/config_adaptive.ini"
+    outer_config_file = "usr/local/mount/config/config_adaptive.ini"
 
     if os.path.isfile(outer_config_file):
         config_path = outer_config_file
@@ -46,15 +46,15 @@ if __name__ == "__main__":
         config_path = hqc_config["config_path"]
 
     base_path = "-p " + hqc_config["base_path"] if len(hqc_config["base_path"]) > 1 else "" # default in qc_pipeline: "" (empty string)
-    force = "-f" if json.loads(hqc_config["force"].lower()) else "" # force overwrite existing output files: default in qc_pipeline: False
+    force = "-f" if hqc_config["force"] else "" # force overwrite existing output files: default in qc_pipeline: False
     batch_size = "-b" + int(hqc_config["batch_size"]) if int(hqc_config["batch_size"]) > 0 else "" # default in config: 0 leads to default in qc_pipeline: float("inf")
     n_threads = "-n" + int(hqc_config["n_threads"]) if int(hqc_config["n_threads"]) > 1 else "" # default in qc_pipeline: 1
-    symlink_off = "-s" if json.loads(hqc_config["symlink_off"].lower()) else "" # default in qc_pipeline: True
+    symlink_off = "-s" if hqc_config["symlink_off"] else "" # default in qc_pipeline: True
 
     # get filename from command line arguments:
 
     # create input path:
-    input_folder = "usr/local/data"
+    input_folder = "usr/local/mount/data"
     # create correct command to start HQC:
     command_hqc = "python usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
     print(command_hqc)
