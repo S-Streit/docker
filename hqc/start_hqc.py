@@ -66,7 +66,7 @@ if __name__ == "__main__":
     # get filename from command line arguments:
 
     # create input path:
-    input_folder = "/usr/local/mount/data"
+    input_folder = "usr/local/mount/data"
     src_path = "/usr/local/src"
     wrapper_path = "/usr/local/wrapper"
     # create correct command to start HQC:
