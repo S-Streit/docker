@@ -16,8 +16,8 @@ def get_commit(repo_path):
     return commit
 
 
-outer_command_config = "usr/local/mount/config/hqc_command_config.json"
-inner_command_config = "usr/local/wrapper/default_command_config.json"
+outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
+default_command_config = "/usr/local/wrapper/default_command_config.json"
 
 # open config file for "RUN-COMMAND"
 if os.path.isfile(outer_command_config):
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     #             help="one input file: example.svs",
     #             nargs="*")
 
-    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(hqc_cmd_config), default=inner_command_config, type=str)
+    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(hqc_cmd_config), default=default_command_config, type=str)
     parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
     args = parser.parse_args()
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     wrapper_version = get_commit(wrapper_path)
     print("HQC V.:", hqc_version)
     print("Wrapper V.:", wrapper_version)
-    
+
     start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
     print(command_hqc)
