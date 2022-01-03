@@ -4,6 +4,17 @@ import sys
 import os
 import argparse
 import uuid
+from datetime import datetime
+import subprocess
+
+def get_commit(repo_path):
+    git_folder = Path(repo_path,'.git')
+    head_name = Path(git_folder, 'HEAD').read_text().split('\n')[0].split(' ')[-1]
+    head_ref = Path(git_folder,head_name)
+    commit = head_ref.read_text().replace('\n','')
+
+    return commit
+
 
 outer_command_config = "usr/local/mount/config/hqc_command_config.json"
 inner_command_config = "usr/local/wrapper/default_command_config.json"
@@ -55,9 +66,20 @@ if __name__ == "__main__":
     # get filename from command line arguments:
 
     # create input path:
-    input_folder = "usr/local/mount/data"
+    input_folder = "/usr/local/mount/data"
+    src_path = "/usr/local/src"
+    wrapper_path = "/usr/local/wrapper"
     # create correct command to start HQC:
-    command_hqc = "python usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
+    command_hqc = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
+    
+    algorithm = "HistoQC"
+    hqc_version = get_commit(src_path)
+    wrapper_version = get_commit(wrapper_path)
+    print("HQC V.:", hqc_version)
+    print("Wrapper V.:", wrapper_version)
+    
+    start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+
     print(command_hqc)
     # start HQC:
     os.system(command_hqc)
