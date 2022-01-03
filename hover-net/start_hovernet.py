@@ -21,22 +21,22 @@ def call_hovernet(args):
     else:
         out_id = args.uuid
 
-    gpu = hover_config["gpu"]
-    types = hover_config["types"]
-    type_info = hover_config["type_info"]
-    batch_size = hover_config["batch_size"]
-    mode = hover_config["mode"]
-    model_path = hover_config["model_path"]
-    nr_inf_workers = hover_config["nr_inf_workers"]
-    nr_post_workers = hover_config["nr_post_workers"]
+    gpu = " --gpu=" + hover_config["gpu"]
+    types =  " --nr_types=" + str(hover_config["types"])
+    type_info_path = " --type_info_path=" + hover_config["type_info_path"]
+    batch_size = " --batch_size=" + str(hover_config["batch_size"])
+    mode = " --model_mode=" + hover_config["mode"]
+    model_path = " --model_path=" + hover_config["model_path"]
+    nr_inf_workers = " --nr_inference_workers=" + str(hover_config["nr_inf_workers"])
+    nr_post_workers = " --nr_post_proc_workers=" + hover_config["nr_post_workers"]
     wsi = hover_config["wsi"]
-    in_dir = hover_config["in_dir"]
-    out_dir = hover_config["out_dir"] + out_id # set output folder with UUID
-    save_thumb = hover_config["save_thumb"]
-    proc_mag = hover_config["proc_mag"]
-    save_mask = hover_config["save_mask"]
+    in_dir = " --input_dir=" + hover_config["in_dir"]
+    out_dir = " --output_dir=" + hover_config["out_dir"] + out_id # set output folder with UUID
+    save_thumb = " --save_thumb" if json.loads(hover_config["save_thumb"]).lower() else ""
+    proc_mag = " --proc_mag=" + str(hover_config["proc_mag"])
+    save_mask = " --save_mask" if json.loads(hover_config["save_mask"]).lower() else ""
 
-    hovernet_command = hovernet_base_command + gpu + types + type_info + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag
+    hovernet_command = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag
     os.system(hovernet_command)
     print(hovernet_command)
 
