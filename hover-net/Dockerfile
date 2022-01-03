@@ -25,6 +25,7 @@ RUN pip install h5py
 
 RUN gdown https://drive.google.com/u/0/uc?id=1SbSArI3KOOWHxRlxnjchO7_MbWzB4lNR -O /usr/local/models/pannuke/
 
+RUN echo Hello
 RUN git clone "https://github.com/Pacific89/hover_net" /usr/local/src
 RUN pip install -r /usr/local/src/requirements.txt
 
