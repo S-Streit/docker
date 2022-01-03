@@ -5,7 +5,7 @@ import os
 import argparse
 import uuid
 from datetime import datetime
-from path import Path
+from pathlib import Path
 
 def get_commit(repo_path):
     git_folder = Path(repo_path,'.git')
