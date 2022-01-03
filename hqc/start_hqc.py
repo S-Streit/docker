@@ -47,7 +47,7 @@ if __name__ == "__main__":
     config_path = hqc_cmd_config["config_path"]
 
     base_path = "-p " + hqc_cmd_config["base_path"] if len(hqc_cmd_config["base_path"]) > 1 else "" # default in qc_pipeline: "" (empty string)
-    force = "-f" if hqc_config["force"] else "" # force overwrite existing output files: default in qc_pipeline: False
+    force = "-f" if hqc_cmd_config["force"] else "" # force overwrite existing output files: default in qc_pipeline: False
     batch_size = "-b" + int(hqc_cmd_config["batch_size"]) if int(hqc_cmd_config["batch_size"]) > 0 else "" # default in config: 0 leads to default in qc_pipeline: float("inf")
     n_threads = "-n" + int(hqc_cmd_config["n_threads"]) if int(hqc_cmd_config["n_threads"]) > 1 else "" # default in qc_pipeline: 1
     symlink_off = "-s" if hqc_cmd_config["symlink_off"] else "" # default in qc_pipeline: True
