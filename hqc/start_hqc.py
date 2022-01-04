@@ -56,6 +56,9 @@ def save_config_info(hqc_cmd_config, start_command):
     with open(save_config_path + "/start_config.json", 'w') as cfg_json:
         json.dump(cfg_dict, cfg_json)
 
+    # copy config.ini for HQC pipeline
+    shutil.copy2(hqc_cmd_config["config_path"], save_config_path)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='')
@@ -102,6 +105,8 @@ if __name__ == "__main__":
     start_command = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
 
     save_config_info(hqc_cmd_config, start_command)
-    print(start_command)
     # start HQC:
-    os.system(start_command)
+    return_code = os.system(start_command)
+
+    print("Return Code:", return_code)
+
