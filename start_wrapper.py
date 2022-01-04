@@ -191,9 +191,6 @@ def _clam_create_patches(cmd_config):
     preset = "--preset preset.csv"
     patch_level = "--patch_level {0}".format(int(cmd_config["patch_level"])) # downsample level for patch calculation
     process_list = "--process_list process_list.csv"
-
-    cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
-    output_path = cmd_config["output_path"] # set output folder
     
     print("CONFIG:")
     print(cmd_config)
@@ -222,9 +219,18 @@ def clam():
     parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
     parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
     parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
+    parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
     args = parser.parse_args()
     print(args)
+
+    if not args.uuid:
+        out_id = uuid.uuid4().hex
+    else:
+        out_id = args.uuid
+
+    cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
+    output_path = cmd_config["output_path"] # set output folder
 
     if args.create_patches:
         start_cmd, cmd_config = _clam_create_patches(cmd_config)
