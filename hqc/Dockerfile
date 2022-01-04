@@ -29,6 +29,6 @@ RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 # CMD [ "python /usr/local/src/start_hqc.py" ]
 # RUN ["cp", "/usr/local/src/hqc_command_config.json", "/usr/local/config"]
 # CMD [ "python /usr/local/src/start_hqc.py" ]
-ENTRYPOINT [ "python", "/usr/local/wrapper/hqc/start_wrapper.py" ]
+ENTRYPOINT [ "python", "/usr/local/wrapper/start_wrapper.py" ]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
 # RUN jupyter notebook --port=8888 --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='' --NotebookApp.password='' &
