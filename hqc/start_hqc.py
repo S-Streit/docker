@@ -53,7 +53,7 @@ def save_config_info(hqc_cmd_config, start_command):
     cfg_dict["meta_info"] = meta_cfg_dict
     cfg_dict["command_cfg"] = hqc_cmd_config
 
-    with open(save_config_path, 'w') as cfg_json:
+    with open(save_config_path + "/start_config.json", 'w') as cfg_json:
         json.dump(cfg_dict, cfg_json)
 
 
