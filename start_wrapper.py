@@ -191,7 +191,8 @@ def _clam_create_patches(cmd_config):
     preset = "--preset preset.csv"
     patch_level = "--patch_level {0}".format(int(cmd_config["patch_level"])) # downsample level for patch calculation
     process_list = "--process_list process_list.csv"
-    
+    output_path = cmd_config["output_path"] # set output folder
+
     print("CONFIG:")
     print(cmd_config)
     # get filename from command line arguments:
@@ -230,7 +231,6 @@ def clam():
         out_id = args.uuid
 
     cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
-    output_path = cmd_config["output_path"] # set output folder
 
     if args.create_patches:
         start_cmd, cmd_config = _clam_create_patches(cmd_config)
