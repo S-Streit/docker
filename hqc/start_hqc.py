@@ -93,9 +93,9 @@ if __name__ == "__main__":
     n_threads = "-n" + int(hqc_cmd_config["n_threads"]) if int(hqc_cmd_config["n_threads"]) > 1 else "" # default in qc_pipeline: 1
     symlink_off = "-s" if hqc_cmd_config["symlink_off"] else "" # default in qc_pipeline: True
 
-    input_folder = hqc_command_config["input_path"]
-    src_path = hqc_command_config["src_path"]
-    wrapper_path = hqc_command_config["wrapper_path"]
+    input_folder = hqc_cmd_config["input_path"]
+    src_path = hqc_cmd_config["src_path"]
+    wrapper_path = hqc_cmd_config["wrapper_path"]
 
     # create correct command to start HQC:
     start_command = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
