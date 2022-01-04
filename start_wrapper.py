@@ -122,18 +122,69 @@ def prepare_hovernet():
     
     return start_cmd, cmd_config
 
+def prepare_hqc():
+    outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
+    default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
+
+    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
+
+    parser = argparse.ArgumentParser(description='')
+    # parser.add_argument('input_pattern',
+    #             help="one input file: example.svs",
+    #             nargs="*")
+
+    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), default=default_command_config, type=str)
+    parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
+
+    args = parser.parse_args()
+
+    if args.config:
+        # try to read dict from json string and update default values
+        try:
+            config_dict = json.loads(args.config)
+            cmd_config.update(config_dict)
+        except:
+            print("Not a valid json config string. Using default")
+    
+    if not args.uuid:
+        out_id = uuid.uuid4().hex
+    else:
+        out_id = args.uuid
+
+    cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
+    output_path = cmd_config["output_path"] # set output folder
+    # choose config file :
+    # use config file mounted from outside OR ELSE use default file from "hqc_command_config.json"
+
+    config_path = cmd_config["config_path"]
+
+    base_path = "-p " + cmd_config["base_path"] if len(cmd_config["base_path"]) > 1 else "" # default in qc_pipeline: "" (empty string)
+    force = "-f" if cmd_config["force"] else "" # force overwrite existing output files: default in qc_pipeline: False
+    batch_size = "-b" + int(cmd_config["batch_size"]) if int(cmd_config["batch_size"]) > 0 else "" # default in config: 0 leads to default in qc_pipeline: float("inf")
+    n_threads = "-n" + int(cmd_config["n_threads"]) if int(cmd_config["n_threads"]) > 1 else "" # default in qc_pipeline: 1
+    symlink_off = "-s" if cmd_config["symlink_off"] else "" # default in qc_pipeline: True
+
+    input_folder = cmd_config["input_path"]
+    src_path = cmd_config["src_path"]
+    wrapper_path = cmd_config["wrapper_path"]
+
+    # create correct command to start HQC:
+    start_cmd = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
+
+    return start_cmd, cmd_config
+
 if __name__ == "__main__":
 
     repo_name = get_repo_name(SOURCE_PATH)
+    print("Preparing {0}".format(repo_name))
 
     if repo_name == "HistoQC":
-        print("HQC")
+        start_cmd, cmd_config = prepare_hqc()
     elif repo_name == "hover-net":
-        print("HOVERNET")
+        start_cmd, cmd_config = prepare_hovernet()
 
-    start_cmd, cmd_config = prepare_hovernet()
 
-    save_config_info(cmd_config, start_command)
+    save_config_info(cmd_config, start_cmd)
     return_code = os.system(start_cmd)
 
     if return_code == 0:
