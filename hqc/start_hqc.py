@@ -108,5 +108,8 @@ if __name__ == "__main__":
     # start HQC:
     return_code = os.system(start_command)
 
-    print("Return Code:", return_code)
+    if return_code == 0:
+        FINISHED = True
+        save_config_info(hqc_cmd_config, start_command)
+
 
