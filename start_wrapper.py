@@ -41,8 +41,9 @@ def get_commit(repo_path):
     return commit
 def get_repo_name(repo_path):
     git_folder = Path(repo_path,'.git')
+    print(git_folder.read_text())
+
     name = git_folder.read_text().split('Pacific89/')
-    print(name)
 
     return name
 
