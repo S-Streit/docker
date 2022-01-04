@@ -28,6 +28,8 @@ def parse_cmd_config(outer_command_config, default_command_config):
             cmd_config = json.loads(json_file.read())
             DEFAULT_CONFIG = True
 
+    return cmd_config
+
 
 def get_commit(repo_path):
     git_folder = Path(repo_path,'.git')
@@ -83,7 +85,7 @@ def call_hovernet():
 
     outer_command_config = "/usr/local/mount/config/hover_command_config.json"
     default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
-    parse_cmd_config(outer_command_config, default_command_config)
+    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
 
     if not args.uuid:
         out_id = uuid.uuid4().hex
