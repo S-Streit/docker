@@ -199,7 +199,7 @@ def _clam_create_patches(cmd_config):
     # create input path:
     input_path = file_name
     # create correct command to create patch coordinates using CLAM:
-    start_cmd = "python3 /usr/local/src/clam/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_folder, output_path, patch_size, seg, patch, stitch)
+    start_cmd = "python3 /usr/local/src/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_folder, output_path, patch_size, seg, patch, stitch)
 
     return start_cmd, cmd_config
 
