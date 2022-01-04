@@ -44,8 +44,8 @@ def save_config_info(cmd_config, start_command):
     meta_cfg_dict = {}
 
     meta_cfg_dict["algorithm"] = "Hover-Net"
-    meta_cfg_dict["version"] = get_commit(src_path)
-    meta_cfg_dict["wrapper_version"] = get_commit(wrapper_path)
+    meta_cfg_dict["version"] = get_commit(cmd_config["src_path"])
+    meta_cfg_dict["wrapper_version"] = get_commit(cmd_config["wrapper_path"])
     meta_cfg_dict["finished"] = FINISHED
     meta_cfg_dict["default_cfg"] = DEFAULT_CONFIG
     meta_cfg_dict["outer_cfg"] = OUTER_CONFIG
