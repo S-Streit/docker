@@ -49,7 +49,7 @@ def save_config_info(hqc_cmd_config, start_command):
     meta_cfg_dict["start_command"] = start_command
 
     save_config_path = hqc_cmd_config["output_path"] + "/config"
-    os.mkdir(save_config_path)
+    os.mkdirs(save_config_path)
     cfg_dict["meta_info"] = meta_cfg_dict
     cfg_dict["command_cfg"] = hqc_cmd_config
 
