@@ -10,8 +10,6 @@ from datetime import datetime
 from pathlib import Path
 import shutil
 
-outer_command_config = "/usr/local/mount/config/hover_command_config.json"
-default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
 
 OUTER_CONFIG = False
 DEFAULT_CONFIG = False
@@ -19,15 +17,16 @@ FINISHED = False
 START_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 END_TIME = 'None'
 
-# open mounted config file or use default for "RUN-COMMAND"
-if os.path.isfile(outer_command_config):
-    with open(outer_command_config) as json_file:
-        cmd_config = json.loads(json_file.read())
-        OUTER_CONFIG = True
-else:
-    with open(default_command_config) as json_file:
-        cmd_config = json.loads(json_file.read())
-        DEFAULT_CONFIG = True
+def parse_cmd_config(outer_command_config, default_command_config)
+    # open mounted config file or use default for "RUN-COMMAND"
+    if os.path.isfile(outer_command_config):
+        with open(outer_command_config) as json_file:
+            cmd_config = json.loads(json_file.read())
+            OUTER_CONFIG = True
+    else:
+        with open(default_command_config) as json_file:
+            cmd_config = json.loads(json_file.read())
+            DEFAULT_CONFIG = True
 
 
 def get_commit(repo_path):
@@ -67,9 +66,24 @@ def save_config_info(cmd_config, start_command):
     # copy config file
     shutil.copy2(cmd_config["config_path"], save_config_path)
 
-def call_hovernet(args):
+def call_hovernet():
+
+    parser = argparse.ArgumentParser(description='')
+    # parser.add_argument('input_folder',
+    #             help="one input folder that contains a WSI: example.svs",
+    #             nargs=1)
+    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), type=str)
+    # parser.add_argument('-ch', '--call_hovernet', help="call create_patches.py", default=False, action="store_true")
+    parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
+
+    args = parser.parse_args()
+    print(args)
 
     hovernet_base_command = "python3 /usr/local/src/run_infer.py"
+
+    outer_command_config = "/usr/local/mount/config/hover_command_config.json"
+    default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
+    parse_cmd_config(outer_command_config, default_command_config)
 
     if not args.uuid:
         out_id = uuid.uuid4().hex
@@ -105,17 +119,5 @@ def call_hovernet(args):
         save_config_info(cmd_config, start_command)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='')
-    # parser.add_argument('input_folder',
-    #             help="one input folder that contains a WSI: example.svs",
-    #             nargs=1)
-    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), type=str)
-    parser.add_argument('-ch', '--call_hovernet', help="call create_patches.py", default=False, action="store_true")
-    parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
-    args = parser.parse_args()
-    print(args)
-
-
-    if args.call_hovernet:
-        call_hovernet(args)
+    call_hovernet()
