@@ -49,9 +49,11 @@ def save_config_info(hqc_cmd_config, start_command):
     meta_cfg_dict["start_command"] = start_command
 
     save_config_path = hqc_cmd_config["output_path"] + "/config"
-    os.makedirs(save_config_path)
     cfg_dict["meta_info"] = meta_cfg_dict
     cfg_dict["command_cfg"] = hqc_cmd_config
+    
+    if not os.path.isdir(save_config_path:)
+        os.makedirs(save_config_path)
 
     with open(save_config_path + "/start_config.json", 'w') as cfg_json:
         json.dump(cfg_dict, cfg_json)
