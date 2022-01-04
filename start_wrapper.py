@@ -70,7 +70,11 @@ def save_config_info(cmd_config, start_command):
     if not os.path.isdir(save_config_path):
         os.makedirs(save_config_path)
 
-    with open(save_config_path + "/start_config.json", 'w') as cfg_json:
+    json_file = save_config_path + "/start_config.json"
+    if os.path.isfile(json_file):
+        os.remove(json_file)
+        
+    with open(json_file, 'w') as cfg_json:
         json.dump(cfg_dict, cfg_json)
 
     # copy config file
