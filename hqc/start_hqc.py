@@ -34,7 +34,7 @@ def get_commit(repo_path):
     return commit
 
 
-def save_config_info(hqc_cmd_config):
+def save_config_info(hqc_cmd_config, start_command):
 
     cfg_dict = {}
     meta_cfg_dict = {}
@@ -45,7 +45,8 @@ def save_config_info(hqc_cmd_config):
     meta_cfg_dict["finished"] = FINISHED
     meta_cfg_dict["default_cfg"] = DEFAULT_CONFIG
     meta_cfg_dict["outer_cfg"] = OUTER_CONFIG
-    start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+    meta_cfg_dict["start_time"] = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+    meta_cfg_dict["start_command"] = start_command
 
     save_config_path = hqc_cmd_config["output_path"] + "/config"
 
