@@ -68,7 +68,7 @@ def call_hovernet(args):
         out_id = args.uuid
 
     # add UUID to output directory
-    cmd_config["output_dir"] = cmd_config["output_dir"] + out_id
+    cmd_config["output_path"] = cmd_config["output_path"] + out_id
 
     gpu = " --gpu=" + cmd_config["gpu"]
     types =  " --nr_types=" + str(cmd_config["types"])
@@ -79,8 +79,8 @@ def call_hovernet(args):
     nr_inf_workers = " --nr_inference_workers=" + str(cmd_config["nr_inf_workers"])
     nr_post_workers = " --nr_post_proc_workers=" + str(cmd_config["nr_post_workers"])
     wsi = cmd_config["wsi"]
-    in_dir = " --input_dir=" + cmd_config["input_dir"]
-    out_dir = " --output_dir=" + cmd_config["output_dir"] # set output folder with UUID
+    in_dir = " --input_dir=" + cmd_config["input_path"]
+    out_dir = " --output_dir=" + cmd_config["output_path"] # set output folder with UUID
     save_thumb = " --save_thumb" if cmd_config["save_thumb"] else ""
     proc_mag = " --proc_mag=" + str(cmd_config["proc_mag"])
     save_mask = " --save_mask" if cmd_config["save_mask"] else ""
