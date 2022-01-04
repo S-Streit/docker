@@ -14,6 +14,8 @@ default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
 OUTER_CONFIG = False
 DEFAULT_CONFIG = False
 FINISHED = False
+START_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+END_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
 # open config file for "RUN-COMMAND"
 if os.path.isfile(outer_command_config):
@@ -45,7 +47,9 @@ def save_config_info(hqc_cmd_config, start_command):
     meta_cfg_dict["finished"] = FINISHED
     meta_cfg_dict["default_cfg"] = DEFAULT_CONFIG
     meta_cfg_dict["outer_cfg"] = OUTER_CONFIG
-    meta_cfg_dict["start_time"] = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+    meta_cfg_dict["start_time"] = START_TIME
+    if FINISHED:
+        meta_cfg_dict["end_time"] = END_TIME
     meta_cfg_dict["start_command"] = start_command
 
     save_config_path = hqc_cmd_config["output_path"] + "/config"
@@ -112,6 +116,7 @@ if __name__ == "__main__":
 
     if return_code == 0:
         FINISHED = True
+        END_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         save_config_info(hqc_cmd_config, start_command)
 
 
