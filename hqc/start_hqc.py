@@ -15,7 +15,7 @@ OUTER_CONFIG = False
 DEFAULT_CONFIG = False
 FINISHED = False
 START_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-END_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+END_TIME = 'None'
 
 # open config file for "RUN-COMMAND"
 if os.path.isfile(outer_command_config):
