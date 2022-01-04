@@ -70,6 +70,10 @@ def save_config_info(cmd_config, start_command):
 
 def call_hovernet():
 
+    outer_command_config = "/usr/local/mount/config/hover_command_config.json"
+    default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
+    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
+
     parser = argparse.ArgumentParser(description='')
     # parser.add_argument('input_folder',
     #             help="one input folder that contains a WSI: example.svs",
@@ -82,10 +86,6 @@ def call_hovernet():
     print(args)
 
     hovernet_base_command = "python3 /usr/local/src/run_infer.py"
-
-    outer_command_config = "/usr/local/mount/config/hover_command_config.json"
-    default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
-    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
 
     if not args.uuid:
         out_id = uuid.uuid4().hex
