@@ -97,7 +97,7 @@ def call_hovernet(args):
     start_command = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag
     
     save_config_info(cmd_config, start_command)
-    return_code = os.system(hovernet_command)
+    return_code = os.system(start_command)
 
     if return_code == 0:
         FINISHED = True
