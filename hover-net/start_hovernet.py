@@ -17,7 +17,7 @@ FINISHED = False
 START_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 END_TIME = 'None'
 
-def parse_cmd_config(outer_command_config, default_command_config)
+def parse_cmd_config(outer_command_config, default_command_config):
     # open mounted config file or use default for "RUN-COMMAND"
     if os.path.isfile(outer_command_config):
         with open(outer_command_config) as json_file:
