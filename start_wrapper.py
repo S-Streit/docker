@@ -76,7 +76,7 @@ def save_config_info(cmd_config, start_command):
     # copy config file
     shutil.copy2(cmd_config["config_path"], save_config_path)
 
-def prepare_hovernet():
+def hovernet():
 
     outer_command_config = "/usr/local/mount/config/hover_command_config.json"
     default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
@@ -120,9 +120,9 @@ def prepare_hovernet():
 
     start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag
     
-    return start_cmd, cmd_config
+    run_project(start_cmd, cmd_config)
 
-def prepare_hqc():
+def hqc():
     outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
     default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
 
@@ -171,20 +171,74 @@ def prepare_hqc():
     # create correct command to start HQC:
     start_cmd = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
 
+    run_project(start_cmd, cmd_config)
+
+def _clam_create_patches(cmd_config):
+
+    input_folder = cmd_config["input_path"]
+    svs_files = glob(input_folder + "/*.svs")
+    print("Detected Files: ", svs_files)
+    if len(svs_files) == 1:
+        file_name = svs_files[0]
+    else:
+        print("More than one file detected: {0} \n Please Check mounted directory")
+    # print("File Name:", file_name)
+    patch_size = cmd_config["patch_size"] # set patch size (128 needed for ARA-NET / 224 needed for VGG16 feature extraction)
+    seg = "--seg" if json.loads(cmd_config["seg"].lower()) else ""
+    patch = "--patch" if json.loads(cmd_config["patch"].lower()) else ""
+    stitch = "--stitch" if json.loads(cmd_config["stitch"].lower()) else ""
+    no_auto_skip = "--no_auto_skip" if json.loads(cmd_config["no_auto_skip"].lower()) else ""
+    preset = "--preset preset.csv"
+    patch_level = "--patch_level {0}".format(int(cmd_config["patch_level"])) # downsample level for patch calculation
+    process_list = "--process_list process_list.csv"
+
+    cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
+    output_path = cmd_config["output_path"] # set output folder
+    
+    print("CONFIG:")
+    print(cmd_config)
+    # get filename from command line arguments:
+    # create input path:
+    input_path = file_name
+    # create correct command to create patch coordinates using CLAM:
+    start_cmd = "python3 /usr/local/src/clam/create_patches_fp.py --source {0} --save_dir {1} --patch_size {2} {3} {4} {5}".format(input_folder, output_path, patch_size, seg, patch, stitch)
+
     return start_cmd, cmd_config
 
-if __name__ == "__main__":
+def clam():
 
-    repo_name = get_repo_name(SOURCE_PATH)
-    print("Preparing {0}".format(repo_name))
+    outer_command_config = "/usr/local/mount/config/clam_command_config.json"
+    default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
 
-    if repo_name == "HistoQC":
-        start_cmd, cmd_config = prepare_hqc()
-    elif repo_name == "hover_net":
-        start_cmd, cmd_config = prepare_hovernet()
-    elif repo_name == "CLAM":
-        print("STARTING CLAM")
+    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
 
+
+    parser = argparse.ArgumentParser(description='')
+    # parser.add_argument('input_folder',
+    #             help="one input folder that contains a WSI: example.svs",
+    #             nargs=1)
+    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), type=str)
+    parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
+    parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
+    parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
+    parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
+
+    args = parser.parse_args()
+    print(args)
+
+    if args.create_patches:
+        start_cmd, cmd_config = _clam_create_patches(cmd_config)
+        run_project(start_cmd, cmd_config)
+    if args.extract_features:   
+        call_extract_features(args)
+    if args.create_heatmaps:
+        call_create_heatmaps(args)
+    # if args.all:
+    #     call_create_patches(args)
+    #     call_extract_features(args)
+    #     call_create_heatmaps(args)
+
+def run_project(start_cmd, cmd_config):
 
     save_config_info(cmd_config, start_cmd)
     return_code = os.system(start_cmd)
@@ -193,3 +247,15 @@ if __name__ == "__main__":
         FINISHED = True
         END_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         save_config_info(cmd_config, start_cmd)
+
+if __name__ == "__main__":
+
+    repo_name = get_repo_name(SOURCE_PATH)
+    print("Preparing {0}".format(repo_name))
+
+    if "HistoQC" in repo_name:
+        start_cmd, cmd_config = hqc()
+    elif "hover_net" in repo_name:
+        start_cmd, cmd_config = hovernet()
+    elif "CLAM" in repo_name:
+        start_cmd, cmd_config = clam()
