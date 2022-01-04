@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
     if repo_name == "HistoQC":
         start_cmd, cmd_config = prepare_hqc()
-    elif repo_name == "hover-net":
+    elif repo_name == "hover_net":
         start_cmd, cmd_config = prepare_hovernet()
 
 
