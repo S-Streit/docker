@@ -254,6 +254,7 @@ def run_project(start_cmd, cmd_config):
     save_config_info(cmd_config, start_cmd)
     return_code = os.system(start_cmd)
 
+    print("Return Code: ", return_code)
     if return_code == 0:
         FINISHED = True
         END_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
