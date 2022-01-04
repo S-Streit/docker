@@ -1,1 +1,12 @@
-{"output_path": "/usr/local/data/results/clam", "process_list": "/usr/local/data/results/clam/process_list_autogen.csv", "patch_size": 128, "seg": "True", "patch": "True", "stitch": "True", "no_auto_skip": "True", "preset": "preset.csv", "patch_level": 8}
+{   "input_path": "/usr/local/mount/data",
+    "output_path": "/usr/local/mount/results",
+    "config_path": "/usr/local/wrapper/hqc/config_light.ini",
+    "wrapper_path": "/usr/local/wrapper",
+    "process_list": "/usr/local/data/results/clam/process_list_autogen.csv",
+    "patch_size": 128,
+    "seg": "True",
+    "patch": "True",
+    "stitch": "True",
+    "no_auto_skip": "True",
+    "preset": "preset.csv",
+    "patch_level": 8}
