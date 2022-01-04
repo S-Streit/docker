@@ -74,7 +74,8 @@ def save_config_info(cmd_config, start_command):
         json.dump(cfg_dict, cfg_json)
 
     # copy config file
-    shutil.copy2(cmd_config["config_path"], save_config_path)
+    if cmd_config["config_path"] and os.path.isfile(cmd_config["config_path"]):
+        shutil.copy2(cmd_config["config_path"], save_config_path)
 
 def hovernet():
 
@@ -205,17 +206,12 @@ def _clam_create_patches(cmd_config):
 
 def clam():
 
-    outer_command_config = "/usr/local/mount/config/clam_command_config.json"
-    default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
-
-    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
-
 
     parser = argparse.ArgumentParser(description='')
     # parser.add_argument('input_folder',
     #             help="one input folder that contains a WSI: example.svs",
     #             nargs=1)
-    parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), type=str)
+    parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
     parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
     parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
     parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
@@ -230,6 +226,15 @@ def clam():
     else:
         out_id = args.uuid
 
+    if not args.create_heatmaps:
+        outer_command_config = "/usr/local/mount/config/clam_command_config.json"
+        default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
+    else:
+        outer_command_config = "/usr/local/mount/config/clam_heatmap_command_config.json"
+        default_command_config = "/usr/local/wrapper/clam/clam_heatmap_command_config.json"
+
+
+    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
     cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
 
     if args.create_patches:
