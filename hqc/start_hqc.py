@@ -6,6 +6,24 @@ import argparse
 import uuid
 from datetime import datetime
 from pathlib import Path
+import shutil
+
+outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
+default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
+
+OUTER_CONFIG = False
+DEFAULT_CONFIG = False
+FINISHED = False
+
+# open config file for "RUN-COMMAND"
+if os.path.isfile(outer_command_config):
+    with open(outer_command_config) as json_file:
+        hqc_cmd_config = json.loads(json_file.read())
+        OUTER_CONFIG = True
+else:
+    with open(default_command_config) as json_file:
+        hqc_cmd_config = json.loads(json_file.read())
+        DEFAULT_CONFIG = True
 
 def get_commit(repo_path):
     git_folder = Path(repo_path,'.git')
@@ -16,16 +34,27 @@ def get_commit(repo_path):
     return commit
 
 
-outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
-default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
+def save_config_info(hqc_cmd_config):
 
-# open config file for "RUN-COMMAND"
-if os.path.isfile(outer_command_config):
-    with open(outer_command_config) as json_file:
-        hqc_cmd_config = json.loads(json_file.read())
-else:
-    with open(default_command_config) as json_file:
-        hqc_cmd_config = json.loads(json_file.read())
+    cfg_dict = {}
+    meta_cfg_dict = {}
+
+    meta_cfg_dict["algorithm"] = "HistoQC"
+    meta_cfg_dict["version"] = get_commit(src_path)
+    meta_cfg_dict["wrapper_version"] = get_commit(wrapper_path)
+    meta_cfg_dict["finished"] = FINISHED
+    meta_cfg_dict["default_cfg"] = DEFAULT_CONFIG
+    meta_cfg_dict["outer_cfg"] = OUTER_CONFIG
+    start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+
+    save_config_path = hqc_cmd_config["output_path"] + "/config"
+
+    cfg_dict["meta_info"] = meta_cfg_dict
+    cfg_dict["command_cfg"] = hqc_cmd_config
+
+    with open(save_config_path, 'w') as cfg_json:
+        json.dump(cfg_dict, cfg_json)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='')
@@ -51,7 +80,8 @@ if __name__ == "__main__":
     else:
         out_id = args.uuid
 
-    output_path = hqc_cmd_config["output_path"] + out_id # set output folder
+    hqc_cmd_config["output_path"] = hqc_cmd_config["output_path"] + out_id # set output folder in command_dict
+    output_path = hqc_cmd_config["output_path"] # set output folder
     # choose config file :
     # use config file mounted from outside OR ELSE use default file from "hqc_command_config.json"
 
@@ -63,23 +93,14 @@ if __name__ == "__main__":
     n_threads = "-n" + int(hqc_cmd_config["n_threads"]) if int(hqc_cmd_config["n_threads"]) > 1 else "" # default in qc_pipeline: 1
     symlink_off = "-s" if hqc_cmd_config["symlink_off"] else "" # default in qc_pipeline: True
 
-    # get filename from command line arguments:
+    input_folder = hqc_command_config["input_path"]
+    src_path = hqc_command_config["src_path"]
+    wrapper_path = hqc_command_config["wrapper_path"]
 
-    # create input path:
-    input_folder = "/usr/local/mount/data"
-    src_path = "/usr/local/src"
-    wrapper_path = "/usr/local/wrapper"
     # create correct command to start HQC:
-    command_hqc = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
-    
-    algorithm = "HistoQC"
-    hqc_version = get_commit(src_path)
-    wrapper_version = get_commit(wrapper_path)
-    print("HQC V.:", hqc_version)
-    print("Wrapper V.:", wrapper_version)
+    start_command = "python /usr/local/src/qc_pipeline.py {0}/*.svs -o {1} -c {2} {3} {4} {5}".format(input_folder, output_path, config_path, n_threads, force, base_path)
 
-    start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-
-    print(command_hqc)
+    save_config_info(hqc_cmd_config, start_command)
+    print(start_command)
     # start HQC:
-    os.system(command_hqc)
+    os.system(start_command)
