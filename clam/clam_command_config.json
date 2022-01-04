@@ -3,6 +3,7 @@
     "config_path": "/usr/local/wrapper/hqc/config_light.ini",
     "wrapper_path": "/usr/local/wrapper",
     "process_list": "/usr/local/data/results/clam/process_list_autogen.csv",
+    "src_path": "/usr/local/src",
     "patch_size": 128,
     "seg": "True",
     "patch": "True",
