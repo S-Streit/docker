@@ -254,8 +254,8 @@ if __name__ == "__main__":
     print("Preparing {0}".format(repo_name))
 
     if "HistoQC" in repo_name:
-        start_cmd, cmd_config = hqc()
+        hqc()
     elif "hover_net" in repo_name:
-        start_cmd, cmd_config = hovernet()
+        hovernet()
     elif "CLAM" in repo_name:
-        start_cmd, cmd_config = clam()
+        clam()
