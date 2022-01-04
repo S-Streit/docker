@@ -182,6 +182,8 @@ if __name__ == "__main__":
         start_cmd, cmd_config = prepare_hqc()
     elif repo_name == "hover_net":
         start_cmd, cmd_config = prepare_hovernet()
+    elif repo_name == "CLAM":
+        print("STARTING CLAM")
 
 
     save_config_info(cmd_config, start_cmd)

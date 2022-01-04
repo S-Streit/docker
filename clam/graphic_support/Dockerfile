@@ -49,8 +49,8 @@ RUN apt-get -y update
 RUN mkdir -p /root/.cache/torch/hub/checkpoints
 RUN wget https://download.pytorch.org/models/resnet50-19c8e357.pth -O /root/.cache/torch/hub/checkpoints/resnet50-19c8e357.pth
 
-RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/src/st
-RUN python3 /usr/local/src/st/setup.py install
+RUN git clone "https://github.com/oval-group/smooth-topk.git" /usr/local/st
+RUN python3 /usr/local/st/setup.py install
 
 RUN pip install scipy
 RUN pip install scikit-learn
@@ -60,7 +60,7 @@ RUN pip install numpy
 RUN conda install -c conda-forge pixman -y
 
 RUN echo Hello!?!!
-RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src/clam
+RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["mkdir", "/usr/local/config"]
 RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/config"]
@@ -68,5 +68,5 @@ RUN ["cp", "/usr/local/wrapper/clam/clam_command_config.json", "/usr/local/confi
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
-ENTRYPOINT [ "python", "/usr/local/wrapper/clam/start_clam.py" ]
+ENTRYPOINT [ "python", "/usr/local/wrapper/start_wrapper.py" ]
 # ENTRYPOINT [ "bin/bash" ]
