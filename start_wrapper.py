@@ -73,7 +73,7 @@ def save_config_info(cmd_config, start_command):
     json_file = save_config_path + "/start_config.json"
     if os.path.isfile(json_file):
         os.remove(json_file)
-        
+
     with open(json_file, 'w') as cfg_json:
         json.dump(cfg_dict, cfg_json)
 
@@ -260,6 +260,7 @@ def run_project(start_cmd, cmd_config):
 
     print("Return Code: ", return_code)
     if return_code == 0:
+        print("FINISHED!")
         FINISHED = True
         END_TIME = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         save_config_info(cmd_config, start_cmd)
