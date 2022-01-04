@@ -81,7 +81,7 @@ if __name__ == "__main__":
     else:
         out_id = args.uuid
 
-    hqc_cmd_config["output_path"] = hqc_cmd_config["output_path"] + out_id # set output folder in command_dict
+    hqc_cmd_config["output_path"] = hqc_cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
     output_path = hqc_cmd_config["output_path"] # set output folder
     # choose config file :
     # use config file mounted from outside OR ELSE use default file from "hqc_command_config.json"
