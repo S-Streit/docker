@@ -9,6 +9,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 import shutil
+import yaml
 
 
 SOURCE_PATH = "/usr/local/src"
@@ -215,12 +216,23 @@ def _clam_extract_features(cmd_config, patch_run_dir):
     output_path = cmd_config["output_path"] # set output folder
     feat_dir = output_path + "/features"
     csv_path = patch_run_dir + "/process_list_autogen.csv"
-    batch_size = 64
+    batch_size = cmd_config["batch_size"]
     data_h5_dir = patch_run_dir
 
-    start_command = "CUDA_VISIBLE_DEVICES=0 python3 /usr/local/src/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3} --batch_size={4} --slide_ext .svs".format(input_folder, csv_path, feat_dir, data_h5_dir, batch_size)
+    start_cmd = "CUDA_VISIBLE_DEVICES=0 python3 /usr/local/src/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3} --batch_size={4} --slide_ext .svs".format(input_folder, csv_path, feat_dir, data_h5_dir, batch_size)
 
-    return start_command, cmd_config
+    return start_cmd, cmd_config
+
+def _clam_create_heatmaps(cmd_config):
+
+    yaml_dict = yaml.safe_load(cmd_config["heatmap_config_path"])
+    print(yaml_dict)
+
+    heatmap_config = cmd_config["heatmap_config_path"]
+    start_cmd = "python3 /usr/local/src/create_heatmaps.py --config {0}".format(heatmap_config)
+
+    return start_cmd, cmd_config
+
 def clam():
 
 
@@ -265,7 +277,9 @@ def clam():
             print("Please Check Patch Directory Path: ", args.patch_run_dir)
         
     if args.create_heatmaps:
-        call_create_heatmaps(args)
+        start_cmd, cmd_config = _clam_create_heatmaps(cmd_config)
+        run_project(start_cmd, cmd_config)
+
     # if args.all:
     #     call_create_patches(args)
     #     call_extract_features(args)
