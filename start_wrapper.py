@@ -225,10 +225,18 @@ def _clam_extract_features(cmd_config, patch_run_dir):
 
 def _clam_create_heatmaps(cmd_config):
 
-    yaml_dict = yaml.safe_load(cmd_config["heatmap_config_path"])
-    print("YAML DICT:", yaml_dict)
+    # yaml_dict = yaml.safe_load(cmd_config["heatmap_config_path"])
+    with open(cmd_config["heatmap_config_path"]) as yaml_file:
+        yaml_dict = yaml.load(yaml_file, Loader=yaml.FullLoader)
+    
+    yaml_dict["exp_arguments"]["raw_save_dir"] = cmd_config["output_path"] + "/raw"
+    yaml_dict["exp_arguments"]["production_save_dir"] = cmd_config["output_path"] + "/production"
 
-    heatmap_config = cmd_config["heatmap_config_path"]
+    yaml_save_path = cmd_config["output_path"] + "/" + "heatmap_config.yaml"
+    with open(yaml_save_path, 'w') as yaml_file:
+        yaml.dump(yaml_dict, yaml_file)
+        
+    heatmap_config = yaml_save_path
     start_cmd = "python3 /usr/local/src/create_heatmaps.py --config {0}".format(heatmap_config)
 
     return start_cmd, cmd_config
