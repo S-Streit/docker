@@ -41,7 +41,7 @@ def get_commit(repo_path):
     return commit
 def get_repo_name(repo_path):
     git_folder = Path(repo_path,'.git/config')
-    name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0]
+    name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
     print("NAME", name)
 
     return name
@@ -208,6 +208,19 @@ def _clam_create_patches(cmd_config):
 
     return start_cmd, cmd_config
 
+def _clam_extract_features(cmd_config, patch_run_dir):
+
+    input_folder = cmd_config["input_path"]
+    svs_files = glob(input_folder + "/*.svs")
+    output_path = cmd_config["output_path"] # set output folder
+    feat_dir = output_path + "/features"
+    csv_path = patch_run_dir + "/process_list_autogen.csv"
+    batch_size = 64
+    data_h5_dir = patch_run_dir + "/patches"
+
+    start_command = "CUDA_VISIBLE_DEVICES=0 python3 /usr/local/src/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3} --batch_size={4} --slide_ext .svs".format(input_folder, csv_path, feat_dir, data_h5_dir, batch_size)
+
+    return start_command, cmd_config
 def clam():
 
 
@@ -221,6 +234,7 @@ def clam():
     parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
     parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
     parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
+    parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str)
 
     args = parser.parse_args()
     print(args)
@@ -230,13 +244,8 @@ def clam():
     else:
         out_id = args.uuid
 
-    if not args.create_heatmaps:
-        outer_command_config = "/usr/local/mount/config/clam_command_config.json"
-        default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
-    else:
-        outer_command_config = "/usr/local/mount/config/clam_heatmap_command_config.json"
-        default_command_config = "/usr/local/wrapper/clam/clam_heatmap_command_config.json"
-
+    outer_command_config = "/usr/local/mount/config/clam_command_config.json"
+    default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
 
     cmd_config = parse_cmd_config(outer_command_config, default_command_config)
     cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
@@ -244,8 +253,13 @@ def clam():
     if args.create_patches:
         start_cmd, cmd_config = _clam_create_patches(cmd_config)
         run_project(start_cmd, cmd_config)
-    if args.extract_features:   
-        call_extract_features(args)
+    if args.extract_features
+        if os.path.isdir(args.patch_run_dir):
+            start_cmd, cmd_config = _clam_extract_features(cmd_config, args.patch_run_dir)
+            run_project(start_cmd, cmd_config)
+        else:
+            print("Please Check Patch Directory Path: ", args.patch_run_dir)
+        
     if args.create_heatmaps:
         call_create_heatmaps(args)
     # if args.all:
