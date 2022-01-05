@@ -199,8 +199,6 @@ def _clam_create_patches(cmd_config):
     process_list = "--process_list process_list.csv"
     output_path = cmd_config["output_path"] # set output folder
 
-    print("CONFIG:")
-    print(cmd_config)
     # get filename from command line arguments:
     # create input path:
     input_path = file_name
@@ -262,7 +260,6 @@ def clam():
     parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
 
     args = parser.parse_args()
-    print(args)
 
     outer_command_config = "/usr/local/mount/config/clam_command_config.json"
     default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
@@ -291,7 +288,7 @@ def clam():
         
     if args.create_heatmaps:
         start_cmd, cmd_config = _clam_create_heatmaps(cmd_config)
-        # run_project(start_cmd, cmd_config)
+        run_project(start_cmd, cmd_config)
 
     # if args.all:
     #     call_create_patches(args)
