@@ -253,7 +253,7 @@ def clam():
     if args.create_patches:
         start_cmd, cmd_config = _clam_create_patches(cmd_config)
         run_project(start_cmd, cmd_config)
-    if args.extract_features
+    if args.extract_features:
         if os.path.isdir(args.patch_run_dir):
             start_cmd, cmd_config = _clam_extract_features(cmd_config, args.patch_run_dir)
             run_project(start_cmd, cmd_config)
