@@ -278,7 +278,7 @@ def clam():
         
     if args.create_heatmaps:
         start_cmd, cmd_config = _clam_create_heatmaps(cmd_config)
-        run_project(start_cmd, cmd_config)
+        # run_project(start_cmd, cmd_config)
 
     # if args.all:
     #     call_create_patches(args)
