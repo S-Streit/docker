@@ -233,9 +233,9 @@ def _clam_create_heatmaps(cmd_config):
     yaml_dict["exp_arguments"]["production_save_dir"] = cmd_config["output_path"] + "/production"
 
     yaml_save_path = cmd_config["output_path"] + "/" + "heatmap_config.yaml"
-    with open(yaml_save_path, 'w') as yaml_file:
+    with open(yaml_save_path, 'w+') as yaml_file:
         yaml.dump(yaml_dict, yaml_file)
-        
+
     heatmap_config = yaml_save_path
     start_cmd = "python3 /usr/local/src/create_heatmaps.py --config {0}".format(heatmap_config)
 
