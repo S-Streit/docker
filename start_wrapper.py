@@ -234,7 +234,7 @@ def clam():
     parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
     parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
     parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
-    parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str)
+    parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
 
     args = parser.parse_args()
     print(args)
