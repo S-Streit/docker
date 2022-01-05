@@ -216,7 +216,7 @@ def _clam_extract_features(cmd_config, patch_run_dir):
     feat_dir = output_path + "/features"
     csv_path = patch_run_dir + "/process_list_autogen.csv"
     batch_size = 64
-    data_h5_dir = patch_run_dir + "/patches"
+    data_h5_dir = patch_run_dir
 
     start_command = "CUDA_VISIBLE_DEVICES=0 python3 /usr/local/src/extract_features_fp.py --data_slide_dir {0} --csv_path {1} --feat_dir {2} --data_h5_dir {3} --batch_size={4} --slide_ext .svs".format(input_folder, csv_path, feat_dir, data_h5_dir, batch_size)
 
