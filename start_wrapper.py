@@ -9,7 +9,6 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 import shutil
-import yaml
 
 
 class Wrapper():
@@ -93,6 +92,9 @@ class Wrapper():
             shutil.copy2(cmd_config["config_path"], save_config_path)
 
     def hovernet(self):
+
+        # RUN command outside container: 
+        # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount hover-net
 
         outer_command_config = "/usr/local/mount/config/hover_command_config.json"
         default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
@@ -223,6 +225,7 @@ class Wrapper():
 
     def _clam_create_heatmaps(self, cmd_config):
 
+        import yaml
         # yaml_dict = yaml.safe_load(cmd_config["heatmap_config_path"])
         with open(cmd_config["heatmap_config_path"]) as yaml_file:
             yaml_dict = yaml.load(yaml_file, Loader=yaml.FullLoader)
@@ -245,6 +248,9 @@ class Wrapper():
         return start_cmd, cmd_config
 
     def clam(self):
+
+        # RUN command outside container: (use all gpus, increased shared memory) 
+        # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount clam-docker -cp
 
 
         parser = argparse.ArgumentParser(description='')
