@@ -107,7 +107,6 @@ class Wrapper():
         parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
         args = parser.parse_args()
-        print(args)
 
         hovernet_base_command = "python3 /usr/local/src/run_infer.py"
 
@@ -192,13 +191,7 @@ class Wrapper():
     def _clam_create_patches(self, cmd_config):
 
         input_folder = cmd_config["input_path"]
-        svs_files = glob(input_folder + "/*.svs")
-        print("Detected Files: ", svs_files)
-        if len(svs_files) == 1:
-            file_name = svs_files[0]
-        else:
-            print("More than one file detected: {0} \n Please Check mounted directory")
-        # print("File Name:", file_name)
+
         patch_size = cmd_config["patch_size"] # set patch size (128 needed for ARA-NET / 224 needed for VGG16 feature extraction)
         seg = "--seg" if json.loads(cmd_config["seg"].lower()) else ""
         patch = "--patch" if json.loads(cmd_config["patch"].lower()) else ""
@@ -307,9 +300,7 @@ class Wrapper():
         self.save_config_info(cmd_config, start_cmd)
         return_code = os.system(start_cmd)
 
-        print("Return Code: ", return_code)
         if return_code == 0:
-            print("self.finished!")
             self.finished = True
             self.end_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
             self.save_config_info(cmd_config, start_cmd)
