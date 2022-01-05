@@ -18,7 +18,7 @@
       # csv list containing slide_ids (can additionally have seg/patch paramters, class labels, etc.)
       process_list:
       # preset file for segmentation/patching
-      preset: /usr/local/clam/presets/tcga.csv
+      preset: /usr/local/src/presets/tcga.csv
       # file extention for slides
       slide_ext: .svs
       # label dictionary for str: interger mapping (optional)
