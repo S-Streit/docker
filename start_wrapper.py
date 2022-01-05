@@ -232,7 +232,12 @@ def _clam_create_heatmaps(cmd_config):
     yaml_dict["exp_arguments"]["raw_save_dir"] = cmd_config["output_path"] + "/raw"
     yaml_dict["exp_arguments"]["production_save_dir"] = cmd_config["output_path"] + "/production"
 
-    yaml_save_path = cmd_config["output_path"] + "/" + "heatmap_config.yaml"
+    save_config_path = cmd_config["output_path"] + "/config"
+    yaml_save_path = save_config_path + "/" + "heatmap_config.yaml"
+
+    if not os.path.isdir(save_config_path):
+        os.makedirs(save_config_path)
+
     with open(yaml_save_path, 'w+') as yaml_file:
         yaml.dump(yaml_dict, yaml_file)
 
