@@ -239,6 +239,11 @@ def clam():
     args = parser.parse_args()
     print(args)
 
+    outer_command_config = "/usr/local/mount/config/clam_command_config.json"
+    default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
+
+    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
+
     if args.patch_run_dir:
         patch_run_dir = cmd_config["output_path"] + "/" + args.patch_run_dir
     
@@ -247,10 +252,6 @@ def clam():
     else:
         out_id = args.uuid
 
-    outer_command_config = "/usr/local/mount/config/clam_command_config.json"
-    default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
-
-    cmd_config = parse_cmd_config(outer_command_config, default_command_config)
     cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
 
     if args.create_patches:
