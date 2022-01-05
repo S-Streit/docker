@@ -239,6 +239,9 @@ def clam():
     args = parser.parse_args()
     print(args)
 
+    if args.patch_run_dir:
+        patch_run_dir = cmd_config["output_path"] + "/" + args.patch_run_dir
+    
     if not args.uuid:
         out_id = uuid.uuid4().hex
     else:
@@ -254,8 +257,8 @@ def clam():
         start_cmd, cmd_config = _clam_create_patches(cmd_config)
         run_project(start_cmd, cmd_config)
     if args.extract_features:
-        if os.path.isdir(args.patch_run_dir):
-            start_cmd, cmd_config = _clam_extract_features(cmd_config, args.patch_run_dir)
+        if os.path.isdir(patch_run_dir):
+            start_cmd, cmd_config = _clam_extract_features(cmd_config, patch_run_dir)
             run_project(start_cmd, cmd_config)
         else:
             print("Please Check Patch Directory Path: ", args.patch_run_dir)
