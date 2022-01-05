@@ -118,7 +118,7 @@ class Wrapper():
             out_id = args.uuid
 
         # add UUID to output directory
-        cmd_config["output_path"] = cmd_config["output_path"] + out_id
+        cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id
 
         gpu = " --gpu=" + cmd_config["gpu"]
         types =  " --nr_types=" + str(cmd_config["types"])
