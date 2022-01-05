@@ -1,8 +1,8 @@
 {   "input_path": "/usr/local/mount/data",
     "output_path": "/usr/local/mount/results",
     "config_path": "",
+    "heatmap_config_path": "/usr/local/src/heatmaps/configs/config_docker.yaml",
     "wrapper_path": "/usr/local/wrapper",
-    "process_list": "/usr/local/mount/results/clam/process_list_autogen.csv",
     "src_path": "/usr/local/src",
     "patch_size": 128,
     "seg": "True",
@@ -10,4 +10,6 @@
     "stitch": "True",
     "no_auto_skip": "True",
     "preset": "preset.csv",
-    "patch_level": 8}
+    "patch_level": 8,
+    "batch_size" : 64
+}
