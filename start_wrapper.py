@@ -39,17 +39,19 @@ class Wrapper():
         return cmd_config
 
 
-    def get_commit(self, repo_path=None):
-        if not repo_path:
-            repo_path = self.source_path
-            
+    def get_commit(self, repo_path):
+
         git_folder = Path(repo_path,'.git')
         head_name = Path(git_folder, 'HEAD').read_text().split('\n')[0].split(' ')[-1]
         head_ref = Path(git_folder,head_name)
         commit = head_ref.read_text().replace('\n','')
 
         return commit
-    def get_repo_name(self, repo_path):
+    def get_repo_name(self, repo_path=None):
+        
+        if not repo_path:
+            repo_path = self.source_path
+        
         git_folder = Path(repo_path,'.git/config')
         name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
 
