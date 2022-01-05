@@ -16,7 +16,7 @@ class Wrapper():
     """ Wrapper Class for WSI Algorithms / Projects
     """
 
-    def __init__(self)
+    def __init__(self):
 
         self.source_path = "/usr/local/src"
         self.outer_config = False
