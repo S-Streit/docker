@@ -87,7 +87,7 @@ def call_extract_features(args):
     input_path = input_folder
     output_path = clam_config["output_path"] # set output folder
     feat_dir = output_path + "/features"
-    csv_path = output_path + "/process_list_autogen.csv"+
+    csv_path = output_path + "/process_list_autogen.csv"
     batch_size = 64
     data_h5_dir = output_path
 
