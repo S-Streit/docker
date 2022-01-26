@@ -322,7 +322,8 @@ class Wrapper():
         parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
 
         print("Found subfolders:")
-        for root, dirs, files in os.walk(folder_path):
+        args = parser.parse_args()
+        for root, dirs, files in os.walk(args.input_folder):
             print("Root:", root)
             print("Dirs: ", dirs)
             print("Files: ", files)
