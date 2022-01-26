@@ -52,7 +52,11 @@ class Wrapper():
             repo_path = self.source_path
         
         git_folder = Path(repo_path,'.git/config')
-        name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
+
+        if os.path.isdir(git_folder):
+            name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
+        else:
+            name = "controller"
 
         return name
 
@@ -311,13 +315,27 @@ class Wrapper():
             self.end_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
             self.save_config_info(cmd_config, start_cmd)
 
+    def controller(self):
+        print("Controller...")
+        parser = argparse.ArgumentParser(description='')
+        parser.add_argument('-in --input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",nargs=1)
+        parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
+
+        print("Found subfolders:")
+        for root, dirs, files in os.walk(folder_path):
+            print("Root:", root)
+            print("Dirs: ", dirs)
+            print("Files: ", files)
+
 if __name__ == "__main__":
 
     wrapper = Wrapper()
     repo_name = wrapper.get_repo_name()
     print("Preparing {0}".format(repo_name))
 
-    if "HistoQC" in repo_name:
+    if "controller" in repo_name:
+        wrapper.controller()
+    elif "HistoQC" in repo_name:
         wrapper.hqc()
     elif "hover_net" in repo_name:
         wrapper.hovernet()
