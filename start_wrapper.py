@@ -332,6 +332,8 @@ class Wrapper():
 
         [print(d) for d in self.dirlist]
 
+        self.run_containers()
+
     def run_containers(self):
         container_list = ["hover-docker", "clam-docker", "hqc-docker"]
         import docker
