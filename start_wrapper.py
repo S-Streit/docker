@@ -334,6 +334,7 @@ class Wrapper():
         print(dirlist)
 
     def start_docker(self):
+        print("starting")
 
 if __name__ == "__main__":
 
