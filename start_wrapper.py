@@ -324,18 +324,22 @@ class Wrapper():
         print("Found subfolders:")
         args = parser.parse_args()
         # print(args)
-        dirlist = []
+        self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
             for f in files:
                 if f.endswith(".svs"):
-                    print("Root:", root)
-                    print("Files: ", files)
-                    dirlist.append(root)
+                    self.dirlist.append(root)
 
-        print(dirlist)
+        [print(d) for d in self.dirlist]
 
-    def start_docker(self):
-        print("starting")
+    def run_containers(self):
+        container_list = ["hover-docker", "clam-docker", "hqc-docker"]
+        import docker
+        client = docker.from_env()
+        images = client.images.list()
+        tags = [i.tags for i in images]
+        print("Starting")
+
 
 if __name__ == "__main__":
 
