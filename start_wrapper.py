@@ -318,7 +318,7 @@ class Wrapper():
     def controller(self):
         print("Controller...")
         parser = argparse.ArgumentParser(description='')
-        parser.add_argument('-in --input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
+        parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
         parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
 
         print("Found subfolders:")
