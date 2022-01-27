@@ -323,11 +323,17 @@ class Wrapper():
 
         print("Found subfolders:")
         args = parser.parse_args()
-        print(args)
+        # print(args)
+        dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
-            print("Root:", root)
-            print("Dirs: ", dirs)
-            print("Files: ", files)
+            if ".svs" in files:
+                print("Root:", root)
+                print("Files: ", files)
+                dirlist.append(root)
+
+        print(dirlist)
+
+    def start_docker(self):
 
 if __name__ == "__main__":
 
