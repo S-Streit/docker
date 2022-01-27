@@ -326,10 +326,11 @@ class Wrapper():
         # print(args)
         dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
-            if ".svs" in files:
-                print("Root:", root)
-                print("Files: ", files)
-                dirlist.append(root)
+            for f in files:
+                if f.endswith(".svs"):
+                    print("Root:", root)
+                    print("Files: ", files)
+                    dirlist.append(root)
 
         print(dirlist)
 
