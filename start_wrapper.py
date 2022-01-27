@@ -323,6 +323,7 @@ class Wrapper():
 
         print("Found subfolders:")
         args = parser.parse_args()
+        print(args)
         for root, dirs, files in os.walk(args.input_folder):
             print("Root:", root)
             print("Dirs: ", dirs)
