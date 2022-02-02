@@ -52,6 +52,7 @@ class Wrapper():
             repo_path = self.source_path
         
         git_folder = Path(repo_path,'.git/config')
+        print("Git folder:", git_folder)
 
         if os.path.isdir(git_folder):
             name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
