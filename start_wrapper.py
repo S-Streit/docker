@@ -19,6 +19,8 @@ class Wrapper():
 
         self.parser = argparse.ArgumentParser(description='')
         self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point", default="controller", type=str)
+        self.parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
+
         self.source_path = "/usr/local/src"
         self.outer_config = False
         self.default_config = False
@@ -327,7 +329,6 @@ class Wrapper():
 
     def controller(self):
 
-        self.parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
         self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
 
         args = self.parser.parse_args()
