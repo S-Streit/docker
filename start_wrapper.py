@@ -340,7 +340,7 @@ class Wrapper():
         for root, dirs, files in os.walk(args.input_folder):
             for f in files:
                 if f.endswith(".svs"):
-                    self.dirlist.append(root)
+                    self.dirlist.append(root.split('/data')[0])
 
         [print(d) for d in self.dirlist]
 
@@ -367,7 +367,7 @@ class Wrapper():
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
             start_hqc_container = "docker run -v {0}:/usr/local/mount hqc-docker".format(subfolder)
-            start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
+            start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker".format(subfolder)
             start_hover_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount hover-net".format(subfolder)
 
             # print("Starting HQC: ")
