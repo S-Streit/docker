@@ -336,7 +336,9 @@ class Wrapper():
         self.run_containers()
 
     def run_containers(self):
-        container_list = ["hover-docker", "clam-docker", "hqc-docker"]
+        # container_list = ["hover-docker", "clam-docker", "hqc-docker"]
+        container_list = ["hqc-docker"]
+
         import docker
         client = docker.from_env()
         images = client.images.list()
