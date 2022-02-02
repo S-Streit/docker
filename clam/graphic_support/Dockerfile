@@ -68,5 +68,5 @@ RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
-ENTRYPOINT [ "python", "/usr/local/wrapper/start_wrapper.py" ]
+ENTRYPOINT [ "python", "/usr/local/wrapper/start_wrapper.py", "--algo_name", "clam-docker"]
 # ENTRYPOINT [ "bin/bash" ]

@@ -31,6 +31,6 @@ RUN pip install -r /usr/local/src/requirements.txt
 RUN echo Hello!!!!!!!!!!!!!!!!!!!!!!
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 
-ENTRYPOINT [ "python3", "/usr/local/wrapper/start_wrapper.py" ]
+ENTRYPOINT [ "python3", "/usr/local/wrapper/start_wrapper.py", "--algo_name", "hover-docker"]
 
 # ENTRYPOINT [ "bin/bash" ]

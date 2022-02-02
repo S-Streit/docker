@@ -17,6 +17,8 @@ class Wrapper():
 
     def __init__(self):
 
+        self.parser = argparse.ArgumentParser(description='')
+        self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point".format(cmd_config), default="controller", type=str)
         self.source_path = "/usr/local/src"
         self.outer_config = False
         self.default_config = False
@@ -48,18 +50,19 @@ class Wrapper():
         return commit
     def get_repo_name(self, repo_path=None):
         
-        if not repo_path:
-            repo_path = self.source_path
+        # if not repo_path:
+        #     repo_path = self.source_path
         
-        git_folder = Path(repo_path,'.git/config')
-        print("Git folder:", git_folder)
+        # git_folder = Path(repo_path,'.git/config')
+        # print("Git folder:", git_folder)
 
-        if os.path.isdir(git_folder):
-            name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
-        else:
-            name = "controller"
+        # if os.path.isdir(git_folder):
+        #     name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
+        # else:
+        #     name = "controller"
 
-        return name
+        args = self.parser.parse_args()
+        self.algo_name = args.algo_name
 
     def save_config_info(self, cmd_config, start_command):
 
@@ -152,15 +155,15 @@ class Wrapper():
 
         cmd_config = self.parse_cmd_config(outer_command_config, default_command_config)
 
-        parser = argparse.ArgumentParser(description='')
+        # parser = argparse.ArgumentParser(description='')
         # parser.add_argument('input_pattern',
         #             help="one input file: example.svs",
         #             nargs="*")
 
-        parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), default=default_command_config, type=str)
-        parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
+        self.parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), default=default_command_config, type=str)
+        self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
-        args = parser.parse_args()
+        args = self.parser.parse_args()
 
         if args.config:
             # try to read dict from json string and update default values
@@ -260,17 +263,17 @@ class Wrapper():
         # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount clam-docker -ch
 
 
-        parser = argparse.ArgumentParser(description='')
+        self.parser = argparse.ArgumentParser(description='')
         # parser.add_argument('input_folder',
         #             help="one input folder that contains a WSI: example.svs",
         #             nargs=1)
-        parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
-        parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
-        parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
-        parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
-        parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
-        parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
-        parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
+        self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
+        self.parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
+        self.parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
+        self.parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
+        self.parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
+        self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
+        self.parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
 
         args = parser.parse_args()
 
@@ -324,11 +327,10 @@ class Wrapper():
 
     def controller(self):
 
-        parser = argparse.ArgumentParser(description='')
-        parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
-        parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
+        self.parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
+        self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
 
-        args = parser.parse_args()
+        args = self.parser.parse_args()
         # print(args)
         self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
@@ -360,9 +362,9 @@ class Wrapper():
 
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
-            start_hqc_container = "docker run -it -v {0}:/usr/local/mount/data hqc-docker".format(subfolder)
-            start_clam_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker -ch".format(subfolder)
-            start_hover_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data hover-net".format(subfolder)
+            start_hqc_container = "docker run -v {0}:/usr/local/mount/data hqc-docker".format(subfolder)
+            start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker -ch".format(subfolder)
+            start_hover_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount/data hover-net".format(subfolder)
 
             print("Starting HQC: ")
             hqc_code = os.system(start_hqc_container)
@@ -376,14 +378,25 @@ class Wrapper():
 if __name__ == "__main__":
 
     wrapper = Wrapper()
-    repo_name = wrapper.get_repo_name()
+    # repo_name = wrapper.get_repo_name()
+    repo_name = wrapper.algo_name
+
     print("Preparing {0}".format(repo_name))
+
+    # if "controller" in repo_name:
+    #     wrapper.controller()
+    # elif "HistoQC" in repo_name:
+    #     wrapper.hqc()
+    # elif "hover_net" in repo_name:
+    #     wrapper.hovernet()
+    # elif "CLAM" in repo_name:
+    #     wrapper.clam()
 
     if "controller" in repo_name:
         wrapper.controller()
-    elif "HistoQC" in repo_name:
+    elif "hqc" in repo_name:
         wrapper.hqc()
-    elif "hover_net" in repo_name:
+    elif "hover" in repo_name:
         wrapper.hovernet()
-    elif "CLAM" in repo_name:
+    elif "clam" in repo_name:
         wrapper.clam()

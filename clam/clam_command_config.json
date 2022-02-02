@@ -1,4 +1,5 @@
-{   "input_path": "/usr/local/mount/data",
+{   "name" : "clam",
+    "input_path": "/usr/local/mount/data",
     "output_path": "/usr/local/mount/results",
     "config_path": "",
     "heatmap_config_path": "/usr/local/wrapper/clam/heatmap_config_docker.yaml",
