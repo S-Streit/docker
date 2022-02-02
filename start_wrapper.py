@@ -355,8 +355,8 @@ class Wrapper():
 
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
-            # start_hqc_container = "docker run -it -v {0}:/usr/local/mount/data hqc-docker".format(subfolder)
-            # start_clam_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker -ch".format(subfolder)
+            start_hqc_container = "docker run -it -v {0}:/usr/local/mount/data hqc-docker".format(subfolder)
+            start_clam_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker -ch".format(subfolder)
             start_hover_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data hover-net".format(subfolder)
 
             # print("Starting HQC: ")
