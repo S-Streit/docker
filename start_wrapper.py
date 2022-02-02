@@ -378,7 +378,7 @@ class Wrapper():
 if __name__ == "__main__":
 
     wrapper = Wrapper()
-    # repo_name = wrapper.get_repo_name()
+    wrapper.get_repo_name()
     repo_name = wrapper.algo_name
 
     print("Preparing {0}".format(repo_name))
