@@ -304,9 +304,12 @@ class Wrapper():
             else:
                 print("Please Check Patch Directory Path: ", args.patch_run_dir)
             
-        if args.create_heatmaps:
-            start_cmd, cmd_config = self._clam_create_heatmaps(cmd_config)
-            self.run_project(start_cmd, cmd_config)
+        # if args.create_heatmaps:
+
+        #always tun create heatmap
+        
+        start_cmd, cmd_config = self._clam_create_heatmaps(cmd_config)
+        self.run_project(start_cmd, cmd_config)
 
         # if args.all:
         #     call_create_patches(args)
@@ -364,7 +367,7 @@ class Wrapper():
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
             start_hqc_container = "docker run -v {0}:/usr/local/mount/data hqc-docker".format(subfolder)
-            start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker -ch".format(subfolder)
+            start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker".format(subfolder)
             start_hover_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount/data hover-net".format(subfolder)
 
             # print("Starting HQC: ")
