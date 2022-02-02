@@ -35,6 +35,7 @@ class Wrapper():
                 cmd_config = json.loads(json_file.read())
                 self.default_config = True
 
+        print(cmd_config)
         return cmd_config
 
 
