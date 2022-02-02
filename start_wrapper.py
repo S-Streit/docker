@@ -309,6 +309,10 @@ class Wrapper():
 
     def run_project(self, start_cmd, cmd_config):
 
+        print("CMD_CONFIG:")
+        print(cmd_config)
+        print("START:")
+        print(start_cmd)
         self.save_config_info(cmd_config, start_cmd)
         return_code = os.system(start_cmd)
 
