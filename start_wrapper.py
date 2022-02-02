@@ -277,7 +277,7 @@ class Wrapper():
         self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
         self.parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
 
-        args = parser.parse_args()
+        args = self.parser.parse_args()
 
         outer_command_config = "/usr/local/mount/config/clam_command_config.json"
         default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
@@ -307,7 +307,7 @@ class Wrapper():
         # if args.create_heatmaps:
 
         #always tun create heatmap
-        
+
         start_cmd, cmd_config = self._clam_create_heatmaps(cmd_config)
         self.run_project(start_cmd, cmd_config)
 
