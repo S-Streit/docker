@@ -340,7 +340,10 @@ class Wrapper():
         client = docker.from_env()
         images = client.images.list()
         tags = [i.tags for i in images]
-        print("Starting")
+        image_names  = [image.tags[0].split(":")[0] for image in images if len(image.tags) > 0]
+        available = [c for c in container_list if c in image_names]
+        print("Available Containers:", available)
+        print("Starting...")
 
 
 if __name__ == "__main__":
