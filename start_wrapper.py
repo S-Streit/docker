@@ -18,7 +18,7 @@ class Wrapper():
     def __init__(self):
 
         self.parser = argparse.ArgumentParser(description='')
-        self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point".format(cmd_config), default="controller", type=str)
+        self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point", default="controller", type=str)
         self.source_path = "/usr/local/src"
         self.outer_config = False
         self.default_config = False
