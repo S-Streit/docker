@@ -373,11 +373,11 @@ class Wrapper():
             # print("Starting HQC: ")
             # hqc_code = os.system(start_hqc_container)
 
-            print("Starting CLAM: ", start_clam_container)
-            clam_code = os.system(start_clam_container)
+            # print("Starting CLAM: ", start_clam_container)
+            # clam_code = os.system(start_clam_container)
 
-            # print("Starting HOVER: ", start_hover_container)
-            # hover_code = os.system(start_hover_container)
+            print("Starting HOVER: ", start_hover_container)
+            hover_code = os.system(start_hover_container)
 
 if __name__ == "__main__":
 
