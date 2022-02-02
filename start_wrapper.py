@@ -356,17 +356,17 @@ class Wrapper():
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
             start_hqc_container = "docker run -it -v {0}:/usr/local/mount/data hqc-docker".format(subfolder)
-            start_clam_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker -ch".format(subfolder)
-            start_hover_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data hover-net".format(subfolder)
+            # start_clam_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data clam-docker -ch".format(subfolder)
+            # start_hover_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount/data hover-net".format(subfolder)
 
             print("Starting HQC: ")
             hqc_code = os.system(start_hqc_container)
 
-            print("Starting CLAM: ", start_clam_container)
-            clam_code = os.system(start_clam_container)
+            # print("Starting CLAM: ", start_clam_container)
+            # clam_code = os.system(start_clam_container)
 
-            print("Starting HOVER: ", start_hover_container)
-            hover_code = os.system(start_hover_container)
+            # print("Starting HOVER: ", start_hover_container)
+            # hover_code = os.system(start_hover_container)
 
 if __name__ == "__main__":
 
