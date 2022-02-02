@@ -71,7 +71,7 @@ class Wrapper():
         cfg_dict = {}
         meta_cfg_dict = {}
 
-        meta_cfg_dict["algorithm"] = self.get_repo_name(cmd_config["src_path"])
+        meta_cfg_dict["algorithm"] = self.algo_name
         meta_cfg_dict["version"] = self.get_commit(cmd_config["src_path"])
         meta_cfg_dict["wrapper_version"] = self.get_commit(cmd_config["wrapper_path"])
         meta_cfg_dict["finished"] = self.finished
