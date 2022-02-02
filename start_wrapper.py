@@ -346,6 +346,7 @@ class Wrapper():
         print("Available Containers:", self.available)
         print("Starting...")
 
+        self.prepare_containers()
 
 
     def prepare_containers(self):
