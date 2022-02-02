@@ -144,6 +144,8 @@ class Wrapper():
         self.run_project(start_cmd, cmd_config)
 
     def hqc(self):
+        # docker run -it -v /home/simon/philipp/one:/usr/local/mount hqc-docker
+
         outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
         default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
 
@@ -254,7 +256,7 @@ class Wrapper():
     def clam(self):
 
         # RUN command outside container: (use all gpus, increased shared memory) 
-        # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount clam-docker -cp
+        # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount clam-docker -ch
 
 
         parser = argparse.ArgumentParser(description='')
@@ -316,12 +318,11 @@ class Wrapper():
             self.save_config_info(cmd_config, start_cmd)
 
     def controller(self):
-        print("Controller...")
+
         parser = argparse.ArgumentParser(description='')
         parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
         parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
 
-        print("Found subfolders:")
         args = parser.parse_args()
         # print(args)
         self.dirlist = []
@@ -341,10 +342,23 @@ class Wrapper():
         images = client.images.list()
         tags = [i.tags for i in images]
         image_names  = [image.tags[0].split(":")[0] for image in images if len(image.tags) > 0]
-        available = [c for c in container_list if c in image_names]
-        print("Available Containers:", available)
+        self.available = [c for c in container_list if c in image_names]
+        print("Available Containers:", self.available)
         print("Starting...")
 
+
+
+    def prepare_containers(self):
+
+        for subfolder in self.dirlist:
+            print("Processing Folder: ", subfolder)
+            start_hqc_container = "docker run -it -v {0}:/usr/local/mount hqc-docker".format(subfolder)
+            start_clam_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
+            start_hover_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount hover-net".format(subfolder)
+
+            print("Starting HQC: ", start_hqc_container)
+            print("Starting CLAM: ", start_clam_container)
+            print("Starting HOVER: ", start_hover_container)
 
 if __name__ == "__main__":
 
