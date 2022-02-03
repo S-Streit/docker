@@ -154,7 +154,7 @@ class Wrapper():
         save_thumb = " --save_thumb" if cmd_config["save_thumb"] else ""
         proc_mag = " --proc_mag=" + str(cmd_config["proc_mag"])
         save_mask = " --save_mask" if cmd_config["save_mask"] else ""
-        cache_path = " --cache_path" + cmd_config["cache_path"]
+        cache_path = " --cache_path=" + cmd_config["cache_path"]
 
         start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag + cache_path
         
