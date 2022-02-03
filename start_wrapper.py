@@ -276,10 +276,10 @@ class Wrapper():
         # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount clam-docker -ch
 
 
-        self.parser = argparse.ArgumentParser(description='')
-        parser.add_argument('input_folder',
-                    help="one input folder that contains a WSI: example.svs",
-                    nargs=1)
+        # self.parser = argparse.ArgumentParser(description='')
+        # parser.add_argument('input_folder',
+        #             help="one input folder that contains a WSI: example.svs",
+        #             nargs=1)
         self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
         self.parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
         self.parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
