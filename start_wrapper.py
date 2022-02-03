@@ -129,6 +129,7 @@ class Wrapper():
 
         # add UUID to output directory
         cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id
+        print("Command:")
         print(cmd_config)
 
         gpu = " --gpu=" + cmd_config["gpu"]
