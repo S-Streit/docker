@@ -157,7 +157,7 @@ class Wrapper():
 
         start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag + cache_path
         
-        # self.run_project(start_cmd, cmd_config)
+        self.run_project(start_cmd, cmd_config)
 
     def hqc(self):
         # docker run -it -v /home/simon/philipp/one:/usr/local/mount hqc-docker
