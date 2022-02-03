@@ -65,7 +65,7 @@ class Wrapper():
         #     name = "controller"
 
         if os.path.isfile(self.default_config_path):
-            with open(json_file, 'w') as cfg_json:
+            with open(self.default_config_path, 'w') as cfg_json:
                 json.dump(cfg_dict, cfg_json)
 
         # copy config file
