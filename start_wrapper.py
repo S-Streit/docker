@@ -145,8 +145,9 @@ class Wrapper():
         save_thumb = " --save_thumb" if cmd_config["save_thumb"] else ""
         proc_mag = " --proc_mag=" + str(cmd_config["proc_mag"])
         save_mask = " --save_mask" if cmd_config["save_mask"] else ""
+        cache_path = " --cache_path" + cmd_config["cache_path"]
 
-        start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag
+        start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag + cache_path
         
         self.run_project(start_cmd, cmd_config)
 
@@ -370,7 +371,7 @@ class Wrapper():
             print("Processing Folder: ", subfolder)
             start_hqc_container = "docker run -v {0}:/usr/local/mount hqc-docker".format(subfolder)
             start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker".format(subfolder)
-            start_hover_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount hover-net".format(subfolder)
+            start_hover_container = "docker run --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-net".format(subfolder)
 
             # print("Starting HQC: ")
             # hqc_code = os.system(start_hqc_container)

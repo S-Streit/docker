@@ -12,6 +12,7 @@
   "config_path": "/usr/local/src/type_info.json",
   "wrapper_path": "/usr/local/wrapper",
   "src_path": "/usr/local/src",
+  "cache_path": "usr/local/mount/cache",
   "save_thumb" : true,
   "proc_mag" : 40,
   "save_mask" : true
