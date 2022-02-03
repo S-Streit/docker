@@ -30,6 +30,7 @@ RUN pip install -r /usr/local/src/requirements.txt
 
 RUN echo Hello!!!!!!!!!!!!!!!!!!!!!!!!!!
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
+RUN ["cp", "/usr/local/wrapper/hover-net/default_command_config.json", "/usr/local/wrapper"]
 
 ENTRYPOINT [ "python3", "/usr/local/wrapper/start_wrapper.py"]
 

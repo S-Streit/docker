@@ -21,6 +21,7 @@ class Wrapper():
         self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point", default="controller", type=str)
         self.parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
 
+        self.default_config_path = "/usr/local/wrapper/default_command_config.json"
         self.source_path = "/usr/local/src"
         self.outer_config = False
         self.default_config = False
@@ -50,7 +51,7 @@ class Wrapper():
         commit = head_ref.read_text().replace('\n','')
 
         return commit
-    def get_repo_name(self, repo_path=None):
+    def get_algo_name(self, repo_path=None):
         
         # if not repo_path:
         #     repo_path = self.source_path
@@ -63,8 +64,17 @@ class Wrapper():
         # else:
         #     name = "controller"
 
-        args = self.parser.parse_args()
-        self.algo_name = args.algo_name
+        if os.path.isfile(git_folder):
+            with open(json_file, 'w') as cfg_json:
+                json.dump(cfg_dict, cfg_json)
+
+        # copy config file
+            algo_name = cmd_config["name"]
+
+        else:
+            algo_name = "controller"
+
+        return algo_name
 
     def save_config_info(self, cmd_config, start_command):
 
@@ -386,25 +396,15 @@ class Wrapper():
 if __name__ == "__main__":
 
     wrapper = Wrapper()
-    wrapper.get_repo_name()
-    repo_name = wrapper.algo_name
+    algo_name = wrapper.get_algo_name()
 
-    print("Preparing {0}".format(repo_name))
+    print("Preparing {0}".format(algo_name))
 
-    # if "controller" in repo_name:
-    #     wrapper.controller()
-    # elif "HistoQC" in repo_name:
-    #     wrapper.hqc()
-    # elif "hover_net" in repo_name:
-    #     wrapper.hovernet()
-    # elif "CLAM" in repo_name:
-    #     wrapper.clam()
-
-    if "controller" in repo_name:
+    if "controller" in algo_name:
         wrapper.controller()
-    elif "hqc" in repo_name:
+    elif "hqc" in algo_name:
         wrapper.hqc()
-    elif "hover" in repo_name:
+    elif "hover" in algo_name:
         wrapper.hovernet()
-    elif "clam" in repo_name:
+    elif "clam" in algo_name:
         wrapper.clam()
