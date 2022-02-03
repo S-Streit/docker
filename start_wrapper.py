@@ -36,7 +36,7 @@ class Wrapper():
                 cmd_config = json.loads(json_file.read())
                 self.outer_config = True
         else:
-            with open(self.default_command_config) as json_file:
+            with open(self.default_config_path) as json_file:
                 cmd_config = json.loads(json_file.read())
                 self.default_config = True
 
