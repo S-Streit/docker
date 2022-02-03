@@ -372,7 +372,7 @@ class Wrapper():
             print("Processing Folder: ", subfolder)
             start_hqc_container = "docker run -v {0}:/usr/local/mount hqc-docker".format(subfolder)
             start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker".format(subfolder)
-            start_hover_container = "docker run --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-net".format(subfolder)
+            start_hover_container = "docker run --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
             # print("Starting HQC: ")
             # hqc_code = os.system(start_hqc_container)
