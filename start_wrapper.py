@@ -67,6 +67,7 @@ class Wrapper():
         if os.path.isfile(self.default_config_path):
             cmd_config = self.parse_cmd_config()
             algo_name = cmd_config["name"]
+            self.algo_name = algo_name
 
         else:
             algo_name = "controller"
