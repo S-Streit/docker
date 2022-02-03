@@ -364,6 +364,7 @@ class Wrapper():
 
     def prepare_containers(self):
 
+        print(self.dirlist)
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
             start_hqc_container = "docker run -v {0}:/usr/local/mount hqc-docker".format(subfolder)
