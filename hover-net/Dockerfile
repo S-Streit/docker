@@ -28,7 +28,7 @@ RUN gdown https://drive.google.com/u/0/uc?id=1SbSArI3KOOWHxRlxnjchO7_MbWzB4lNR -
 RUN git clone "https://github.com/Pacific89/hover_net" /usr/local/src
 RUN pip install -r /usr/local/src/requirements.txt
 
-RUN echo Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+RUN echo Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["cp", "/usr/local/wrapper/hover-net/default_command_config.json", "/usr/local/wrapper"]
 

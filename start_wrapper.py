@@ -29,7 +29,7 @@ class Wrapper():
         self.start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         self.end_time = "None"
 
-    def parse_cmd_config(self, outer_command_config=None):
+    def parse_cmd_config(self, outer_command_config=""):
         # open mounted config file or use default for "RUN-COMMAND"
         if os.path.isfile(outer_command_config):
             with open(outer_command_config) as json_file:
