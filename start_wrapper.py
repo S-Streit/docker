@@ -374,11 +374,11 @@ class Wrapper():
             start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
             start_hover_container = "docker run --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
-            print("Starting HQC: ")
-            hqc_code = os.system(start_hqc_container)
+            # print("Starting HQC: ")
+            # hqc_code = os.system(start_hqc_container)
 
-            # print("Starting CLAM: ", start_clam_container)
-            # clam_code = os.system(start_clam_container)
+            print("Starting CLAM: ", start_clam_container)
+            clam_code = os.system(start_clam_container)
 
             # print("Starting HOVER: ", start_hover_container)
             # hover_code = os.system(start_hover_container)
