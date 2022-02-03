@@ -276,56 +276,48 @@ class Wrapper():
         # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount clam-docker -ch
 
 
-        # self.parser = argparse.ArgumentParser(description='')
-        # parser.add_argument('input_folder',
-        #             help="one input folder that contains a WSI: example.svs",
-        #             nargs=1)
-        # self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
-        # self.parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
-        # self.parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
-        # self.parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
-        # self.parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
-        # self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
-        # self.parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
+        self.parser = argparse.ArgumentParser(description='')
+        parser.add_argument('input_folder',
+                    help="one input folder that contains a WSI: example.svs",
+                    nargs=1)
+        self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
+        self.parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
+        self.parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
+        self.parser.add_argument('-ch', '--create_heatmaps', help="call create_heatmaps.py", default=False, action="store_true")
+        self.parser.add_argument('-a', '--all', help="Call Full Pipeline: Create Patches, Extract Features and Create Heatmaps with default configuration", default=False, action="store_true")
+        self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
+        self.parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
 
-        # args = self.parser.parse_args()
+        args = self.parser.parse_args()
 
-        outer_command_config = "/usr/local/mount/config/clam_command_config.json"
+        # outer_command_config = "/usr/local/mount/config/clam_command_config.json"
         # default_command_config = "/usr/local/wrapper/clam/default_command_config.json"
 
-        cmd_config = self.parse_cmd_config(outer_command_config)
+        cmd_config = self.parse_cmd_config()
 
-        # if args.patch_run_dir:
-        #     patch_run_dir = cmd_config["output_path"] + "/" + args.patch_run_dir
+        if args.patch_run_dir:
+            patch_run_dir = cmd_config["output_path"] + "/" + args.patch_run_dir
         
-        # if not args.uuid:
-        out_id = uuid.uuid4().hex
-        # else:
-        #     out_id = args.uuid
+        if not args.uuid:
+            out_id = uuid.uuid4().hex
+        else:
+            out_id = args.uuid
 
         cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
 
-        # if args.create_patches:
-        #     start_cmd, cmd_config = self._clam_create_patches(cmd_config)
-        #     self.run_project(start_cmd, cmd_config)
-        # if args.extract_features:
-        #     if os.path.isdir(patch_run_dir):
-        #         start_cmd, cmd_config = self._clam_extract_features(cmd_config, patch_run_dir)
-        #         self.run_project(start_cmd, cmd_config)
-        #     else:
-        #         print("Please Check Patch Directory Path: ", args.patch_run_dir)
+        if args.create_patches:
+            start_cmd, cmd_config = self._clam_create_patches(cmd_config)
+            self.run_project(start_cmd, cmd_config)
+        if args.extract_features:
+            if os.path.isdir(patch_run_dir):
+                start_cmd, cmd_config = self._clam_extract_features(cmd_config, patch_run_dir)
+                self.run_project(start_cmd, cmd_config)
+            else:
+                print("Please Check Patch Directory Path: ", args.patch_run_dir)
             
-        # if args.create_heatmaps:
-
-        #always tun create heatmap
-
-        start_cmd, cmd_config = self._clam_create_heatmaps(cmd_config)
-        self.run_project(start_cmd, cmd_config)
-
-        # if args.all:
-        #     call_create_patches(args)
-        #     call_extract_features(args)
-        #     call_create_heatmaps(args)
+        if args.create_heatmaps:
+            start_cmd, cmd_config = self._clam_create_heatmaps(cmd_config)
+            self.run_project(start_cmd, cmd_config)
 
     def run_project(self, start_cmd, cmd_config):
 
@@ -379,7 +371,7 @@ class Wrapper():
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
             start_hqc_container = "docker run -v {0}:/usr/local/mount hqc-docker".format(subfolder)
-            start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker".format(subfolder)
+            start_clam_container = "docker run --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
             start_hover_container = "docker run --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
             print("Starting HQC: ")
