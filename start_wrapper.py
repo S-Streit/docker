@@ -129,6 +129,7 @@ class Wrapper():
 
         # add UUID to output directory
         cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id
+        print(cmd_config)
 
         gpu = " --gpu=" + cmd_config["gpu"]
         types =  " --nr_types=" + str(cmd_config["types"])
@@ -378,7 +379,7 @@ class Wrapper():
             # clam_code = os.system(start_clam_container)
 
             print("Starting HOVER: ", start_hover_container)
-            hover_code = os.system(start_hover_container)
+            # hover_code = os.system(start_hover_container)
 
 if __name__ == "__main__":
 
