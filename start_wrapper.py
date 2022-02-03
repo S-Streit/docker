@@ -107,7 +107,7 @@ class Wrapper():
         # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount hover-net
 
         outer_command_config = "/usr/local/mount/config/hover_command_config.json"
-        default_command_config = "/usr/local/wrapper/hover-net/hover_command_config.json"
+        default_command_config = "/usr/local/wrapper/hover-net/default_command_config.json"
         cmd_config = self.parse_cmd_config(outer_command_config, default_command_config)
 
         parser = argparse.ArgumentParser(description='')
@@ -280,7 +280,7 @@ class Wrapper():
         # args = self.parser.parse_args()
 
         outer_command_config = "/usr/local/mount/config/clam_command_config.json"
-        default_command_config = "/usr/local/wrapper/clam/clam_command_config.json"
+        default_command_config = "/usr/local/wrapper/clam/default_command_config.json"
 
         cmd_config = self.parse_cmd_config(outer_command_config, default_command_config)
 
