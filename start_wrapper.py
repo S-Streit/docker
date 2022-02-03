@@ -29,14 +29,14 @@ class Wrapper():
         self.start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         self.end_time = "None"
 
-    def parse_cmd_config(self, outer_command_config, default_command_config):
+    def parse_cmd_config(self, outer_command_config=None):
         # open mounted config file or use default for "RUN-COMMAND"
         if os.path.isfile(outer_command_config):
             with open(outer_command_config) as json_file:
                 cmd_config = json.loads(json_file.read())
                 self.outer_config = True
         else:
-            with open(default_command_config) as json_file:
+            with open(self.default_command_config) as json_file:
                 cmd_config = json.loads(json_file.read())
                 self.default_config = True
 
@@ -65,10 +65,7 @@ class Wrapper():
         #     name = "controller"
 
         if os.path.isfile(self.default_config_path):
-            with open(self.default_config_path, 'w') as cfg_json:
-                json.dump(cfg_dict, cfg_json)
-
-        # copy config file
+            cmd_config = self.parse_cmd_config()
             algo_name = cmd_config["name"]
 
         else:
@@ -117,8 +114,8 @@ class Wrapper():
         # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount hover-net
 
         outer_command_config = "/usr/local/mount/config/hover_command_config.json"
-        default_command_config = "/usr/local/wrapper/hover-net/default_command_config.json"
-        cmd_config = self.parse_cmd_config(outer_command_config, default_command_config)
+        # default_command_config = "/usr/local/wrapper/hover-net/default_command_config.json"
+        cmd_config = self.parse_cmd_config(outer_command_config)
 
         parser = argparse.ArgumentParser(description='')
         # parser.add_argument('input_folder',
@@ -166,9 +163,9 @@ class Wrapper():
         # docker run -it -v /home/simon/philipp/one:/usr/local/mount hqc-docker
 
         outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
-        default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
+        # default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
 
-        cmd_config = self.parse_cmd_config(outer_command_config, default_command_config)
+        cmd_config = self.parse_cmd_config(outer_command_config)
 
         # parser = argparse.ArgumentParser(description='')
         # parser.add_argument('input_pattern',
@@ -293,9 +290,9 @@ class Wrapper():
         # args = self.parser.parse_args()
 
         outer_command_config = "/usr/local/mount/config/clam_command_config.json"
-        default_command_config = "/usr/local/wrapper/clam/default_command_config.json"
+        # default_command_config = "/usr/local/wrapper/clam/default_command_config.json"
 
-        cmd_config = self.parse_cmd_config(outer_command_config, default_command_config)
+        cmd_config = self.parse_cmd_config(outer_command_config)
 
         # if args.patch_run_dir:
         #     patch_run_dir = cmd_config["output_path"] + "/" + args.patch_run_dir
