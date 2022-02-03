@@ -166,7 +166,7 @@ class Wrapper():
         # outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
         # default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
 
-        cmd_config = self.parse_cmd_config(outer_command_config)
+        cmd_config = self.parse_cmd_config()
 
         # parser = argparse.ArgumentParser(description='')
         # parser.add_argument('input_pattern',
