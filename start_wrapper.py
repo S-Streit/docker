@@ -173,7 +173,7 @@ class Wrapper():
         #             help="one input file: example.svs",
         #             nargs="*")
 
-        self.parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(cmd_config), default=default_command_config, type=str)
+        self.parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(self.default_config_path), default=default_command_config, type=str)
         self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
 
         args = self.parser.parse_args()
