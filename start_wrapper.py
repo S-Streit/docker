@@ -64,7 +64,7 @@ class Wrapper():
         # else:
         #     name = "controller"
 
-        if os.path.isfile(git_folder):
+        if os.path.isfile(self.default_config_path):
             with open(json_file, 'w') as cfg_json:
                 json.dump(cfg_dict, cfg_json)
 
