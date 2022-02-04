@@ -380,9 +380,9 @@ class Wrapper():
             hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts)
             dkg = client.containers.get(container_name).logs(stream = True, follow = False)
             try:
-            while True:
-                line = next(dkg).decode("utf-8")
-                print(line)
+                while True:
+                    line = next(dkg).decode("utf-8")
+                    print(line)
             except StopIteration:
             print(f'log stream ended for {container_name}')  
             # hqc_container.wait()
