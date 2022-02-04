@@ -370,9 +370,9 @@ class Wrapper():
         print(self.dirlist)
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
-            start_hqc_container = "docker run -it -v {0}:/usr/local/mount hqc-docker".format(subfolder)
-            start_clam_container = "docker run -it --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
-            start_hover_container = "docker run -it --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
+            start_hqc_container = "docker run --rm -v {0}:/usr/local/mount hqc-docker".format(subfolder)
+            start_clam_container = "docker run --rm --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
+            start_hover_container = "docker run --rm --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
             print("Starting HQC: ")
             hqc_code = os.system(start_hqc_container)
