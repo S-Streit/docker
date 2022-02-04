@@ -384,7 +384,7 @@ class Wrapper():
 
             print("Starting CLAM: ")
             clam_container = client.containers.run(image="clam-docker", command="-ch", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            self._print_output(clam_container)
+            self._print_output(clam_container, "HOVER-NET", file_num, count)
 
             print("Starting HOVER: ")
             hover_container = client.containers.run(image="hover-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
