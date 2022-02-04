@@ -378,7 +378,7 @@ class Wrapper():
 
             print("Starting HQC: ")
             hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
-            output = container.attach(stdout=True, stream=True, logs=True)
+            output = hqc_container.attach(stdout=True, stream=True, logs=True)
             for line in output:
                 print(line)
             # hqc_container.wait()
