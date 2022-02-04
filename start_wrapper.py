@@ -391,11 +391,11 @@ class Wrapper():
             self._print_output(hover_container)
 
 
-        def _print_output(self, container):
+    def _print_output(self, container):
 
-            output = container.attach(stdout=True, stream=True, logs=True)
-            for line in output:
-                print(line.decode("utf-8"))
+        output = container.attach(stdout=True, stream=True, logs=True)
+        for line in output:
+            print(line.decode("utf-8"))
 
 
 if __name__ == "__main__":
