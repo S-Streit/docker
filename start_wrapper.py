@@ -9,6 +9,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 import shutil
+import docker
 
 
 class Wrapper():
@@ -334,7 +335,6 @@ class Wrapper():
             self.save_config_info(cmd_config, start_cmd)
 
     def controller(self):
-        import docker
         client = docker.from_env()
 
         self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
@@ -368,7 +368,6 @@ class Wrapper():
 
     def run_containers(self, client, image_names):
 
-
         print(self.dirlist)
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
@@ -378,12 +377,14 @@ class Wrapper():
             start_hover_container = "docker run --rm --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
             print("Starting HQC: ")
-            hqc_container = client.containers.run(image="hqc-docker", detach=True, remove=True, volumes=mounts,)
+            hqc_container = client.containers.run(image="hqc-docker", detach=True, remove=True, volumes=mounts)
+            hqc_container.logs()
             hqc_container.wait()
             # hqc_code = os.system(start_hqc_container)
 
             print("Starting CLAM: ")
             clam_container = client.containers.run(image="clam-docker", detach=True, remove=True, shm_size="8G", volumes=mounts, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            clam_container.logs()
             clam_container.wait()
             # clam_code = os.system(start_clam_container)
 
