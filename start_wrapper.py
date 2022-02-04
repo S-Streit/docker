@@ -380,7 +380,7 @@ class Wrapper():
             hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
             output = hqc_container.attach(stdout=True, stream=True, logs=True)
             for line in output:
-                print(line)
+                print(line.decode("utf-8"))
             # hqc_container.wait()
             # hqc_code = os.system(start_hqc_container)
 
