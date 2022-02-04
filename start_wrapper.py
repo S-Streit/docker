@@ -386,7 +386,7 @@ class Wrapper():
             # hqc_code = os.system(start_hqc_container)
 
             print("Starting CLAM: ")
-            clam_container = client.containers.run(image="clam-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            clam_container = client.containers.run(image="clam-docker", command="-ch", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
             output = clam_container.attach(stdout=True, stream=True, logs=True)
             for line in output:
                 print(line.decode("utf-8"))
