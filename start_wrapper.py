@@ -376,24 +376,27 @@ class Wrapper():
             start_clam_container = "docker run --rm --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
             start_hover_container = "docker run --rm --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
-            print("Starting HQC: ")
+            # print("Starting HQC: ")
             # hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
             # output = hqc_container.attach(stdout=True, stream=True, logs=True)
             # for line in output:
             #     print(line.decode("utf-8"))
 
-            # hqc_container.wait()
-            # hqc_code = os.system(start_hqc_container)
+            # print("Starting CLAM: ")
+            # clam_container = client.containers.run(image="clam-docker", command="-ch", auto_remove=True, shm_size="32G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            # self._print_output(clam_container)
 
-            print("Starting CLAM: ")
-            clam_container = client.containers.run(image="clam-docker", command="-ch", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            output = clam_container.attach(stdout=True, stream=True, logs=True)
+            print("Starting HOVER: ")
+            hover_container = client.containers.run(image="hover-docker", auto_remove=True, shm_size="32G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            self._print_output(hover_container)
+
+
+        def _print_output(self, container):
+
+            output = container.attach(stdout=True, stream=True, logs=True)
             for line in output:
                 print(line.decode("utf-8"))
-            # clam_code = os.system(start_clam_container)
 
-            # print("Starting HOVER: ", start_hover_container)
-            # hover_code = os.system(start_hover_container)
 
 if __name__ == "__main__":
 
