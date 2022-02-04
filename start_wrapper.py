@@ -334,6 +334,8 @@ class Wrapper():
             self.save_config_info(cmd_config, start_cmd)
 
     def controller(self):
+        import docker
+        client = docker.from_env()
 
         self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
 
@@ -347,41 +349,46 @@ class Wrapper():
 
         [print(d) for d in self.dirlist]
 
-        self.run_containers()
+        image_names = self.get_images(client)
+        self.run_containers(client, image_names)
 
-    def run_containers(self):
-        # container_list = ["hover-docker", "clam-docker", "hqc-docker"]
-        container_list = ["hqc-docker"]
+    def get_images(self, client):
+        container_list = ["hover-docker", "clam-docker", "hqc-docker"]
+        # container_list = ["hqc-docker"]
 
-        import docker
-        client = docker.from_env()
         images = client.images.list()
         tags = [i.tags for i in images]
         image_names  = [image.tags[0].split(":")[0] for image in images if len(image.tags) > 0]
         self.available = [c for c in container_list if c in image_names]
         print("Available Containers:", self.available)
-        print("Starting...")
 
-        self.prepare_containers()
+        return image_names
+        # self.prepare_containers(image_names)
 
 
-    def prepare_containers(self):
+    def run_containers(self, client, image_names):
+
 
         print(self.dirlist)
         for subfolder in self.dirlist:
             print("Processing Folder: ", subfolder)
+            mounts = ["{0}:/usr/local/mount".format(subfolder)]
             start_hqc_container = "docker run --rm -v {0}:/usr/local/mount hqc-docker".format(subfolder)
             start_clam_container = "docker run --rm --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
             start_hover_container = "docker run --rm --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
-            print("Starting HQC: ")
-            hqc_code = os.system(start_hqc_container)
+            print("Starting HQC: ", image)
+            hqc_container = client.containers.run(image=image_name, detach=True, remove=True, volumes=mounts,)
+            hqc_container.wait()
+            # hqc_code = os.system(start_hqc_container)
 
             print("Starting CLAM: ", start_clam_container)
-            clam_code = os.system(start_clam_container)
+            clam_container = client.containers.run(image="clam-docker", detach=True, remove=True, shm_size="8G", volumes=mounts, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            clam_container.wait()
+            # clam_code = os.system(start_clam_container)
 
-            print("Starting HOVER: ", start_hover_container)
-            hover_code = os.system(start_hover_container)
+            # print("Starting HOVER: ", start_hover_container)
+            # hover_code = os.system(start_hover_container)
 
 if __name__ == "__main__":
 
