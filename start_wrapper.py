@@ -384,7 +384,7 @@ class Wrapper():
                     line = next(dkg).decode("utf-8")
                     print(line)
             except StopIteration:
-            print(f'log stream ended for {container_name}')  
+                print(f'log stream ended for {container_name}')  
             # hqc_container.wait()
             # hqc_code = os.system(start_hqc_container)
 
