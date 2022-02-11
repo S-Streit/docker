@@ -71,7 +71,7 @@
         - name: "topk_high_attention"
           sample: true
           seed: 1
-          k: 15 # save top-k patches
+          k: 50 # save top-k patches
           mode: topk
     
     
