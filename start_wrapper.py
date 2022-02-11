@@ -165,7 +165,7 @@ class Wrapper():
         nr_inf_workers = " --nr_inference_workers=" + str(cmd_config["nr_inf_workers"])
         nr_post_workers = " --nr_post_proc_workers=" + str(cmd_config["nr_post_workers"])
         out_dir = " --output_dir=" + cmd_config["output_path"] # set output folder with UUID
-
+        in_dir = " --input_dir=" + cmd_config["input_path"]
 
         image_mode = cmd_config["image_mode"]
 
@@ -176,7 +176,7 @@ class Wrapper():
             save_mask = " --save_mask" if cmd_config["save_mask"] else ""
             cache_path = " --cache_path=" + cmd_config["cache_path"]
 
-            mode_specifics = save_thumb + proc_mag + save_mask + cache_path
+            mode_specifics = in_dir + out_dir + save_thumb + proc_mag + save_mask + cache_path
 
         if image_mode == " tile":
             # patch specific parameters
@@ -184,11 +184,11 @@ class Wrapper():
             draw_dot = " --draw_dot" if cmd_config["draw_dot"] else ""
             save_qupath = " --save_qupath" if cmd_config["save_qupath"] else ""
 
-
-            mode_specifics = mem_usage + draw_dot + save_qupath
             cmd_config["input_path"] = self._get_clam_patch_folder()
+            in_dir = " --input_dir=" + cmd_config["input_path"]
 
-        in_dir = " --input_dir=" + cmd_config["input_path"]
+            mode_specifics = in_dir + out_dir + mem_usage + draw_dot + save_qupath
+
 
         start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + image_mode + mode_specifics
         
