@@ -24,6 +24,7 @@ class Wrapper():
 
         self.default_config_path = "/usr/local/wrapper/default_command_config.json"
         self.source_path = "/usr/local/src"
+        self.data_path = "/usr/local/mount"
         self.outer_config = False
         self.default_config = False
         self.finished = False
@@ -110,6 +111,20 @@ class Wrapper():
         if cmd_config["config_path"] and os.path.isfile(cmd_config["config_path"]):
             shutil.copy2(cmd_config["config_path"], save_config_path)
 
+
+    def _get_clam_patch_folder(self):
+
+        path = os.path.join(self.data_path, "results")
+
+        for root, dirs, files in os.walk(path):
+            for subfolder in dirs:
+                if subfolder == "topk_high_attention":
+                    patch_dir = os.path.join(root, "topk_high_attention")
+                    # patch_paths = [os.path.join(patch_dir, patch_name) for patch_name in os.listdir(patch_dir)]
+
+        return patch_dir
+
+
     def hovernet(self):
 
         # RUN command outside container: 
@@ -149,15 +164,33 @@ class Wrapper():
         model_path = " --model_path=" + cmd_config["model_path"]
         nr_inf_workers = " --nr_inference_workers=" + str(cmd_config["nr_inf_workers"])
         nr_post_workers = " --nr_post_proc_workers=" + str(cmd_config["nr_post_workers"])
-        wsi = cmd_config["wsi"]
-        in_dir = " --input_dir=" + cmd_config["input_path"]
         out_dir = " --output_dir=" + cmd_config["output_path"] # set output folder with UUID
-        save_thumb = " --save_thumb" if cmd_config["save_thumb"] else ""
-        proc_mag = " --proc_mag=" + str(cmd_config["proc_mag"])
-        save_mask = " --save_mask" if cmd_config["save_mask"] else ""
-        cache_path = " --cache_path=" + cmd_config["cache_path"]
 
-        start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + wsi + in_dir + out_dir + save_thumb + save_mask + proc_mag + cache_path
+
+        image_mode = cmd_config["image_mode"]
+
+        if image_mode == " wsi":
+            # WSI specific parameters
+            save_thumb = " --save_thumb" if cmd_config["save_thumb"] else ""
+            proc_mag = " --proc_mag=" + str(cmd_config["proc_mag"])
+            save_mask = " --save_mask" if cmd_config["save_mask"] else ""
+            cache_path = " --cache_path=" + cmd_config["cache_path"]
+
+            mode_specifics = save_thumb + proc_mag + save_mask + cache_path
+
+        if image_mode == " tile":
+            # patch specific parameters
+            mem_usage = "--mem_usage=" + cmd_config["mem_usage"]
+            draw_dot = "--draw_dot" if cmd_config["draw_dot"]
+            save_qupath = "--save_qupath" if cmd_config["save_qupath"]
+
+
+            mode_specifics = mem_usage + draw_dot + save_qupath
+            cmd_config["input_path"] = self._get_clam_patch_folder()
+
+        in_dir = " --input_dir=" + cmd_config["input_path"]
+
+        start_cmd = hovernet_base_command + gpu + types + type_info_path + batch_size + mode + model_path + nr_inf_workers + nr_post_workers + image_mode + mode_specifics
         
         self.run_project(start_cmd, cmd_config)
 
