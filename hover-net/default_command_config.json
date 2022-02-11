@@ -6,7 +6,7 @@
   "model_path" : "/usr/local/models/pannuke/hovernet_fast_pannuke_type_tf2pytorch.tar",
   "nr_inf_workers" : 8,
   "nr_post_workers" : 16,
-  "wsi" : " wsi",
+  "image_mode" : " tile",
   "input_path": "/usr/local/mount/data",
   "output_path": "/usr/local/mount/results",
   "config_path": "/usr/local/src/type_info.json",
@@ -15,5 +15,8 @@
   "cache_path": "usr/local/mount/cache",
   "save_thumb" : true,
   "proc_mag" : 40,
-  "save_mask" : true
+  "save_mask" : true,
+  "mem_usage": 0.1,
+  "draw_dot": true,
+  "save_qupath": true
 }
