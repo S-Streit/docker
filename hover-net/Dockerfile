@@ -27,6 +27,7 @@ RUN gdown https://drive.google.com/u/0/uc?id=1SbSArI3KOOWHxRlxnjchO7_MbWzB4lNR -
 
 RUN git clone "https://github.com/Pacific89/hover_net" /usr/local/src
 RUN pip install -r /usr/local/src/requirements.txt
+RUN pip install docker-py
 
 RUN echo Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
