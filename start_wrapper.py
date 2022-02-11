@@ -180,9 +180,9 @@ class Wrapper():
 
         if image_mode == " tile":
             # patch specific parameters
-            mem_usage = "--mem_usage=" + str(cmd_config["mem_usage"])
-            draw_dot = "--draw_dot" if cmd_config["draw_dot"] else ""
-            save_qupath = "--save_qupath" if cmd_config["save_qupath"] else ""
+            mem_usage = " --mem_usage=" + str(cmd_config["mem_usage"])
+            draw_dot = " --draw_dot" if cmd_config["draw_dot"] else ""
+            save_qupath = " --save_qupath" if cmd_config["save_qupath"] else ""
 
 
             mode_specifics = mem_usage + draw_dot + save_qupath
