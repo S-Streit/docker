@@ -60,7 +60,7 @@ RUN pip install numpy
 RUN conda install -c conda-forge pixman -y
 RUN pip install docker-py
 
-RUN echo Hello!?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+RUN echo Hello!?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 RUN git clone "https://github.com/Pacific89/CLAM.git" /usr/local/src
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
