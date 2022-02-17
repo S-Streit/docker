@@ -34,7 +34,7 @@
     model_arguments: 
       # arguments for initializing model from checkpoint
       ckpt_path: /usr/local/src/heatmaps/demo/ckpts/s_9_checkpoint.pt
-      model_type: clam_sb # see utils/eval_utils/
+      model_type: clam_mb # see utils/eval_utils/
       initiate_fn: initiate_model # see utils/eval_utils/
       model_size: small
       drop_out: true
