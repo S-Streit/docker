@@ -124,7 +124,7 @@ class Wrapper():
                     patch_dir = os.path.join(root, "topk_high_attention")
                     # patch_paths = [os.path.join(patch_dir, patch_name) for patch_name in os.listdir(patch_dir)]
 
-        if not patch_dir
+        if not patch_dir:
             print("Not started with CLAM...")
             print("Trying: ", self.data_path)
             patch_dir = self.data_path
