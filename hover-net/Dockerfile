@@ -29,6 +29,7 @@ RUN echo Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 RUN git clone "https://github.com/Pacific89/hover_net" /usr/local/src
 
 RUN pip install -r /usr/local/src/requirements.txt
+RUN pip install -U numpy
 RUN pip install docker-py
 
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
