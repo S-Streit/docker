@@ -126,8 +126,9 @@ class Wrapper():
 
         if not patch_dir:
             print("Not started with CLAM...")
-            print("Trying: ", self.data_path)
-            patch_dir = self.data_path
+            patch_dir = os.path.join(self.data_path, "data")
+
+            print("Trying: ", patch_dir)
 
         return patch_dir
 
