@@ -419,9 +419,9 @@ class Wrapper():
             start_clam_container = "docker run --rm --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -ch".format(subfolder)
             start_hover_container = "docker run --rm --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
-            # print("Starting HQC: ")
-            # hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
-            # self._print_output(hqc_container, "HQC", file_num, count)
+            print("Starting HQC: ")
+            hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
+            self._print_output(hqc_container, "HQC", file_num, count)
 
             print("Starting CLAM: ")
             clam_container = client.containers.run(image="clam-docker", command="-ch", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
