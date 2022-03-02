@@ -35,12 +35,14 @@ def load_images(path):
     # Convert the image to PyTorch tensor 
     print(images.shape)
     # tensor = transform(images)
-    tensor = torch.from_numpy(images)
+    
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    tensor = torch.from_numpy(images).float().to(device)
 
     # print the converted image tensor 
     # print(tensor)
 
-    return tensor.to(torch.device("cuda:0"))
+    return tensor
 
 
 model = torchvision.models.__dict__['resnet18'](pretrained=False)
