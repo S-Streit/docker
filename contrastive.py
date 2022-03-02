@@ -8,7 +8,7 @@ import numpy as np
 # MODEL_PATH = '/home/user/Documents/Master/contrastive_learning/tenpercent_resnet18.ckpt'
 MODEL_PATH = "/home/simon/philipp/checkpoints/tenpercent_resnet18.ckpt"
 RETURN_PREACTIVATION = False  # return features from the model, if false return classification logits
-NUM_CLASSES = 4  # only used if RETURN_PREACTIVATION = False
+NUM_CLASSES = 10  # only used if RETURN_PREACTIVATION = False
 
 
 def load_model_weights(model, weights):
@@ -70,4 +70,5 @@ img_path = "/home/simon/philipp/some_patches"
 images = load_images(img_path)
 
 out = model(images)
+print("OUT:")
 print(out)
