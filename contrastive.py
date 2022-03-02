@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 import os
 import numpy as np
 
-# MODEL_PATH = '/home/user/Documents/Master/contrastive_learning/tenpercent_resnet18.ckpt'
+MODEL_PATH_ = '/home/user/Documents/Master/contrastive_learning/tenpercent_resnet18.ckpt'
 MODEL_PATH = "/home/simon/philipp/checkpoints/tenpercent_resnet18.ckpt"
 RETURN_PREACTIVATION = True  # return features from the model, if false return classification logits
 # NUM_CLASSES = 10  # only used if RETURN_PREACTIVATION = False
@@ -48,7 +48,12 @@ def load_images(path):
 
 model = torchvision.models.__dict__['resnet18'](pretrained=False)
 
-state = torch.load(MODEL_PATH, map_location='cuda:0')
+try:
+    state = torch.load(MODEL_PATH, map_location='cuda:0')
+    img_path = "/home/simon/philipp/some_patches"
+except:
+    state = torch.load(MODEL_PATH_, map_location='cuda:0')
+    img_path_ = "/media/user/easystore/some_patches"
 
 state_dict = state['state_dict']
 for key in list(state_dict.keys()):
@@ -65,10 +70,8 @@ model = model.cuda()
 
 # images = torch.rand((10, 3, 224, 224), device='cuda')
 
-# img_path = "/media/user/easystore/some_patches"
-img_path = "/home/simon/philipp/some_patches"
 images = load_images(img_path)
 
 out = model(images)
 print("OUT:")
-print(out)
+print(out.size())
