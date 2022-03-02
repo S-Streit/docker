@@ -35,8 +35,9 @@ def load_images(path):
     # Convert the image to PyTorch tensor 
     print(images.shape)
     # tensor = transform(images)
-    
+
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print("Device:", device)
     tensor = torch.from_numpy(images).float().to(device)
 
     # print the converted image tensor 
