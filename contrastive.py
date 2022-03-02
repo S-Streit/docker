@@ -31,7 +31,7 @@ def load_images(path):
     # image = np.array(Image.open(os.path.join(path, img_paths[0])))
     images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
     # Define a transform to convert the image to tensor
-    transform = transforms.ToTensor() 
+    transform = transforms.ToTensor(device='cuda') 
     # Convert the image to PyTorch tensor 
     print(images.shape)
     # tensor = transform(images)
