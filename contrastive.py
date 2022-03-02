@@ -26,7 +26,7 @@ def load_model_weights(model, weights):
 def load_images(path):
     img_paths = [x for x in os.walk(path)][0][2]
     # print(img_paths)
-    torch.device()
+    # torch.device()
     img_paths = [os.path.join(path, x) for x in img_paths]
     # image = np.array(Image.open(os.path.join(path, img_paths[0])))
     images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
