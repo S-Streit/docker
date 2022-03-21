@@ -1,5 +1,5 @@
 { "name" : "hover",
-  "gpu" : "'0,1'",
+  "gpu" : "'1'",
   "types" : 6,
   "batch_size" : 64,
   "mode" : "fast",
