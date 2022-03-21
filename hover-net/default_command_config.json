@@ -1,6 +1,6 @@
 { "name" : "hover",
   "gpu" : "'0,1'",
-  "types" : 6,
+  "types" : 0,
   "batch_size" : 64,
   "mode" : "fast",
   "model_path" : "/usr/local/models/pannuke/hovernet_fast_pannuke_type_tf2pytorch.tar",
