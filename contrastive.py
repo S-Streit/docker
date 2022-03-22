@@ -74,6 +74,20 @@ class ContrastiveExtractor():
         try:
             images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
 
+            # Define a transform to convert the image to tensor
+            transform = transforms.ToTensor() 
+            # Convert the image to PyTorch tensor 
+            # tensor = transform(images)
+
+            device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+            # print("Device:", device)
+            tensor = torch.from_numpy(images).float().to(device)
+
+            out = self.model(images)
+            frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
+
+            return frame
+
         except PIL.UnidentifiedImageError as e:
 
             print("PIL Error: ", e)
@@ -81,20 +95,7 @@ class ContrastiveExtractor():
         
             return pd.Dataframe([])
 
-        # Define a transform to convert the image to tensor
-        transform = transforms.ToTensor() 
-        # Convert the image to PyTorch tensor 
-        print(images.shape)
-        # tensor = transform(images)
 
-        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        # print("Device:", device)
-        tensor = torch.from_numpy(images).float().to(device)
-
-        out = self.model(images)
-        frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
-
-        return frame
 
     def get_wsi_paths(self):
 
