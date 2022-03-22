@@ -68,10 +68,19 @@ class ContrastiveExtractor():
         return model
 
 
-    def load_images(self, img_paths):
+    def load_extract(self, img_paths):
 
         # image = np.array(Image.open(os.path.join(path, img_paths[0])))
-        images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
+        try:
+            images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
+
+        except PIL.UnidentifiedImageError as e
+
+            print("PIL Error: ", e)
+            print("Skipping batch...")
+        
+            return pd.Dataframe([])
+
         # Define a transform to convert the image to tensor
         transform = transforms.ToTensor() 
         # Convert the image to PyTorch tensor 
@@ -82,10 +91,10 @@ class ContrastiveExtractor():
         # print("Device:", device)
         tensor = torch.from_numpy(images).float().to(device)
 
-        # print the converted image tensor 
-        # print(tensor)
+        out = self.model(images)
+        frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
 
-        return tensor, img_paths
+        return frame
 
     def get_wsi_paths(self):
 
@@ -108,11 +117,10 @@ class ContrastiveExtractor():
         img_paths = [x for x in os.listdir(data_path)]
         self.img_paths = [os.path.join(data_path, x) for x in img_paths]
         
-        for num, subset in tqdm(enumerate(more_itertools.chunked(self.img_paths, self.batch_size))):
-            images, img_paths = self.load_images(subset)
+        for subset in tqdm(more_itertools.chunked(self.img_paths, self.batch_size)):
+            
+            frame = self.load_extract(subset)
 
-            out = self.model(images)
-            frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
             dataframe = pd.concat([dataframe, frame])
 
 
