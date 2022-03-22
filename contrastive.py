@@ -7,46 +7,124 @@ import numpy as np
 import pandas as pd
 import more_itertools
 import gc
+from tqdm import tqdm
 import argparse
 
-# MODEL_PATH_ = '/home/user/Documents/Master/contrastive_learning/tenpercent_resnet18.ckpt'
-MODEL_PATH = "/home/simon/philipp/checkpoints/tenpercent_resnet18.ckpt"
-RETURN_PREACTIVATION = True  # return features from the model, if false return classification logits
-# NUM_CLASSES = 10  # only used if RETURN_PREACTIVATION = False
+
+class ContrastiveExtractor():
+
+    def __init__(self, base_path, batch_size=1000):
 
 
-def load_model_weights(model, weights):
+        self.batch_size = batch_size
+        self.base_path = base_path
 
-    model_dict = model.state_dict()
-    weights = {k: v for k, v in weights.items() if k in model_dict}
-    if weights == {}:
-        print('No weight could be loaded..')
-    model_dict.update(weights)
-    model.load_state_dict(model_dict)
+        self.wsi_paths = self.get_wsi_paths()
+        self.model_path = "/home/simon/philipp/checkpoints/tenpercent_resnet18.ckpt"
+        # self.model_path_ = '/home/user/Documents/Master/contrastive_learning/tenpercent_resnet18.ckpt'
+        self.return_preactivation = True  # return features from the model, if false return classification logits
+        # self.num_classes = 10  # only used if self.return_preactivation = False
 
-    return model
+        self.model = self.load_model()
 
-
-def load_images(img_paths):
-
-    # image = np.array(Image.open(os.path.join(path, img_paths[0])))
-    images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
-    # Define a transform to convert the image to tensor
-    transform = transforms.ToTensor() 
-    # Convert the image to PyTorch tensor 
-    print(images.shape)
-    # tensor = transform(images)
-
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    print("Device:", device)
-    tensor = torch.from_numpy(images).float().to(device)
-
-    # print the converted image tensor 
-    # print(tensor)
-
-    return tensor, img_paths
+        print(self.base_path)
+        print(self.wsi_paths)
+        print("Initialized")
 
 
+
+    def load_model(self):
+        model = torchvision.models.__dict__['resnet18'](pretrained=False)
+
+        try:
+            state = torch.load(self.model_path, map_location='cuda:0')
+            # img_path = "/home/simon/philipp/patches/DigitalSlide_A1M_9S_1_20190127165819218"
+        except:
+            state = torch.load(self.model_path_, map_location='cuda:0')
+
+        state_dict = state['state_dict']
+        for key in list(state_dict.keys()):
+            state_dict[key.replace('model.', '').replace('resnet.', '')] = state_dict.pop(key)
+
+        model = self.load_model_weights(model, state_dict)
+
+        if self.return_preactivation:
+            model.fc = torch.nn.Sequential()
+        else:
+            model.fc = torch.nn.Linear(model.fc.in_features, self.num_classes)
+
+        return model.cuda()
+
+
+    def load_model_weights(self, model, weights):
+
+        model_dict = model.state_dict()
+        weights = {k: v for k, v in weights.items() if k in model_dict}
+        if weights == {}:
+            print('No weight could be loaded..')
+        model_dict.update(weights)
+        model.load_state_dict(model_dict)
+
+        return model
+
+
+    def load_images(self, img_paths):
+
+        # image = np.array(Image.open(os.path.join(path, img_paths[0])))
+        images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
+        # Define a transform to convert the image to tensor
+        transform = transforms.ToTensor() 
+        # Convert the image to PyTorch tensor 
+        print(images.shape)
+        # tensor = transform(images)
+
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        # print("Device:", device)
+        tensor = torch.from_numpy(images).float().to(device)
+
+        # print the converted image tensor 
+        # print(tensor)
+
+        return tensor, img_paths
+
+    def get_wsi_paths(self):
+
+        [print(x) for x in os.listdir(self.base_path)]
+        wsi_paths = [os.path.join(self.base_path, x) for x in os.listdir(self.base_path)]
+        print(wsi_paths)
+        print("Loaded {0} WSI-Folder".format(len(wsi_paths)))
+
+        return wsi_paths
+
+
+
+    def extract_features(self, wsi_path):
+
+        dataframe = pd.DataFrame()
+
+        data_path = os.path.join(wsi_path, "data")
+        
+        # [print(x) for x in os.walk(data_path)]
+        img_paths = [x for x in os.listdir(data_path)]
+        self.img_paths = [os.path.join(data_path, x) for x in img_paths]
+        
+        for num, subset in tqdm(enumerate(more_itertools.chunked(self.img_paths, self.batch_size))):
+            images, img_paths = self.load_images(subset)
+
+            out = self.model(images)
+            frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
+            dataframe = pd.concat([dataframe, frame])
+
+
+
+            del out
+            del images
+            del img_paths
+
+        print("OUT:")
+        print(dataframe)
+
+        dataframe.to_csv(os.path.join(wsi_path, "features_frame.csv"))
 
 if __name__ == "__main__":
 
@@ -54,52 +132,21 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--path', type=str, required=False)
     args = parser.parse_args()
 
-    model = torchvision.models.__dict__['resnet18'](pretrained=False)
-
-    try:
-        state = torch.load(MODEL_PATH, map_location='cuda:0')
-        # img_path = "/home/simon/philipp/patches/DigitalSlide_A1M_9S_1_20190127165819218"
-        img_path = args.path
-        print("Path: ", img_path)
-    except:
-        state = torch.load(MODEL_PATH_, map_location='cuda:0')
-        img_path_ = "/media/user/easystore/some_patches"
-
-    state_dict = state['state_dict']
-    for key in list(state_dict.keys()):
-        state_dict[key.replace('model.', '').replace('resnet.', '')] = state_dict.pop(key)
-
-    model = load_model_weights(model, state_dict)
-
-    if RETURN_PREACTIVATION:
-        model.fc = torch.nn.Sequential()
-    else:
-        model.fc = torch.nn.Linear(model.fc.in_features, NUM_CLASSES)
-
-    model = model.cuda()
-
+    base_path = args.path
+    ce = ContrastiveExtractor(base_path)
     # images = torch.rand((10, 3, 224, 224), device='cuda')
 
-    img_paths = [x for x in os.walk(img_path)][0][2]
-    img_paths = [os.path.join(img_path, x) for x in img_paths]
 
-    dataframe = pd.DataFrame()
-
-    batch_size = 1000
-    for num, subset in enumerate(more_itertools.chunked(img_paths, batch_size)):
-        images, img_paths = load_images(subset)
-
-        out = model(images)
-        frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
-        dataframe = pd.concat([dataframe, frame])
-
+    for wsi_path in ce.wsi_paths:
+        print("File: ", wsi_path)
+        feat_file = os.path.join(wsi_path, "features_frame.csv")
+        
+        if os.path.isfile(feat_file):
+            print("Features found")
+            continue
+        else:
+            print("Calculating features...")
+            ce.extract_features(wsi_path)
 
 
-        del out
-        del images
-        del img_paths
-
-    print("OUT:")
-    print(dataframe)
-    dataframe.to_csv("features_frame.csv".format(num))
 
