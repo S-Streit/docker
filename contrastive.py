@@ -99,7 +99,7 @@ class ContrastiveExtractor():
             print("PIL Error: ", e)
             print("Skipping batch...")
         
-            return pd.Dataframe([])
+            return pd.DataFrame([])
 
 
 
