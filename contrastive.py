@@ -87,6 +87,11 @@ class ContrastiveExtractor():
             out = self.model(tensor)
             frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
 
+            del out
+            del images
+            del tensor
+            del img_paths
+
             return frame
 
         except PIL.UnidentifiedImageError as e:
@@ -124,12 +129,6 @@ class ContrastiveExtractor():
             frame = self.load_extract(subset)
 
             dataframe = pd.concat([dataframe, frame])
-
-
-
-            del out
-            del images
-            del img_paths
 
         print("OUT:")
         print(dataframe)
