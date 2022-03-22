@@ -74,7 +74,7 @@ class ContrastiveExtractor():
         try:
             images = np.array([np.reshape(np.array(Image.open(img).convert('RGB').resize((224,224))), (3,224,224)) for img in img_paths])
 
-        except PIL.UnidentifiedImageError as e
+        except PIL.UnidentifiedImageError as e:
 
             print("PIL Error: ", e)
             print("Skipping batch...")
