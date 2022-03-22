@@ -84,7 +84,7 @@ class ContrastiveExtractor():
             # print("Device:", device)
             tensor = torch.from_numpy(images).float().to(device)
 
-            out = self.model(images)
+            out = self.model(tensor)
             frame = pd.DataFrame(out.cpu().detach().numpy(), index=img_paths)
 
             return frame
