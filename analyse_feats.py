@@ -98,14 +98,14 @@ class FeatureAnalysis():
         for n, center in enumerate(centroids):
             fig, ax = plt.subplots(3,3)
             
-            distances = np.argsort(np.linalg.norm(data - center, axis=1))
+            distances = np.argsort(np.linalg.norm(self.data - center, axis=1))
             cen = distances[0]
-            fig.suptitle("Center: {0} | Patch: {1}".format(n, paths[cen]))
+            fig.suptitle("Center: {0} | Patch: {1}".format(n, self.paths[cen]))
 
             for ind, a in enumerate(ax.flatten()):
                 dist = distances[ind]
                 # print(paths[dist])
-                with Image.open(paths[dist]) as im:
+                with Image.open(self.paths[dist]) as im:
                     patch_img = im.copy()
 
 
