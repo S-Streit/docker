@@ -13,11 +13,11 @@ class FeatureAnalysis():
     def __init__(self, path, server=True):
 
         self.parent_path = path
-        self.frame_list = self.get_paths(keep_files=5)
+        self.frame_list = self.get_paths(keep_files=10)
         
         self.all_feat_frame = self.create_dataframe()
 
-        self.k = 20
+        self.k = 200
         self.kmeans = self.calc_kmeans()
 
         self.plot_kmeans()
