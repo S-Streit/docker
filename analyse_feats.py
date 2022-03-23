@@ -6,7 +6,7 @@ from PIL import Image
 import os
 from tqdm import tqdm
 import pickle
-
+import argparse
 
 class FeatureAnalysis():
 
