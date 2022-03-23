@@ -12,13 +12,15 @@ class FeatureAnalysis():
 
         self.parent_path = path
         self.feat_frame_paths = self.get_paths()
+        
+        self.create_dataframe()
 
 
 
     def get_paths(self):
 
         frame_list = []
-        for folder in os.listdir(parent_path):
+        for folder in os.listdir(self.parent_path):
 
             feat_frame = os.path.join(folder, "features_frame.csv")
             if os.path.isfile(feat_frame):
@@ -27,6 +29,17 @@ class FeatureAnalysis():
         print(frame_list)
 
         return frame_list
+
+
+    def create_dataframe(self):
+
+        all_feat_frame = pd.DataFrame([])
+
+        for frame_file in self.frame_list:
+            frame = pd.read_csv(frame_file)
+            all_feat_frame = pd.concat(all_feat_frame, frame)
+
+        print(frame.values.shape)
 
     def check_kmeans(self, data, paths):
 
