@@ -11,7 +11,7 @@ class FeatureAnalysis():
     def __init__(self, path, server=True):
 
         self.parent_path = path
-        self.feat_frame_paths = self.get_paths()
+        self.frame_list = self.get_paths()
         
         self.create_dataframe()
 
@@ -21,8 +21,8 @@ class FeatureAnalysis():
 
         frame_list = []
         for folder in os.listdir(self.parent_path):
-
             feat_frame = os.path.join(folder, "features_frame.csv")
+            print(feat_frame)
             if os.path.isfile(feat_frame):
                 frame_list.append(feat_frame)
 
