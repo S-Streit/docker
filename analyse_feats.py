@@ -4,6 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from PIL import Image
 import os
+from tqdm import tqdm
 
 
 class FeatureAnalysis():
@@ -13,8 +14,9 @@ class FeatureAnalysis():
         self.parent_path = path
         self.frame_list = self.get_paths()
         
-        self.create_dataframe()
+        self.all_feat_frame = self.create_dataframe()
 
+        self.kmeans_plot(k=50)
 
 
     def get_paths(self):
@@ -35,11 +37,13 @@ class FeatureAnalysis():
 
         all_feat_frame = pd.DataFrame([])
 
-        for frame_file in self.frame_list:
+        for frame_file in tqdm(self.frame_list):
             frame = pd.read_csv(frame_file)
             all_feat_frame = pd.concat([all_feat_frame, frame])
 
-        print(frame.values.shape)
+        print(all_feat_frame.values.shape)
+
+        return all_feat_frame
 
     def check_kmeans(self, data, paths):
 
@@ -59,7 +63,10 @@ class FeatureAnalysis():
 
         return 2
 
-    def kmeans_plot(self, data, paths, k=20):
+    def kmeans_plot(self, k=20):
+        data = self.all_feat_frame.iloc[:, 1:].values
+        paths = [d[0] for d in self.all_feat_frame.iloc[:, :1].values]
+
         kmeans = KMeans(n_clusters=k, random_state=0).fit(data)
         centroids = kmeans.cluster_centers_
 
