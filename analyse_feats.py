@@ -21,7 +21,7 @@ class FeatureAnalysis():
 
         frame_list = []
         for folder in os.listdir(self.parent_path):
-            feat_frame = os.path.join(folder, "features_frame.csv")
+            feat_frame = os.path.join(self.parent_path, os.path.join(folder, "features_frame.csv"))
             print(feat_frame)
             if os.path.isfile(feat_frame):
                 frame_list.append(feat_frame)
