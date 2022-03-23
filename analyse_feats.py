@@ -51,12 +51,12 @@ class FeatureAnalysis():
     def create_dataframe(self):
 
         all_feat_frame = pd.DataFrame([])
-
+        print("Getting features...")
         for frame_file in tqdm(self.frame_list):
             frame = pd.read_csv(frame_file)
             all_feat_frame = pd.concat([all_feat_frame, frame])
 
-        print(all_feat_frame.values.shape)
+        print("Features Shape: (patches, fileName + features)", all_feat_frame.values.shape)
 
         return all_feat_frame
 
@@ -82,7 +82,7 @@ class FeatureAnalysis():
         self.data = self.all_feat_frame.iloc[:, 1:].values
         self.paths = [d[0] for d in self.all_feat_frame.iloc[:, :1].values]
 
-        kmeans = KMeans(n_clusters=self.k, random_state=0).fit(data)
+        kmeans = KMeans(n_clusters=self.k, random_state=0).fit(self.data)
 
         return kmeans
 
