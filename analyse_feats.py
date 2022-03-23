@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 from PIL import Image
 import os
 from tqdm import tqdm
+import pickle
 
 
 class FeatureAnalysis():
@@ -12,14 +13,26 @@ class FeatureAnalysis():
     def __init__(self, path, server=True):
 
         self.parent_path = path
-        self.frame_list = self.get_paths()
+        self.frame_list = self.get_paths(keep_files=5)
         
         self.all_feat_frame = self.create_dataframe()
 
-        self.kmeans_plot(k=50)
+        self.k = 20
+        self.kmeans = self.calc_kmeans()
+
+        self.plot_kmeans()
+        self.save_model(self.kmeans)
 
 
-    def get_paths(self):
+    def save_model(self, model):
+
+        model_name = "kmeans.pkl"
+
+        with open(model_name, "wb") as f:
+            pickle.dump(model, f)
+
+
+    def get_paths(self, keep_files=0):
 
         frame_list = []
         for folder in os.listdir(self.parent_path):
@@ -28,7 +41,9 @@ class FeatureAnalysis():
             if os.path.isfile(feat_frame):
                 frame_list.append(feat_frame)
 
-        print(frame_list)
+        if keep_files > 0:
+            print("Reducing feature files from: {0} to: {1}".format(len(frame_list), keep_files))
+            frame_list = frame_list[:keep_files]
 
         return frame_list
 
@@ -63,26 +78,29 @@ class FeatureAnalysis():
 
         return 2
 
-    def kmeans_plot(self, k=20):
-        data = self.all_feat_frame.iloc[:, 1:].values
-        paths = [d[0] for d in self.all_feat_frame.iloc[:, :1].values]
+    def calc_kmeans(self):
+        self.data = self.all_feat_frame.iloc[:, 1:].values
+        self.paths = [d[0] for d in self.all_feat_frame.iloc[:, :1].values]
 
-        kmeans = KMeans(n_clusters=k, random_state=0).fit(data)
-        centroids = kmeans.cluster_centers_
+        kmeans = KMeans(n_clusters=self.k, random_state=0).fit(data)
 
+        return kmeans
+
+    def plot_kmeans(self):
+
+        centroids = self.kmeans.cluster_centers_
         # print(centroids)
-        dirname = "{0}_clusters".format(k)
+        dirname = "{0}_clusters".format(self.k)
 
         if not os.path.isdir(dirname):
             os.makedirs(dirname)
 
         for n, center in enumerate(centroids):
             fig, ax = plt.subplots(3,3)
-            fig.suptitle("Center: {0} | Patch: {1}".format(n, paths[n]))
             
             distances = np.argsort(np.linalg.norm(data - center, axis=1))
             cen = distances[0]
-
+            fig.suptitle("Center: {0} | Patch: {1}".format(n, paths[cen]))
 
             for ind, a in enumerate(ax.flatten()):
                 dist = distances[ind]
@@ -97,8 +115,9 @@ class FeatureAnalysis():
 
             plt.savefig(os.path.join(dirname, "cluster_{0}.png".format(n)))
 
-        # plt.show()
+            # plt.show()
 
+        
 
     def check_on_server(self):
 
