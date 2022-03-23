@@ -37,7 +37,7 @@ class FeatureAnalysis():
 
         for frame_file in self.frame_list:
             frame = pd.read_csv(frame_file)
-            all_feat_frame = pd.concat(all_feat_frame, frame)
+            all_feat_frame = pd.concat([all_feat_frame, frame])
 
         print(frame.values.shape)
 
