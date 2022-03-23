@@ -10,14 +10,14 @@ import pickle
 
 class FeatureAnalysis():
 
-    def __init__(self, path, server=True):
+    def __init__(self, path, keep, k, server=True):
 
         self.parent_path = path
-        self.frame_list = self.get_paths(keep_files=10)
+        self.frame_list = self.get_paths(keep_files=keep)
         
         self.all_feat_frame = self.create_dataframe()
 
-        self.k = 200
+        self.k = k
         self.kmeans = self.calc_kmeans()
 
         self.plot_kmeans()
@@ -133,8 +133,18 @@ class FeatureAnalysis():
 
 if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-k', '--k_clusters', type=int, required=False, default=200)
+    parser.add_argument('-ke', '--keep', type=int, required=False, default=0)
+    args = parser.parse_args()
+
+    k = args.k_clusters
+    keep = args.keep
+
     path = "/home/simon/philipp/patches"
-    fa = FeatureAnalysis(path)
+    fa = FeatureAnalysis(path, keep=keep, k=k)
+
+
     # check_on_server()
 
     # patch_path = "/media/user/easystore/patches/"
