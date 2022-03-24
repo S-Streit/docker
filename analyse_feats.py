@@ -10,19 +10,19 @@ import argparse
 
 class FeatureAnalysis():
 
-    def __init__(self, path, keep, k, server=True):
+    def __init__(self, path, keep, server=True):
 
         self.parent_path = path
         self.frame_list = self.get_paths(keep_files=keep)
         
         self.all_feat_frame = self.create_dataframe()
 
+    def run(self, k):
+
         self.k = k
         self.kmeans = self.calc_kmeans()
-
         self.plot_kmeans()
         self.save_model(self.kmeans)
-
 
     def save_model(self, model):
 
@@ -134,15 +134,20 @@ class FeatureAnalysis():
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-k', '--k_clusters', type=int, required=False, default=200)
+    parser.add_argument('-k', '--k_clusters', required=False, nargs='+', default=[200])
     parser.add_argument('-ke', '--keep', type=int, required=False, default=0)
     args = parser.parse_args()
 
-    k = args.k_clusters
+    k_clusters = args.k_clusters
     keep = args.keep
 
+    # print(k_clusters)
+
     path = "/home/simon/philipp/patches"
-    fa = FeatureAnalysis(path, keep=keep, k=k)
+    fa = FeatureAnalysis(path, keep=keep)
+    for k in k_clusters:
+        print("kmeans with: ", int(k))
+        fa.run(int(k))
 
 
     # check_on_server()
