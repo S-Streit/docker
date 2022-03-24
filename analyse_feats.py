@@ -26,7 +26,7 @@ class FeatureAnalysis():
 
     def save_model(self, model):
 
-        model_name = "kmeans.pkl"
+        model_name = "kmeans_{0}.pkl".format(self.k)
 
         with open(model_name, "wb") as f:
             pickle.dump(model, f)
