@@ -391,7 +391,7 @@ class Wrapper():
         [print(d) for d in self.dirlist]
 
         # image_names = self.get_images(client)
-        self.run_containers(client, image_names)
+        self.run_containers(client)
 
     def get_images(self, client):
         container_list = ["hover-docker", "clam-docker", "hqc-docker"]
