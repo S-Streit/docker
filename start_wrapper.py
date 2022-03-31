@@ -390,7 +390,7 @@ class Wrapper():
 
         [print(d) for d in self.dirlist]
 
-        image_names = self.get_images(client)
+        # image_names = self.get_images(client)
         self.run_containers(client, image_names)
 
     def get_images(self, client):
@@ -407,7 +407,7 @@ class Wrapper():
         # self.prepare_containers(image_names)
 
 
-    def run_containers(self, client, image_names):
+    def run_containers(self, client):
 
         print(self.dirlist)
         file_num = len(self.dirlist)
