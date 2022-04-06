@@ -443,6 +443,7 @@ class Wrapper():
             print("Starting CLAM: ")
             clam_container = client.containers.run(image="clam-docker", command="-ef", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
             self._print_output(clam_container, "CLAM", file_num, count)
+            result = clam_container.wait()
 
             # print("Starting HOVER: ")
             # hover_container = client.containers.run(image="hover-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
