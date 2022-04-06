@@ -374,8 +374,6 @@ class Wrapper():
         modelpath = cmd_config["model_path"]
         command = "python -pp {0} -o {1} -m {2}".format(input_path, output_path, modelpath)
 
-
-        start_cmd, cmd_config = self._get_simclr_command()
         self.run_project(start_cmd, cmd_config)
 
 
