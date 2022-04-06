@@ -441,7 +441,7 @@ class Wrapper():
             # self._print_output(hqc_container, "HQC", file_num, count)
 
             print("Starting CLAM: ")
-            clam_container = client.containers.run(image="clam-docker", command="-ef", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            clam_container = client.containers.run(image="clam-docker", command="-cp", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
             self._print_output(clam_container, "CLAM", file_num, count)
             result = clam_container.wait()
 
