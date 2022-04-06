@@ -55,7 +55,8 @@ RUN pip install numpy
 RUN conda install -c conda-forge pixman -y
 RUN pip install docker-py
 
-RUN wget -O https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt /usr/local/models/tenpercent_resnet18.ckpt
+# RUN wget -O https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt /usr/local/models/tenpercent_resnet18.ckpt
+RUN git clone "https://github.com/ozanciga/self-supervised-histopathology/releases/tag/tenpercent" /usr/local/models
 RUN git clone "https://github.com/Pacific89/Histo-ML" /usr/local/src
 
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
