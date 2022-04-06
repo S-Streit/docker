@@ -367,7 +367,7 @@ class Wrapper():
 
         input_path = cmd_config["input_path"]
         
-        out_id = args.uuid
+        out_id = uuid.uuid4().hex
         cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
         output_path = cmd_config["output_path"] # set output folder
         
