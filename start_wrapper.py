@@ -361,6 +361,24 @@ class Wrapper():
             start_cmd, cmd_config = self._clam_create_heatmaps(cmd_config)
             self.run_project(start_cmd, cmd_config)
 
+    def simclr(self):
+
+        cmd_config = self.parse_cmd_config()
+        
+        input_path = cmd_config["input_path"]
+        
+        out_id = args.uuid
+        cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
+        output_path = cmd_config["output_path"] # set output folder
+        
+        modelpath =  = cmd_config["model_path"]
+        command = "python -pp {0} -o {1} -m {2}".format(input_path, outfolder, modelpath)
+
+
+        start_cmd, cmd_config = self._get_simclr_command()
+        self.run_project(start_cmd, cmd_config)
+
+
     def run_project(self, start_cmd, cmd_config):
 
         print("CMD_CONFIG:")
@@ -457,3 +475,5 @@ if __name__ == "__main__":
         wrapper.hovernet()
     elif "clam" in algo_name:
         wrapper.clam()
+    elif "simclr" in algo_name:
+        wrapper.simclr()
