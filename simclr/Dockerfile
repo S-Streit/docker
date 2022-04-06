@@ -69,6 +69,6 @@ RUN ["cp", "/usr/local/wrapper/simclr/default_command_config.json", "/usr/local/
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
-RUN echo Hello!
+RUN echo Hello!!
 ENTRYPOINT [ "python", "/usr/local/wrapper/start_wrapper.py"]
 # ENTRYPOINT [ "bin/bash" ]
