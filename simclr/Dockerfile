@@ -61,7 +61,7 @@ RUN cd /usr/local/models
 RUN curl https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt
 RUN git clone "https://github.com/Pacific89/Histo-ML" /usr/local/src
 
-RUN echo Hello!!!!!!!
+RUN echo Hello!!!!!!!!
 
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["cp", "/usr/local/wrapper/simclr/default_command_config.json", "/usr/local/wrapper"]
