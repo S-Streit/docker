@@ -61,6 +61,8 @@ RUN cd /usr/local/models
 RUN curl https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt
 RUN git clone "https://github.com/Pacific89/Histo-ML" /usr/local/src
 
+RUN echo Hello!!!
+
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
 RUN ["cp", "/usr/local/wrapper/simclr/default_command_config.json", "/usr/local/wrapper"]
 # RUN ["mkdir", "/usr/local/config"]
@@ -69,6 +71,5 @@ RUN ["cp", "/usr/local/wrapper/simclr/default_command_config.json", "/usr/local/
 # RUN pip install jupyter
 # RUN ["cp", "/usr/local/src/clam/clam_command_config.json", "/usr/local/config"]
 # CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''", "--NotebookApp.password=''"]
-RUN echo Hello!!
 ENTRYPOINT [ "python", "/usr/local/wrapper/start_wrapper.py"]
 # ENTRYPOINT [ "bin/bash" ]
