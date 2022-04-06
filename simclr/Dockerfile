@@ -57,8 +57,9 @@ RUN pip install docker-py
 
 # RUN wget -O https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt /usr/local/models/tenpercent_resnet18.ckpt
 RUN mkdir /usr/local/models
+RUN echo Hello
 RUN cd /usr/local/models
-RUN curl OJL https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt
+RUN curl https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt
 RUN git clone "https://github.com/Pacific89/Histo-ML" /usr/local/src
 
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
