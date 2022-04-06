@@ -371,7 +371,7 @@ class Wrapper():
         cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
         output_path = cmd_config["output_path"] # set output folder
         
-        modelpath =  = cmd_config["model_path"]
+        modelpath = cmd_config["model_path"]
         command = "python -pp {0} -o {1} -m {2}".format(input_path, outfolder, modelpath)
 
 
