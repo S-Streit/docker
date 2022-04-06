@@ -372,7 +372,7 @@ class Wrapper():
         output_path = cmd_config["output_path"] # set output folder
         
         modelpath = cmd_config["model_path"]
-        command = "python -pp {0} -o {1} -m {2}".format(input_path, output_path, modelpath)
+        start_cmd = "python -pp {0} -o {1} -m {2}".format(input_path, output_path, modelpath)
 
         self.run_project(start_cmd, cmd_config)
 
