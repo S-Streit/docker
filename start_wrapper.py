@@ -452,7 +452,7 @@ class Wrapper():
             print("Starting SIMCLR: ")
             simclr_container = client.containers.run(image="simclr-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
             self._print_output(simclr_container, "SIMCLR", file_num, count)
-            # result = clam_container.wait()
+            result = simclr_container.wait()
 
             count += 1
 
