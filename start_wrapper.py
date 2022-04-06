@@ -372,7 +372,7 @@ class Wrapper():
         output_path = cmd_config["output_path"] # set output folder
         
         modelpath = cmd_config["model_path"]
-        start_cmd = "python -pp {0} -o {1} -m {2}".format(input_path, output_path, modelpath)
+        start_cmd = "python3 /usr/local/src/contrastive.py -pp {0} -o {1} -m {2}".format(input_path, output_path, modelpath)
 
         self.run_project(start_cmd, cmd_config)
 
@@ -450,7 +450,7 @@ class Wrapper():
 
             print("Starting SIMCLR: ")
             clam_container = client.containers.run(image="simclr-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            self._print_output(clam_container, "CLAM", file_num, count)
+            self._print_output(clam_container, "SIMCLR", file_num, count)
 
             count += 1
 
