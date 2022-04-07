@@ -10,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 import shutil
 import docker
+import xlrd
 
 
 class Wrapper():
@@ -400,6 +401,16 @@ class Wrapper():
         if not args.csv == "none":
             df = pd.read_excel(args.csv)
             print(df)
+
+            wb = xlrd.open_workbook(args.csv)
+            sheet = wb.sheet_by_index(0)
+            
+            # For row 0 and column 0
+            sheet.cell_value(0, 0)
+            
+            for i in range(sheet.ncols):
+                print(sheet.cell_value(0, i))
+
         # print(args)
         self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
