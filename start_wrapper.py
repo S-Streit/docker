@@ -401,7 +401,7 @@ class Wrapper():
         if not args.csv == "none":
             xlsx = pd.ExcelFile(args.csv)
             worksheet = pd.read_excel(xlsx, "codiert")
-            files = worksheet.loc[1:,"Dateiname(n)"].values
+            files = worksheet.loc[:,"Dateiname(n)"].values
             print(files)
 
         # print(args)
