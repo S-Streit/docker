@@ -398,7 +398,7 @@ class Wrapper():
 
         args = self.parser.parse_args()
         if not args.csv == "none":
-            df = pd.read_csv(args.csv)
+            df = pd.read_excel(args.csv)
             print(df)
         # print(args)
         self.dirlist = []
