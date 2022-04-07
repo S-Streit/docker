@@ -404,7 +404,7 @@ class Wrapper():
 
             wb = openpyxl.load_workbook(args.csv)
             sheet = wb["codiert"]
-        for cell in sheet[1]:
+        for cell in sheet[0]:
             print(cell.value) 
         # print(args)
         self.dirlist = []
