@@ -399,13 +399,10 @@ class Wrapper():
 
         args = self.parser.parse_args()
         if not args.csv == "none":
-            df = pd.read_excel(args.csv)
+            df = pd.ExcelFile(args.csv)
             print(df)
 
-            wb = openpyxl.load_workbook(args.csv)
-            sheet = wb["codiert"]
-        for cell in sheet[0]:
-            print(cell.value) 
+
         # print(args)
         self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
