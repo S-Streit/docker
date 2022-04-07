@@ -400,7 +400,7 @@ class Wrapper():
         args = self.parser.parse_args()
         if not args.csv == "none":
             xlsx = pd.ExcelFile(args.csv)
-            print(pd.read_excel(xlsx["codiert"]))
+            print(pd.read_excel(xlsx, "codiert"))
 
 
         # print(args)
