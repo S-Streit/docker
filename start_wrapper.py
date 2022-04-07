@@ -404,7 +404,7 @@ class Wrapper():
 
             wb = openpyxl.load_workbook(args.csv)
             for sheet in wb.worksheets:
-                print sheet
+                print(sheet)
         # print(args)
         self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
