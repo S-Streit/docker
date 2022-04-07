@@ -364,11 +364,17 @@ class Wrapper():
 
     def simclr(self):
 
-        cmd_config = self.parse_cmd_config()
-
-        input_path = cmd_config["input_path"]
+        parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
         
-        out_id = uuid.uuid4().hex
+        cmd_config = self.parse_cmd_config()
+        input_path = cmd_config["input_path"]
+
+        args = parser.parse_args()
+        if not args.uuid:
+            out_id = uuid.uuid4().hex
+        else:
+            out_id = args.uuid
+            
         cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
         output_path = cmd_config["output_path"] # set output folder
         
