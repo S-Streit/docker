@@ -401,8 +401,8 @@ class Wrapper():
         if not args.csv == "none":
             xlsx = pd.ExcelFile(args.csv)
             worksheet = pd.read_excel(xlsx, "codiert")
-            files = worksheet.loc[:,"Dateiname(n)"]
-            print(files)
+            files = worksheet.loc[:,"Dateiname(n)"].values
+            print(files[:10])
 
         # print(args)
         self.dirlist = []
