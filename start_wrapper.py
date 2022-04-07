@@ -402,7 +402,7 @@ class Wrapper():
             df = pd.read_excel(args.csv)
             print(df)
 
-            wb_obj = openpyxl.load_workbook(csv_file)
+            wb_obj = openpyxl.load_workbook(args.csv)
             print(wb_obj)
 
         # print(args)
