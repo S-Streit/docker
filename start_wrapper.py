@@ -402,8 +402,10 @@ class Wrapper():
             xlsx = pd.ExcelFile(args.csv)
             worksheet = pd.read_excel(xlsx, "codiert")
             files = worksheet.loc[:,"Dateiname(n)"].values
+            targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
             files = [f for f in files if type(f) == str and f.endswith(".svs")]
-            print(files[:10])
+            print(files[:20])
+            print(tagrtes[:20])
 
         # print(args)
         self.dirlist = []
