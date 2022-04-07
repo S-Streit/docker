@@ -405,7 +405,7 @@ class Wrapper():
             wb = openpyxl.load_workbook(args.csv)
             sheet = wb["codiert"]
         for cell in sheet[1]:
-            list_with_values.append(cell.value) 
+            print(cell.value) 
         # print(args)
         self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
