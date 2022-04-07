@@ -403,9 +403,9 @@ class Wrapper():
             worksheet = pd.read_excel(xlsx, "codiert")
             files = worksheet.loc[:,"Dateiname(n)"].values
             targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
-            files = [f for f in files if type(f) == str and f.endswith(".svs")]
-            print(files[:20])
-            print(targets[:20])
+            # files = [f for f in files if type(f) == str and f.endswith(".svs")]
+            print(files[1:20])
+            print(targets[1:20])
 
         # print(args)
         self.dirlist = []
