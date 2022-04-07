@@ -405,7 +405,7 @@ class Wrapper():
             targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
             files = [f for f in files if type(f) == str and f.endswith(".svs")]
             print(files[:20])
-            print(tagrtes[:20])
+            print(targets[:20])
 
         # print(args)
         self.dirlist = []
