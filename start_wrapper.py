@@ -402,9 +402,9 @@ class Wrapper():
             df = pd.read_excel(args.csv)
             print(df)
 
-            wb_obj = openpyxl.load_workbook(args.csv)
-            print(wb_obj)
-
+            wb = openpyxl.load_workbook(args.csv)
+            for sheet in wb.worksheets:
+                print sheet
         # print(args)
         self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
