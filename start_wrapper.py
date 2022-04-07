@@ -10,7 +10,7 @@ from datetime import datetime
 from pathlib import Path
 import shutil
 import docker
-import xlrd
+import openpyxl
 
 
 class Wrapper():
@@ -402,14 +402,8 @@ class Wrapper():
             df = pd.read_excel(args.csv)
             print(df)
 
-            wb = xlrd.open_workbook(args.csv)
-            sheet = wb.sheet_by_index(0)
-            
-            # For row 0 and column 0
-            sheet.cell_value(0, 0)
-            
-            for i in range(sheet.ncols):
-                print(sheet.cell_value(0, i))
+            wb_obj = openpyxl.load_workbook(csv_file)
+            print(wb_obj)
 
         # print(args)
         self.dirlist = []
