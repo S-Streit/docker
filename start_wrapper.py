@@ -19,7 +19,7 @@ class Wrapper():
     def __init__(self):
 
         self.parser = argparse.ArgumentParser(description='')
-        self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point", default="controller", type=str)
+        # self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point", default="controller", type=str)
         self.parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
 
         self.default_config_path = "/usr/local/wrapper/default_command_config.json"
@@ -393,10 +393,13 @@ class Wrapper():
 
     def controller(self):
         client = docker.from_env()
+        self.parser.add_argument('-c', '--csv', help="csv file path", type=str, default="")
 
-        self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
 
         args = self.parser.parse_args()
+        if not args.csv == "none":
+            df = pd.read_csv(args.csv)
+            print(df)
         # print(args)
         self.dirlist = []
         for root, dirs, files in os.walk(args.input_folder):
