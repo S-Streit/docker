@@ -402,6 +402,7 @@ class Wrapper():
             xlsx = pd.ExcelFile(args.csv)
             worksheet = pd.read_excel(xlsx, "codiert")
             files = worksheet.loc[:,"Dateiname(n)"].values
+            files = [f for f in files if type(f) == str and f.endswith(".svs")]
             print(files[:10])
 
         # print(args)
