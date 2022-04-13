@@ -412,7 +412,7 @@ class Wrapper():
 
 
         args = self.parser.parse_args()
-        if not args.csv == "none":
+        if len(args.csv) > 0:
             with pd.ExcelWriter(args.csv, mode='a', if_sheet_exists='replace') as xlsx:
                 # xlsx = pd.ExcelFile(args.csv)
                 worksheet = pd.read_excel(xlsx, "codiert")
@@ -461,7 +461,7 @@ class Wrapper():
 
                 # xlsx.save()
 
-        elif not args.input_folder == "none":
+        elif len(args.input_folder) > 0:
             self.clam_ch = True
             self.hqc = True
             self.hover = True
