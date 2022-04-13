@@ -510,7 +510,7 @@ class Wrapper():
         if self.hqc:
             print("Starting HQC: ")
             hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
-            self._print_output(hqc_container, "HQC", file_num, count)
+            self._print_output(hqc_container, "HQC", self.file_num, count)
 
         if self.clam_p:
             print("Starting CLAM: ")
@@ -537,7 +537,7 @@ class Wrapper():
         if self.hover:
             print("Starting HOVER: ")
             hover_container = client.containers.run(image="hover-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            self._print_output(hover_container, "HOVER-NET", file_num, count)
+            self._print_output(hover_container, "HOVER-NET", self.file_num, count)
 
         if self.simclr:
             print("Starting SIMCLR: ")
