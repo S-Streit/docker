@@ -11,6 +11,7 @@ from pathlib import Path
 import shutil
 import docker
 import openpyxl
+import numpy as np
 
 
 class Wrapper():
@@ -21,7 +22,7 @@ class Wrapper():
 
         self.parser = argparse.ArgumentParser(description='')
         # self.parser.add_argument('--algo_name', help="algorithm name from dockerfile entry point", default="controller", type=str)
-        self.parser.add_argument('-in', '--input_folder',help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
+        self.parser.add_argument('-in', '--input_folder', default='' ,help="one input folder Eg.: /usr/local/data containing subfolders: [first], [second] each containing exactly ONE .svs file with names: first.svs and second.svs respectively",type=str)
 
         self.default_config_path = "/usr/local/wrapper/default_command_config.json"
         self.source_path = "/usr/local/src"
@@ -31,6 +32,13 @@ class Wrapper():
         self.finished = False
         self.start_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         self.end_time = "None"
+
+
+        self.clam_p = False
+        self.clam_ch = False
+        self.simclr = False
+        self.hqc = False
+        self.hover = False
 
     def parse_cmd_config(self, outer_command_config=""):
         # open mounted config file or use default for "RUN-COMMAND"
@@ -405,25 +413,75 @@ class Wrapper():
 
         args = self.parser.parse_args()
         if not args.csv == "none":
-            xlsx = pd.ExcelFile(args.csv)
-            worksheet = pd.read_excel(xlsx, "codiert")
-            files = worksheet.loc[:,"Dateiname(n)"].values
-            targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
-            # files = [f for f in files if type(f) == str and f.endswith(".svs")]
-            print(files[1:20])
-            print(targets[1:20])
+            with pd.ExcelWriter(args.csv, mode='a', if_sheet_exists='replace') as xlsx:
+                # xlsx = pd.ExcelFile(args.csv)
+                worksheet = pd.read_excel(xlsx, "codiert")
+                files = worksheet.loc[:,"Dateiname(n)"].values
+                targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
+                # files = [f for f in files if type(f) == str and f.endswith(".svs")]
+                # print(files[1:20])
+                # print(targets[1:20])
+                self.file_num = len(worksheet)
+                count = 1
+                print("Files:", self.file_num)
+                results = pd.DataFrame()
+                for c, row in worksheet.iterrows():
+                    if not c == 0 and not pd.isna(row["Dateiname(n)"]):
+                        case_files = row["Dateiname(n)"].split(";")
+                        print("--------------------------New Case--------------------------------")
+                        print(case_files)
+                        results_dict = {"clam_results" : list(), "simclr_results" : list()}
+                        for file_path in case_files:
+                            self.clam_p = row.loc["clam_p"]
+                            self.simclr = row.loc["simclr"]
+                            wsi_name = file_path.split("/data/")[-1].split(".svs")[0]
+                            print(wsi_name)
+                            subfolder = file_path.split("/data/")[0]
+                            
+                            # subfolder = os.path.pardir(file_path)
 
-        # print(args)
-        self.dirlist = []
-        for root, dirs, files in os.walk(args.input_folder):
-            for f in files:
-                if f.endswith(".svs"):
-                    self.dirlist.append(root.split('/data')[0])
+                            results_id_dict = self.run_containers(client, subfolder, count)
+                            for key,val in results_id_dict.items():
+                                if key in results_dict and type(results_dict[key]) == None:
+                                    results_dict[key] = [val]
+                                else:
+                                    results_dict[key].append(val)
+                            count += 1
 
-        [print(d) for d in self.dirlist]
+                        print(results_dict)
 
-        # image_names = self.get_images(client)
-        self.run_containers(client)
+                        res_df = pd.DataFrame([results_dict])
+                        results = pd.concat([results, res_df], ignore_index=True)
+                        
+
+                worksheet = pd.concat([worksheet, results], axis=1)
+                worksheet.to_excel(xlsx, "codiert")
+                # worksheet = pd.read_excel(xlsx, "codiert")
+                # print(worksheet)
+
+                # xlsx.save()
+
+        elif not args.input_folder == "none":
+            self.clam_ch = True
+            self.hqc = True
+            self.hover = True
+
+            self.dirlist = []
+            for root, dirs, files in os.walk(args.input_folder):
+                for f in files:
+                    if f.endswith(".svs"):
+                        self.dirlist.append(root.split('/data')[0])
+
+            [print(d) for d in self.dirlist]
+
+            # image_names = self.get_images(client)
+            print(self.dirlist)
+            self.file_num = len(self.dirlist)
+            for count, subfolder in enumerate(self.dirlist):
+                results_id_dict = self.run_containers(client, subfolder, count)
+
+        else:
+            print("No Input Folder or CSV file...")
 
     def get_images(self, client):
         container_list = ["hover-docker", "clam-docker", "hqc-docker"]
@@ -439,38 +497,60 @@ class Wrapper():
         # self.prepare_containers(image_names)
 
 
-    def run_containers(self, client):
+    def run_containers(self, client, subfolder, count):
 
-        print(self.dirlist)
-        file_num = len(self.dirlist)
-        count = 1
-        for subfolder in self.dirlist:
-            print("Processing Folder: ", subfolder)
-            mounts = ["{0}:/usr/local/mount".format(subfolder)]
+        print("Processing Folder: ", subfolder)
+        mounts = ["{0}:/usr/local/mount".format(subfolder)]
+        results_id_dict = {}
 
-            # start_hqc_container = "docker run --rm -v {0}:/usr/local/mount hqc-docker".format(subfolder)
-            # start_clam_container = "docker run --rm --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -cp".format(subfolder)
-            # start_hover_container = "docker run --rm --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
+        # start_hqc_container = "docker run --rm -v {0}:/usr/local/mount hqc-docker".format(subfolder)
+        # start_clam_container = "docker run --rm --gpus all --shm-size 8G -v {0}:/usr/local/mount clam-docker -cp".format(subfolder)
+        # start_hover_container = "docker run --rm --gpus all --shm-size 32G -v {0}:/usr/local/mount hover-docker".format(subfolder)
 
-            # print("Starting HQC: ")
-            # hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
-            # self._print_output(hqc_container, "HQC", file_num, count)
+        if self.hqc:
+            print("Starting HQC: ")
+            hqc_container = client.containers.run(image="hqc-docker", auto_remove=True, volumes=mounts, detach=True)
+            self._print_output(hqc_container, "HQC", file_num, count)
 
+        if self.clam_p:
             print("Starting CLAM: ")
-            clam_container = client.containers.run(image="clam-docker", command="-cp", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            self._print_output(clam_container, "CLAM", file_num, count)
+            clam_out_id = uuid.uuid4().hex
+            clam_command_params = "-u {0} -cp".format(clam_out_id)
+            clam_out_folder = os.path.join(subfolder, "results", clam_out_id)
+            results_id_dict["clam_results"] = clam_out_folder
+
+            # clam_container = client.containers.run(image="clam-docker", command=clam_command_params, auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            # self._print_output(clam_container, "CLAM", self.file_num, count)
+            # result = clam_container.wait()
+
+        if self.clam_ch:
+            print("Starting CLAM: ")
+            clam_out_id = uuid.uuid4().hex
+            clam_command_params = "-u {0} -ch".format(clam_out_id)
+            clam_out_folder = os.path.join(subfolder, "results", clam_out_id)
+            results_id_dict["clam_results"] = clam_out_folder
+
+            clam_container = client.containers.run(image="clam-docker", command=clam_command_params, auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            self._print_output(clam_container, "CLAM", self.file_num, count)
             result = clam_container.wait()
 
-            # print("Starting HOVER: ")
-            # hover_container = client.containers.run(image="hover-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            # self._print_output(hover_container, "HOVER-NET", file_num, count)
+        if self.hover
+            print("Starting HOVER: ")
+            hover_container = client.containers.run(image="hover-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            self._print_output(hover_container, "HOVER-NET", file_num, count)
 
+        if self.simclr:
             print("Starting SIMCLR: ")
-            simclr_container = client.containers.run(image="simclr-docker", auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            self._print_output(simclr_container, "SIMCLR", file_num, count)
-            result = simclr_container.wait()
+            simclr_out_id = uuid.uuid4().hex
+            simclr_command_params = "-u {0}".format(simclr_out_id)
+            simclr_out_folder = os.path.join(subfolder, "results", simclr_out_id)
+            results_id_dict["simclr_results"] = simclr_out_folder
 
-            count += 1
+            # simclr_container = client.containers.run(image="simclr-docker", command=simclr_command_params, auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            # self._print_output(simclr_container, "SIMCLR", self.file_num, count)
+            # result = simclr_container.wait()
+
+        return results_id_dict
 
 
     def _print_output(self, container, algo_name, file_num, count):
