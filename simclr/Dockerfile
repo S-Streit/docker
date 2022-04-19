@@ -60,7 +60,7 @@ Run pip install pytorch-lightning
 # RUN wget -O https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt /usr/local/models/tenpercent_resnet18.ckpt
 RUN mkdir /usr/local/models
 RUN curl -L https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt > /usr/local/models/tenpercent_resnet18.ckpt
-RUN echo Hello!!!!!!!!!!!!!!!!!
+RUN echo Hello!!!!!!!!!!!!!!!!!!
 
 RUN git clone "https://github.com/Pacific89/Histo-ML" /usr/local/src
 
