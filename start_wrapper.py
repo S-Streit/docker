@@ -371,12 +371,12 @@ class Wrapper():
 
     def simclr_func(self):
 
-        parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
+        self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
         
         cmd_config = self.parse_cmd_config()
         input_path = cmd_config["input_path"]
 
-        args = parser.parse_args()
+        args = self.parser.parse_args()
         if not args.uuid:
             out_id = uuid.uuid4().hex
         else:
