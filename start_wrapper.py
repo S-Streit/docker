@@ -369,7 +369,7 @@ class Wrapper():
             start_cmd, cmd_config = self._clam_create_heatmaps(cmd_config)
             self.run_project(start_cmd, cmd_config)
 
-    def simclr(self):
+    def simclr_func(self):
 
         parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
         
@@ -575,4 +575,4 @@ if __name__ == "__main__":
     elif "clam" in algo_name:
         wrapper.clam()
     elif "simclr" in algo_name:
-        wrapper.simclr()
+        wrapper.simclr_func()
