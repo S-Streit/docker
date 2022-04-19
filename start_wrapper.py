@@ -10,7 +10,6 @@ from datetime import datetime
 from pathlib import Path
 import shutil
 import docker
-import openpyxl
 import numpy as np
 
 
