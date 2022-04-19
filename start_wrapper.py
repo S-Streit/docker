@@ -519,9 +519,9 @@ class Wrapper():
             clam_out_folder = os.path.join(subfolder, "results", clam_out_id)
             results_id_dict["clam_results"] = clam_out_folder
 
-            # clam_container = client.containers.run(image="clam-docker", command=clam_command_params, auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            # self._print_output(clam_container, "CLAM", self.file_num, count)
-            # result = clam_container.wait()
+            clam_container = client.containers.run(image="clam-docker", command=clam_command_params, auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            self._print_output(clam_container, "CLAM", self.file_num, count)
+            result = clam_container.wait()
 
         if self.clam_ch:
             print("Starting CLAM: ")
@@ -546,9 +546,9 @@ class Wrapper():
             simclr_out_folder = os.path.join(subfolder, "results", simclr_out_id)
             results_id_dict["simclr_results"] = simclr_out_folder
 
-            # simclr_container = client.containers.run(image="simclr-docker", command=simclr_command_params, auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
-            # self._print_output(simclr_container, "SIMCLR", self.file_num, count)
-            # result = simclr_container.wait()
+            simclr_container = client.containers.run(image="simclr-docker", command=simclr_command_params, auto_remove=True, shm_size="8G", volumes=mounts, detach=True, device_requests=[docker.types.DeviceRequest(count=-1, capabilities=[['gpu']])])
+            self._print_output(simclr_container, "SIMCLR", self.file_num, count)
+            result = simclr_container.wait()
 
         return results_id_dict
 
