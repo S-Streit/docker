@@ -408,12 +408,12 @@ class Wrapper():
 
     def controller(self):
         client = docker.from_env()
-        self.parser.add_argument('-c', '--csv', help="csv file path", type=str, default="")
+        self.parser.add_argument('-c', '--config_file', help="xlsx file path", type=str, default="")
 
 
         args = self.parser.parse_args()
-        if len(args.csv) > 0:
-            with pd.ExcelWriter(args.csv, mode='a', if_sheet_exists='replace') as xlsx:
+        if len(args.config_file) > 0:
+            with pd.ExcelWriter(args.config_file, mode='a', if_sheet_exists='replace') as xlsx:
                 # xlsx = pd.ExcelFile(args.csv)
                 worksheet = pd.read_excel(xlsx, "codiert")
                 files = worksheet.loc[:,"Dateiname(n)"].values
