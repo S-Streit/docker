@@ -432,7 +432,7 @@ class Wrapper():
                         results_dict = {"clam_results" : list(), "simclr_results" : list()}
                         for file_path in case_files:
                             # check if filepath is a folder, else skip
-                            if not os.path.isdir(file_path):
+                            if not os.path.isfile(file_path):
                                 print("------Skipping: {0} -----------------".format(file_path))
                                 continue
                             else:
