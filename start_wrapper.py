@@ -431,21 +431,26 @@ class Wrapper():
                         print(case_files)
                         results_dict = {"clam_results" : list(), "simclr_results" : list()}
                         for file_path in case_files:
-                            self.clam_p = row.loc["clam_p"]
-                            self.simclr = row.loc["simclr"]
-                            wsi_name = file_path.split("/data/")[-1].split(".svs")[0]
-                            print(wsi_name)
-                            subfolder = file_path.split("/data/")[0]
-                            
-                            # subfolder = os.path.pardir(file_path)
+                            # check if filepath is a folder, else skip
+                            if not os.path.isdir(file_path):
+                                print("------Skipping: {0} -----------------".format(file_path))
+                                continue
+                            else:
+                                self.clam_p = row.loc["clam_p"]
+                                self.simclr = row.loc["simclr"]
+                                wsi_name = file_path.split("/data/")[-1].split(".svs")[0]
+                                print(wsi_name)
+                                subfolder = file_path.split("/data/")[0]
+                                
+                                # subfolder = os.path.pardir(file_path)
 
-                            results_id_dict = self.run_containers(client, subfolder, count)
-                            for key,val in results_id_dict.items():
-                                if key in results_dict and type(results_dict[key]) == None:
-                                    results_dict[key] = [val]
-                                else:
-                                    results_dict[key].append(val)
-                            count += 1
+                                results_id_dict = self.run_containers(client, subfolder, count)
+                                for key,val in results_id_dict.items():
+                                    if key in results_dict and type(results_dict[key]) == None:
+                                        results_dict[key] = [val]
+                                    else:
+                                        results_dict[key].append(val)
+                                count += 1
 
                         print(results_dict)
 
