@@ -56,6 +56,7 @@ RUN conda install -c conda-forge pixman -y
 RUN pip install docker-py
 Run pip install more-itertools
 Run pip install pytorch-lightning
+RUN pip install tables
 
 # RUN wget -O https://github.com/ozanciga/self-supervised-histopathology/releases/download/tenpercent/tenpercent_resnet18.ckpt /usr/local/models/tenpercent_resnet18.ckpt
 RUN mkdir /usr/local/models
