@@ -30,6 +30,7 @@ RUN git clone "https://github.com/Pacific89/hover_net" /usr/local/src
 RUN pip install -r /usr/local/src/requirements.txt
 RUN pip install -U numpy
 RUN pip install docker-py
+RUN apt-get install wget
 ENV PATH=/root/miniconda3/bin:${PATH}
 RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
