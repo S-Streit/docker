@@ -2,7 +2,6 @@ FROM nvidia/cuda:11.4.2-devel-ubuntu20.04
 ENV PATH=/root/miniconda3/bin:${PATH}
 
 RUN rm /etc/apt/sources.list.d/cuda.list
-RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get -y update
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
