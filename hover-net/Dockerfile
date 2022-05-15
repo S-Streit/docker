@@ -30,6 +30,13 @@ RUN git clone "https://github.com/Pacific89/hover_net" /usr/local/src
 RUN pip install -r /usr/local/src/requirements.txt
 RUN pip install -U numpy
 RUN pip install docker-py
+ENV PATH=/root/miniconda3/bin:${PATH}
+RUN wget \
+    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && mkdir /root/.pip \
+    && bash Miniconda3-latest-Linux-x86_64.sh -b \
+    && rm -f Miniconda3-latest-Linux-x86_64.sh
+RUN conda install -c conda-forge pixman -y
 RUN echo Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 RUN git clone "https://github.com/Pacific89/docker" /usr/local/wrapper
