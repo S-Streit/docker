@@ -437,7 +437,7 @@ class Wrapper():
                                 continue
                             else:
                                 self.clam_p = row.loc["clam_p"]
-                                self.clam_p = row.loc["clam_ch"]
+                                self.clam_ch = row.loc["clam_ch"]
                                 self.simclr = row.loc["simclr"]
                                 wsi_name = file_path.split("/data/")[-1].split(".svs")[0]
                                 print(wsi_name)
