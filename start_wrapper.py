@@ -61,18 +61,16 @@ class Wrapper():
         commit = head_ref.read_text().replace('\n','')
 
         return commit
-    def get_algo_name(self, repo_path=None):
-        
-        # if not repo_path:
-        #     repo_path = self.source_path
-        
-        # git_folder = Path(repo_path,'.git/config')
-        # print("Git folder:", git_folder)
+    def get_algo_name(self):
+        """ functions checks if the default config file (self.default_config_file") exists.
+        if it exists it is assumed that the script runs inside a docker container that was prepared
+        for the corresponding open source project (CLAM, HistoQC, HoVerNet and SimCLR at this point)
 
-        # if os.path.isdir(git_folder):
-        #     name = git_folder.read_text().split('Pacific89/')[1].split('\n')[0].split('.')[0]
-        # else:
-        #     name = "controller"
+        Returns
+        -------
+        string
+            name of the open source project read from default config file or "controller"
+        """
 
         if os.path.isfile(self.default_config_path):
             cmd_config = self.parse_cmd_config()
@@ -85,6 +83,15 @@ class Wrapper():
         return algo_name
 
     def save_config_info(self, cmd_config, start_command):
+        """Saves the used config file (with updated information (UUID) for output folder)
+
+        Parameters
+        ----------
+        cmd_config : dictionary
+            dictionary with configurations for command line interface
+        start_command : string
+            string to start the open source project using the command line interface
+        """
 
         cfg_dict = {}
         meta_cfg_dict = {}
@@ -121,6 +128,13 @@ class Wrapper():
 
 
     def _get_clam_patch_folder(self):
+        """ gets path to clam patches (png files from clam heatmap output) for HoVerNet cell segmentation
+
+        Returns
+        -------
+        string
+            path to clam patches 
+        """
 
         path = os.path.join(self.data_path, "results")
 
@@ -142,6 +156,10 @@ class Wrapper():
 
 
     def hovernet(self):
+        """ creates the start command for HoVerNet using the command config file.
+        Creates UUID for output folder (if not provided)
+        reads command config and sassembles string
+        """
 
         # RUN command outside container: 
         # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount hover-net
@@ -211,17 +229,11 @@ class Wrapper():
         self.run_project(start_cmd, cmd_config)
 
     def hqc(self):
+        """ creates the start command for HistoQC function using the command config
+        """
         # docker run -it -v /home/simon/philipp/one:/usr/local/mount hqc-docker
 
-        # outer_command_config = "/usr/local/mount/config/hqc_command_config.json"
-        # default_command_config = "/usr/local/wrapper/hqc/default_command_config.json"
-
         cmd_config = self.parse_cmd_config()
-
-        # parser = argparse.ArgumentParser(description='')
-        # parser.add_argument('input_pattern',
-        #             help="one input file: example.svs",
-        #             nargs="*")
 
         self.parser.add_argument('-c', '--config', help="json string with config parameters: \n Defaults: {0}".format(self.default_config_path), default=self.default_config_path, type=str)
         self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
@@ -243,8 +255,6 @@ class Wrapper():
 
         cmd_config["output_path"] = cmd_config["output_path"] + "/" + out_id # set output folder in command_dict
         output_path = cmd_config["output_path"] # set output folder
-        # choose config file :
-        # use config file mounted from outside OR ELSE use default file from "hqc_command_config.json"
 
         config_path = cmd_config["config_path"]
 
@@ -264,6 +274,21 @@ class Wrapper():
         self.run_project(start_cmd, cmd_config)
 
     def _clam_create_patches(self, cmd_config):
+        """ creates the start command for clam create patches function using the command config
+
+        Parameters
+        ----------
+        cmd_config : dictionary
+            holds the command line argument values for clam functions
+
+        Returns
+        -------
+        start_cmd [string]
+            start command for clam heatmap
+        
+        cmd_confg [dictionary]
+            updated command config
+        """
 
         input_folder = cmd_config["input_path"]
 
@@ -283,6 +308,23 @@ class Wrapper():
         return start_cmd, cmd_config
 
     def _clam_extract_features(self, cmd_config, patch_run_dir):
+        """creates the start command for clam extract features function using the command config
+
+        Parameters
+        ----------
+        cmd_config : dictionary
+            holds the command line argument values for clam functions
+        patch_run_dir : string
+            path to the patch directory
+
+        Returns
+        -------
+        start_cmd [string]
+            start command for clam heatmap
+        
+        cmd_confg [dictionary]
+            updated command config
+        """
 
         input_folder = cmd_config["input_path"]
         svs_files = glob(input_folder + "/*.svs")
@@ -297,6 +339,22 @@ class Wrapper():
         return start_cmd, cmd_config
 
     def _clam_create_heatmaps(self, cmd_config):
+        """creates the start command for clam create heatmaps function using the command config
+        sets the configurations in the config.yaml file and saves it
+
+        Parameters
+        ----------
+        cmd_config : dictionary
+            holds the command line argument values for clam functions
+
+        Returns
+        -------
+        start_cmd [string]
+            start command for clam heatmap
+        
+        cmd_confg [dictionary]
+            updated command config
+        """
 
         import yaml
         # yaml_dict = yaml.safe_load(cmd_config["heatmap_config_path"])
@@ -321,15 +379,13 @@ class Wrapper():
         return start_cmd, cmd_config
 
     def clam(self):
+        """ depending on the configuration, calls one of the functions to create the correct command line string for 
+        one of the CLAM functions: (extract patches, extract features and/or create heatmap)
+        """
 
         # RUN command outside container: (use all gpus, increased shared memory) 
         # docker run -it --gpus all --shm-size 8G -v /home/simon/philipp/one:/usr/local/mount clam-docker -ch
 
-
-        # self.parser = argparse.ArgumentParser(description='')
-        # parser.add_argument('input_folder',
-        #             help="one input folder that contains a WSI: example.svs",
-        #             nargs=1)
         self.parser.add_argument('-c', '--config', help="json string with config parameters", type=str)
         self.parser.add_argument('-cp', '--create_patches', help="call create_patches.py", default=False, action="store_true")
         self.parser.add_argument('-ef', '--extract_features', help="call extract_features.py",default=False, action="store_true")
@@ -339,9 +395,6 @@ class Wrapper():
         self.parser.add_argument('--patch_run_dir', help='UUID of extract-patches run', type=str, default="")
 
         args = self.parser.parse_args()
-
-        # outer_command_config = "/usr/local/mount/config/clam_command_config.json"
-        # default_command_config = "/usr/local/wrapper/clam/default_command_config.json"
 
         cmd_config = self.parse_cmd_config()
 
@@ -370,6 +423,10 @@ class Wrapper():
             self.run_project(start_cmd, cmd_config)
 
     def simclr_func(self):
+        """ generates the start command string using the provided config file.
+        Generates a UUID for the output folder.
+        Finally calls "run_project"
+        """
 
         self.parser.add_argument('-u', '--uuid', help="UUID for current algorithm run", type=str, default="")
         
@@ -392,6 +449,15 @@ class Wrapper():
 
 
     def run_project(self, start_cmd, cmd_config):
+        """ uses the provided start command string (start_cmd) to start one open source project
+        and saves the config files before calling the open source project.
+        Parameters
+        ----------
+        start_cmd : string
+            start command for command line interface
+        cmd_config : dictionary
+            config dictionary read from config file
+        """
 
         print("CMD_CONFIG:")
         print(cmd_config)
@@ -405,85 +471,106 @@ class Wrapper():
             self.end_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
             self.save_config_info(cmd_config, start_cmd)
 
-    def controller(self):
+    def excel_file_controller(self, args):
+        """ reads the provided excel file and sets flags for algorithm containers (CLAM / SimCLR)
+        iterates over all files in excel file and calls the specific containers.
+        Finally writes the results paths into the excel file
+
+        Parameters
+        ----------
+        args : dictionary
+            command line arguments
+        """
         client = docker.from_env()
+
+        with pd.ExcelWriter(args.config_file, mode='a', if_sheet_exists='replace') as xlsx:
+            worksheet = pd.read_excel(xlsx, "Sheet1")
+            files = worksheet.loc[:,"Dateiname(n)"].values
+
+            self.file_num = len(worksheet)
+            count = 1
+            print("Files:", self.file_num)
+            results = pd.DataFrame()
+            for c, row in worksheet.iterrows():
+                if not c == 0 and not pd.isna(row["Dateiname(n)"]):
+                    paths = row["Pfad"].split(";")
+                    files = row["Dateiname(n)"].split(";")
+                    print("--------------------------New Case--------------------------------")
+                    results_dict = {"clam_results" : list(), "simclr_results" : list()}
+                    for path, file in zip(paths, files):
+                        file_path = os.path.join(path,file)
+                        # check if filepath is a folder, else skip
+                        if not os.path.isfile(file_path):
+                            print("------Skipping: {0} -----------------".format(file_path))
+                            continue
+                        else:
+                            self.clam_p = row.loc["clam_p"]
+                            self.clam_ch = row.loc["clam_ch"]
+                            self.simclr = row.loc["simclr"]
+                            wsi_name = file_path.split("/data/")[-1].split(".svs")[0]
+                            print(wsi_name)
+                            subfolder = file_path.split("/data/")[0]
+                            
+                            results_id_dict = self.run_containers(client, subfolder, count)
+                            for key,val in results_id_dict.items():
+                                if key in results_dict and type(results_dict[key]) == None:
+                                    results_dict[key] = [val]
+                                else:
+                                    results_dict[key].append(val)
+                            count += 1
+
+                    print(results_dict)
+
+                    res_df = pd.DataFrame([results_dict])
+                    results = pd.concat([results, res_df], ignore_index=True)
+                    
+
+            worksheet = pd.concat([worksheet, results], axis=1)
+            worksheet.to_excel(xlsx, "edited")
+
+    def input_folder_controller(self, args):
+        """checks the input folder path and gets WSI paths.
+        IMPORTANT: assumed data structure: "input_path/WSI-X/data/wsi-x.svs"
+        set CLAM, HQC, HoVerNet = TRUE depending on what containers need to be run
+
+        Parameters
+        ----------
+        args : dict
+            command line arguments
+        """
+
+        self.clam_ch = True
+        # self.hqc = True
+        # self.hover = True
+
+        self.dirlist = []
+        for root, dirs, files in os.walk(args.input_folder):
+            for f in files:
+                if f.endswith(".svs"):
+                    self.dirlist.append(root.split('/data')[0])
+
+        [print(d) for d in self.dirlist]
+
+        # image_names = self.get_images(client)
+        print(self.dirlist)
+        self.file_num = len(self.dirlist)
+        for count, subfolder in enumerate(self.dirlist):
+            results_id_dict = self.run_containers(client, subfolder, count)
+
+    def controller(self):
+        """ either reads a xlsx file or reads the file stored in the input folder depending on the
+        command line argument used (either "-c" with config file or "-in" with folder path)
+        """
+
         self.parser.add_argument('-c', '--config_file', help="xlsx file path", type=str, default="")
 
-
         args = self.parser.parse_args()
+
         if len(args.config_file) > 0:
-            with pd.ExcelWriter(args.config_file, mode='a', if_sheet_exists='replace') as xlsx:
-                # xlsx = pd.ExcelFile(args.csv)
-                worksheet = pd.read_excel(xlsx, "Sheet1")
-                files = worksheet.loc[:,"Dateiname(n)"].values
-                # files = [f for f in files if type(f) == str and f.endswith(".svs")]
-                # print(files[1:20])
-                # print(targets[1:20])
-                self.file_num = len(worksheet)
-                count = 1
-                print("Files:", self.file_num)
-                results = pd.DataFrame()
-                for c, row in worksheet.iterrows():
-                    if not c == 0 and not pd.isna(row["Dateiname(n)"]):
-                        paths = row["Pfad"].split(";")
-                        files = row["Dateiname(n)"].split(";")
-                        print("--------------------------New Case--------------------------------")
-                        results_dict = {"clam_results" : list(), "simclr_results" : list()}
-                        for path, file in zip(paths, files):
-                            file_path = os.path.join(path,file)
-                            # check if filepath is a folder, else skip
-                            if not os.path.isfile(file_path):
-                                print("------Skipping: {0} -----------------".format(file_path))
-                                continue
-                            else:
-                                self.clam_p = row.loc["clam_p"]
-                                self.clam_ch = row.loc["clam_ch"]
-                                self.simclr = row.loc["simclr"]
-                                wsi_name = file_path.split("/data/")[-1].split(".svs")[0]
-                                print(wsi_name)
-                                subfolder = file_path.split("/data/")[0]
-                                
-                                # subfolder = os.path.pardir(file_path)
-
-                                results_id_dict = self.run_containers(client, subfolder, count)
-                                for key,val in results_id_dict.items():
-                                    if key in results_dict and type(results_dict[key]) == None:
-                                        results_dict[key] = [val]
-                                    else:
-                                        results_dict[key].append(val)
-                                count += 1
-
-                        print(results_dict)
-
-                        res_df = pd.DataFrame([results_dict])
-                        results = pd.concat([results, res_df], ignore_index=True)
-                        
-
-                worksheet = pd.concat([worksheet, results], axis=1)
-                worksheet.to_excel(xlsx, "edited")
-                # worksheet = pd.read_excel(xlsx, "codiert")
-                # print(worksheet)
-
-                # xlsx.save()
+            self.excel_file_controller(args)
 
         elif len(args.input_folder) > 0:
-            self.clam_ch = True
-            # self.hqc = True
-            # self.hover = True
-
-            self.dirlist = []
-            for root, dirs, files in os.walk(args.input_folder):
-                for f in files:
-                    if f.endswith(".svs"):
-                        self.dirlist.append(root.split('/data')[0])
-
-            [print(d) for d in self.dirlist]
-
-            # image_names = self.get_images(client)
-            print(self.dirlist)
-            self.file_num = len(self.dirlist)
-            for count, subfolder in enumerate(self.dirlist):
-                results_id_dict = self.run_containers(client, subfolder, count)
+            self.input_folder_controller()
 
         else:
             print("No Input Folder or CSV file...")
@@ -566,6 +653,9 @@ class Wrapper():
 
 
 if __name__ == "__main__":
+        """ main function checks if run in docker container or as controller
+        and calls corresponding wrapper functions
+        """
 
     wrapper = Wrapper()
     algo_name = wrapper.get_algo_name()
