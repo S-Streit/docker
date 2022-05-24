@@ -414,20 +414,24 @@ class Wrapper():
         if len(args.config_file) > 0:
             with pd.ExcelWriter(args.config_file, mode='a', if_sheet_exists='replace') as xlsx:
                 # xlsx = pd.ExcelFile(args.csv)
-                worksheet = pd.read_excel(xlsx, "codiert")
+                worksheet = pd.read_excel(xlsx, "Sheet1")
                 files = worksheet.loc[:,"Dateiname(n)"].values
-
+                targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
+                # files = [f for f in files if type(f) == str and f.endswith(".svs")]
+                # print(files[1:20])
+                # print(targets[1:20])
                 self.file_num = len(worksheet)
                 count = 1
                 print("Files:", self.file_num)
                 results = pd.DataFrame()
                 for c, row in worksheet.iterrows():
                     if not c == 0 and not pd.isna(row["Dateiname(n)"]):
-                        case_files = row["Dateiname(n)"].split(";")
+                        paths = row["Pfad"].split(";")
+                        files = row["Dateiname(n)"].split(";")
                         print("--------------------------New Case--------------------------------")
-                        print(case_files)
                         results_dict = {"clam_results" : list(), "simclr_results" : list()}
-                        for file_path in case_files:
+                        for path, file in zip(paths, files):
+                            file_path = os.path.join(path,file)
                             # check if filepath is a folder, else skip
                             if not os.path.isfile(file_path):
                                 print("------Skipping: {0} -----------------".format(file_path))
@@ -439,6 +443,8 @@ class Wrapper():
                                 print(wsi_name)
                                 subfolder = file_path.split("/data/")[0]
                                 
+                                # subfolder = os.path.pardir(file_path)
+
                                 results_id_dict = self.run_containers(client, subfolder, count)
                                 for key,val in results_id_dict.items():
                                     if key in results_dict and type(results_dict[key]) == None:
@@ -448,13 +454,13 @@ class Wrapper():
                                 count += 1
 
                         print(results_dict)
-
+                        
                         res_df = pd.DataFrame([results_dict])
                         results = pd.concat([results, res_df], ignore_index=True)
                         
 
                 worksheet = pd.concat([worksheet, results], axis=1)
-                worksheet.to_excel(xlsx, "codiert")
+                worksheet.to_excel(xlsx, "edited")
                 # worksheet = pd.read_excel(xlsx, "codiert")
                 # print(worksheet)
 
