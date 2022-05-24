@@ -416,10 +416,7 @@ class Wrapper():
                 # xlsx = pd.ExcelFile(args.csv)
                 worksheet = pd.read_excel(xlsx, "codiert")
                 files = worksheet.loc[:,"Dateiname(n)"].values
-                targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
-                # files = [f for f in files if type(f) == str and f.endswith(".svs")]
-                # print(files[1:20])
-                # print(targets[1:20])
+
                 self.file_num = len(worksheet)
                 count = 1
                 print("Files:", self.file_num)
@@ -442,8 +439,6 @@ class Wrapper():
                                 print(wsi_name)
                                 subfolder = file_path.split("/data/")[0]
                                 
-                                # subfolder = os.path.pardir(file_path)
-
                                 results_id_dict = self.run_containers(client, subfolder, count)
                                 for key,val in results_id_dict.items():
                                     if key in results_dict and type(results_dict[key]) == None:
@@ -467,8 +462,8 @@ class Wrapper():
 
         elif len(args.input_folder) > 0:
             self.clam_ch = True
-            self.hqc = True
-            self.hover = True
+            # self.hqc = True
+            # self.hover = True
 
             self.dirlist = []
             for root, dirs, files in os.walk(args.input_folder):
@@ -517,7 +512,7 @@ class Wrapper():
             self._print_output(hqc_container, "HQC", self.file_num, count)
 
         if self.clam_p:
-            print("Starting CLAM: ")
+            print("Starting CLAM [Patches]: ")
             clam_out_id = uuid.uuid4().hex
             clam_command_params = "-u {0} -cp".format(clam_out_id)
             clam_out_folder = os.path.join(subfolder, "results", clam_out_id)
@@ -528,7 +523,7 @@ class Wrapper():
             result = clam_container.wait()
 
         if self.clam_ch:
-            print("Starting CLAM: ")
+            print("Starting CLAM [Heatmaps]: ")
             clam_out_id = uuid.uuid4().hex
             clam_command_params = "-u {0} -ch".format(clam_out_id)
             clam_out_folder = os.path.join(subfolder, "results", clam_out_id)
