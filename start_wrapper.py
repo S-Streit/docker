@@ -416,7 +416,6 @@ class Wrapper():
                 # xlsx = pd.ExcelFile(args.csv)
                 worksheet = pd.read_excel(xlsx, "Sheet1")
                 files = worksheet.loc[:,"Dateiname(n)"].values
-                targets = worksheet.loc[:, "keine HRD Untersuchung" : "BRCA2-mutation"].values
                 # files = [f for f in files if type(f) == str and f.endswith(".svs")]
                 # print(files[1:20])
                 # print(targets[1:20])
@@ -438,6 +437,7 @@ class Wrapper():
                                 continue
                             else:
                                 self.clam_p = row.loc["clam_p"]
+                                self.clam_p = row.loc["clam_ch"]
                                 self.simclr = row.loc["simclr"]
                                 wsi_name = file_path.split("/data/")[-1].split(".svs")[0]
                                 print(wsi_name)
@@ -454,7 +454,7 @@ class Wrapper():
                                 count += 1
 
                         print(results_dict)
-                        
+
                         res_df = pd.DataFrame([results_dict])
                         results = pd.concat([results, res_df], ignore_index=True)
                         
