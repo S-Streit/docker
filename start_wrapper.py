@@ -114,6 +114,22 @@ class Wrapper():
 
         if not os.path.isdir(save_config_path):
             os.makedirs(save_config_path)
+        directory_path = save_config_path
+        # Define the mode (permissions)
+        mode = 0o777  # Full permissions for everyone
+
+        # Change the directory permissions recursively
+        for root, dirs, files in os.walk(directory_path):
+            # Change the permissions for the directory
+            os.chmod(root, mode)
+            # Change the permissions for all files in the directory
+            for file in files:
+                os.chmod(os.path.join(root, file), mode)
+
+            # Change the permissions for all subdirectories in the directory
+            for dir in dirs:
+                os.chmod(os.path.join(root, dir), mode)
+
 
         json_file = save_config_path + "/start_config.json"
         if os.path.isfile(json_file):
@@ -369,6 +385,39 @@ class Wrapper():
 
         if not os.path.isdir(save_config_path):
             os.makedirs(save_config_path)
+        directory_path = save_config_path
+        # Define the mode (permissions)
+        mode = 0o777  # Full permissions for everyone
+
+        # Change the directory permissions recursively
+        for root, dirs, files in os.walk(directory_path):
+            # Change the permissions for the directory
+            os.chmod(root, mode)
+            # Change the permissions for all files in the directory
+            for file in files:
+                os.chmod(os.path.join(root, file), mode)
+
+            # Change the permissions for all subdirectories in the directory
+            for dir in dirs:
+                os.chmod(os.path.join(root, dir), mode)
+
+
+        directory_path = save_config_path
+        # Define the mode (permissions)
+        mode = 0o777  # Full permissions for everyone
+
+        # Change the directory permissions recursively
+        for root, dirs, files in os.walk(directory_path):
+            # Change the permissions for the directory
+            os.chmod(root, mode)
+            # Change the permissions for all files in the directory
+            for file in files:
+                os.chmod(os.path.join(root, file), mode)
+
+            # Change the permissions for all subdirectories in the directory
+            for dir in dirs:
+                os.chmod(os.path.join(root, dir), mode)
+
 
         with open(yaml_save_path, 'w+') as yaml_file:
             yaml.dump(yaml_dict, yaml_file)
