@@ -107,14 +107,13 @@ class Wrapper():
         if self.finished:
             meta_cfg_dict["end_time"] = self.end_time
         meta_cfg_dict["start_command"] = start_command
-
+        directory_path = cmd_config["output_path"]
         save_config_path = cmd_config["output_path"] + "/config"
         cfg_dict["meta_info"] = meta_cfg_dict
         cfg_dict["command_cfg"] = cmd_config
 
         if not os.path.isdir(save_config_path):
             os.makedirs(save_config_path)
-        directory_path = save_config_path
         # Define the mode (permissions)
         mode = 0o777  # Full permissions for everyone
 
@@ -379,13 +378,12 @@ class Wrapper():
         
         yaml_dict["exp_arguments"]["raw_save_dir"] = cmd_config["output_path"] + "/raw"
         yaml_dict["exp_arguments"]["production_save_dir"] = cmd_config["output_path"] + "/production"
-
+        directory_path = cmd_config["output_path"]
         save_config_path = cmd_config["output_path"] + "/config"
         yaml_save_path = save_config_path + "/" + "heatmap_config.yaml"
 
         if not os.path.isdir(save_config_path):
             os.makedirs(save_config_path)
-        directory_path = save_config_path
         # Define the mode (permissions)
         mode = 0o777  # Full permissions for everyone
 
