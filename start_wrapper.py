@@ -702,9 +702,9 @@ class Wrapper():
 
 
 if __name__ == "__main__":
-        """ main function checks if run in docker container or as controller
-        and calls corresponding wrapper functions
-        """
+    """ main function checks if run in docker container or as controller
+    and calls corresponding wrapper functions
+    """
 
     wrapper = Wrapper()
     algo_name = wrapper.get_algo_name()
